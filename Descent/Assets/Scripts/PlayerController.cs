@@ -3,10 +3,11 @@ using UnityEngine;
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.Net.NetworkInformation;
 
 public class PlayerMovement : MonoBehaviour
 {
+    bool curry;
     public bool isMove { get; private set; } = true;
     private bool isSprinting => Sprinting && Input.GetKey(sprintKey);
     private bool isJumping => Input.GetKeyDown(jumpKey) && characterController.isGrounded;
@@ -21,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     public Transform position;
 
     [Header("Movement Settings")]
-    [SerializeField] float moveSpeed = 5f;
+    [SerializeField] float moveSpeed = 3f;
     [SerializeField] float sprintSpeed = 6.0f;
     [SerializeField] float gravity = 9.8f;
     [SerializeField] float jumpForce = 4.0f;
@@ -31,6 +32,19 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool canUseFootsteps = true;
     [SerializeField] private KeyCode sprintKey = KeyCode.LeftShift;
     [SerializeField] private KeyCode jumpKey = KeyCode.Space;
+    [SerializeField] private KeyCode crouchKey = KeyCode.C;
+
+    [Header("Sprint Settings")]
+    [SerializeField] private float sprintAcceleration = 2.0f;
+    [SerializeField] private float sprintDeceleration = 0.3f;
+    private float currentSpeed = 0.0f;
+
+    [Header("Crouch Settings")]
+    [SerializeField] private float crouchSpeed = 1.0f; 
+    [SerializeField] private float standingHeight = 2.0f; 
+    [SerializeField] private float crouchingHeight = 1.0f; 
+    private bool isCrouching = false;
+
 
 
     [Header("Headbob")]
@@ -51,6 +65,17 @@ public class PlayerMovement : MonoBehaviour
     float footstepTimer = 0;
     float GetCurrentOffset => isSprinting ? baseStepSpeed * sprintStepMultiplier : baseStepSpeed;
 
+    [Header("Look Settings")]
+    [SerializeField] private float defaultFOV = 60.0f;
+    [SerializeField] private float sprintingFOV = 70.0f;
+    [SerializeField] private float fovLerpSpeed = 5.0f;
+
+    public  Camera playerCamera;
+    private float targetFOV;
+    private float currentFOV;
+
+    private bool isJumpingCheck = false;
+
 
     CharacterController characterController;
     
@@ -58,7 +83,9 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 moveDir;
     private Vector2 currInput;
 
+
     float _mouseMovementX = 0;
+
 
     
 
@@ -66,7 +93,10 @@ public class PlayerMovement : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         defaultYpos = cam.transform.localPosition.y;
-        
+        playerCamera = cam.GetComponent<Camera>();
+        currentFOV = defaultFOV;
+        currentSpeed = moveSpeed;
+
     }
 
     private void Start()
@@ -77,24 +107,97 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        
+
+
         if (isMove)
         {
             MouseLook();
             Move();
+            HandleCrouch();
+
+            bool canJump = !isCrouching && characterController.isGrounded;
 
 
-            if (Jumping)
-                Jump();
+            if (Jumping && canJump)
+            {
+                if (Input.GetKeyDown(jumpKey))
+                {
+                    Jump(); // Trigger the jump
+                    isJumpingCheck = true; // Set the flag to true
+                }
+            }
 
             if (canUseHeadbob)
                 HeadBob();
 
             if (canUseFootsteps)
                 Footsteps();
+
+            bool isSprintKeyPressed = Input.GetKey(sprintKey) && Input.GetAxisRaw("Vertical") > 0;
+            bool isCrouchKeyPressed = Input.GetKey(crouchKey);
+
+            if (isCrouchKeyPressed && !isSprintKeyPressed)
+            {
+                curry = true;
+            }
+            else if (!isCrouchKeyPressed)
+            {
+                curry = false;
+            }
+
+
+            if (isSprintKeyPressed && !curry) // Check if sprint key is pressed
+            {
+                currentSpeed = Mathf.Lerp(currentSpeed, sprintSpeed, Time.deltaTime * sprintAcceleration);
+                targetFOV = sprintingFOV;
+                Sprinting = true;
+            }
+            else if (!isSprintKeyPressed)
+            {
+                currentSpeed = Mathf.Lerp(currentSpeed, moveSpeed, Time.deltaTime * sprintDeceleration);
+                targetFOV = defaultFOV;
+                Sprinting = false;
+
+            }
+            float currentMoveSpeed = isCrouching ? crouchSpeed : currentSpeed;
+
+
+
+            currentFOV = Mathf.Lerp(currentFOV, targetFOV, fovLerpSpeed * Time.deltaTime);
+            playerCamera.fieldOfView = currentFOV;
         }
 
     }
+    private void HandleCrouch()
+    {
+        if (Input.GetKeyDown(crouchKey) && !isCrouching && !isSprinting)
+        {
+            StartCrouch();
+        }
+        else if (Input.GetKeyUp(crouchKey) && isCrouching)
+        {
+            StopCrouch();
+        }
+    }
+
+    private void StartCrouch()
+    {
+        isCrouching = true;
+
+        characterController.height = crouchingHeight;
+        currentSpeed = crouchSpeed;
+
+    }
+
+    private void StopCrouch()
+    {
+        isCrouching = false;
+
+        characterController.height = standingHeight;
+
+        
+    }
+
 
     void FixedUpdate()
     {
@@ -115,11 +218,15 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Jump()
     {
-        if (isJumping)
+        if (characterController.isGrounded)
         {
-            moveDir.y = jumpForce;
-            //stepSource.PlayOneShot(jump);
+            Vector3 jumpDirection = moveDir;
+            jumpDirection.y = jumpForce;
 
+           
+            moveDir = jumpDirection;
+
+            //stepSource.PlayOneShot(jump);
         }
     }
     private void HeadBob()
@@ -154,6 +261,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Move()
     {
+
         if (characterController.isGrounded)
             currInput = new Vector2((isSprinting ? sprintSpeed : moveSpeed) * Input.GetAxis("Vertical"), (isSprinting ? sprintSpeed : moveSpeed) * Input.GetAxis("Horizontal"));
 
@@ -165,5 +273,6 @@ public class PlayerMovement : MonoBehaviour
         if (!characterController.isGrounded)
             moveDir.y -= gravity * Time.deltaTime;
         characterController.Move(moveDir * Time.deltaTime);
+
     }
 }
