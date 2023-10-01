@@ -262,15 +262,15 @@ public class PlayerMovement : MonoBehaviour
     private void Move()
     {
 
-        if (characterController.isGrounded)
+        
             currInput = new Vector2((isSprinting ? sprintSpeed : moveSpeed) * Input.GetAxis("Vertical"), (isSprinting ? sprintSpeed : moveSpeed) * Input.GetAxis("Horizontal"));
 
         float moveDirectionY = moveDir.y;
-        if (characterController.isGrounded)
+      
             moveDir = (transform.TransformDirection(Vector3.forward) * currInput.x) + (transform.TransformDirection(Vector3.right) * currInput.y);
         moveDir.y = moveDirectionY;
 
-        if (!characterController.isGrounded)
+        
             moveDir.y -= gravity * Time.deltaTime;
         characterController.Move(moveDir * Time.deltaTime);
 
