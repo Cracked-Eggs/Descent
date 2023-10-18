@@ -3,8 +3,13 @@
 --- !u!55 &1
 PhysicsManager:
   m_ObjectHideFlags: 0
+<<<<<<< Updated upstream
   serializedVersion: 11
   m_Gravity: {x: 0, y: -9.81, z: 0}
+=======
+  serializedVersion: 14
+  m_Gravity: {x: 0, y: -30, z: 0}
+>>>>>>> Stashed changes
   m_DefaultMaterial: {fileID: 0}
   m_BounceThreshold: 2
   m_SleepThreshold: 0.005
