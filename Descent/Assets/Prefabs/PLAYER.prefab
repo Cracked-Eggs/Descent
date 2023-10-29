@@ -181,7 +181,7 @@ GameObject:
   - component: {fileID: 9162279091820560246}
   - component: {fileID: 1107204218415468905}
   - component: {fileID: 2070506878859001767}
-  - component: {fileID: 2952160069966253342}
+  - component: {fileID: 8305211226647742799}
   m_Layer: 6
   m_Name: PLAYER
   m_TagString: Untagged
@@ -290,7 +290,7 @@ MonoBehaviour:
   slideForce: 200
   slideYScale: 0.5
   slideKey: 306
---- !u!114 &2952160069966253342
+--- !u!114 &8305211226647742799
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -299,17 +299,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 8724985233064269374}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92be44d76c659c64fb93c7373677457e, type: 3}
+  m_Script: {fileID: 11500000, guid: 65140a879f1b5f840bb315db80634311, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
-  whatIsGrappleable:
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  wallLayer:
     serializedVersion: 2
     m_Bits: 256
-  lineRenderer: {fileID: 0}
-  gunTip: {fileID: 0}
-  maxGrappleDistance: 25
-  grappleDelayTime: 0.25
-  overshootYAxis: 2
-  grapplingCd: 1
-  grappleKey: 324
+  playerTransform: {fileID: 4643461069839199737}
+  maxDistance: 5
+  moveSpeed: 4
+  downwardSpeed: 2
+  distanceIncrement: 0.01

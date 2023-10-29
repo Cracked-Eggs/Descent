@@ -320,8 +320,6 @@ public class PlayerMovement : MonoBehaviour
         {
             enableMovementOnNextTouch = false;
             ResetRestrictions();
-
-            GetComponent<Grappling>().StopGrapple();
         }
     }
 
@@ -353,4 +351,6 @@ public class PlayerMovement : MonoBehaviour
 
         return velocityXZ + velocityY;
     }
+
+    public bool getGrounded() { return grounded; }
 }
