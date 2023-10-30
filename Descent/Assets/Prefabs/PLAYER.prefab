@@ -182,9 +182,10 @@ GameObject:
   - component: {fileID: 1107204218415468905}
   - component: {fileID: 2070506878859001767}
   - component: {fileID: 8305211226647742799}
+  - component: {fileID: 7749183951230148884}
   m_Layer: 6
   m_Name: PLAYER
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -263,7 +264,7 @@ MonoBehaviour:
   playerHeight: 2
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 384
   maxSlopeAngle: 40
   cam: {fileID: 0}
   orientation: {fileID: 2524262070584201890}
@@ -271,7 +272,6 @@ MonoBehaviour:
   sliding: 0
   crouching: 0
   freeze: 0
-  activeGrapple: 0
 --- !u!114 &2070506878859001767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,7 +297,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8724985233064269374}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65140a879f1b5f840bb315db80634311, type: 3}
   m_Name: 
@@ -314,3 +314,17 @@ MonoBehaviour:
   moveSpeed: 4
   downwardSpeed: 2
   distanceIncrement: 0.01
+--- !u!114 &7749183951230148884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8724985233064269374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73f8c5e155abdb24ea7d716ae80994bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dynamite: {fileID: 3712161999596168661, guid: bf473a745a1b0df47a86728a07e35509, type: 3}
+  _dynamitePlacement: {fileID: 0}
