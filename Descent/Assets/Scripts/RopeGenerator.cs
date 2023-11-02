@@ -4,37 +4,27 @@ using UnityEngine;
 
 public class RopeGenerator : MonoBehaviour
 {
-    [SerializeField] private Transform startPoint;
-    [SerializeField] private Transform endPoint;
     [SerializeField] private int segmentCount;
     [SerializeField] private float segmentSpacing;
     [SerializeField] private float ropeStiffness;
     [SerializeField] private float errorThreshold;
     [SerializeField] private float drag;
     [SerializeField] private float ropeLength;
-    [SerializeField] private Transform ropeEndHolder;
-    [SerializeField] private RopeGrappling grapplingScript;
 
     [SerializeField] private GameObject segmentPrefab;
 
     private List<RopeSegment> ropeSegments;
 
-    private void Awake()
+    public List<RopeSegment> Initialize(Vector3 spawnLocation)
     {
         ropeSegments = new List<RopeSegment>();
-    }
 
-    void Start()
-    {
-        Vector3 segmentDir = endPoint.position - startPoint.position;
         for (int i = 0; i < segmentCount + 1; i++)
         {
             RopeSegment currentSegment = new RopeSegment();
 
             GameObject instantiatedSegment = Instantiate(segmentPrefab);
-            instantiatedSegment.transform.position = startPoint.position + 
-                i * segmentDir.magnitude/segmentCount * segmentDir.normalized;
-            instantiatedSegment.transform.forward = segmentDir.normalized;
+            instantiatedSegment.transform.position = spawnLocation;
 
             Rigidbody rigidbody = instantiatedSegment.AddComponent<Rigidbody>();
             rigidbody.drag = drag;
@@ -49,19 +39,12 @@ public class RopeGenerator : MonoBehaviour
 
             currentSegment.constrain = !isStartSegment;
             if (currentSegment.constrain)
-            {
                 currentSegment.previousLink = ropeSegments[i - 1].gameObject;
-            }
 
-            if(i == segmentCount)
-            {
-                currentSegment.gameObject.transform.position = ropeEndHolder.position;
-                currentSegment.gameObject.transform.parent = ropeEndHolder;
-                rigidbody.useGravity = false;
-                grapplingScript.ropeFreeEnd = currentSegment.gameObject;
-            }
             ropeSegments.Add(currentSegment);
         }
+
+        return ropeSegments;
     }
 
     void Update()
