@@ -526,7 +526,7 @@ Transform:
   m_GameObject: {fileID: 705507993}
   serializedVersion: 2
   m_LocalRotation: {x: 0.65097195, y: -0.1717869, z: 0.3561419, w: 0.6479875}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: 0, y: 12.9, z: 39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1700,6 +1700,7 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 384
+  grounded: 0
   maxSlopeAngle: 40
   cam: {fileID: 8307193271536594959}
   orientation: {fileID: 2084601750388025068}
@@ -1708,6 +1709,7 @@ MonoBehaviour:
   crouching: 0
   freeze: 0
   activeGrapple: 0
+  ropeClimbing: 0
 --- !u!4 &4156013861315640182
 Transform:
   m_ObjectHideFlags: 0
@@ -1848,13 +1850,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8886857759968826368}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.24, y: 7.83, z: 42.54}
+  m_LocalRotation: {x: -0, y: -0.1175385, z: -0, w: 0.9930684}
+  m_LocalPosition: {x: 73.874664, y: -12.790001, z: 9.32347}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4465523900532611205}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 9194916642763446711}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &6958204339565899240
 MeshRenderer:
@@ -2029,6 +2031,7 @@ Transform:
   - {fileID: 4156013861315640182}
   - {fileID: 2084601750388025068}
   - {fileID: 1593708851373303316}
+  - {fileID: 6609965660727469811}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9194916642763446712
@@ -2049,12 +2052,23 @@ MonoBehaviour:
   ropeEndHolder: {fileID: 742222155}
   ropeRange: 3
   ropeCount: 1
+  ropeClimbRange: 7
+  player: {fileID: 9194916642763446711}
+  playerMovement: {fileID: 3510433431015597351}
+  playerRb: {fileID: 4669371413395868472}
+  climbSpeed: 1
+  climbLerpSpeed: 8
+  climbOffset: 3
+  groundedDistance: 0.6
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 384
+  ropeOffset: 1.5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 9194916642763446711}
-  - {fileID: 6609965660727469811}
   - {fileID: 737046029}
   - {fileID: 1083632192}
   - {fileID: 1686974533}

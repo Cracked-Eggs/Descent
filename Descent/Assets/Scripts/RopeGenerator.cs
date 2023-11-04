@@ -102,4 +102,5 @@ public struct RopeSegment
     public GameObject gameObject;
     public bool constrain;
     public GameObject previousLink;
+    public bool onGround;
 }

@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float playerHeight;
     [SerializeField] LayerMask whatIsGround;
 
-    bool grounded;
+    public bool grounded;
 
     [Header("Slope Handling")]
     [SerializeField] float maxSlopeAngle;
@@ -71,6 +71,7 @@ public class PlayerMovement : MonoBehaviour
     public bool crouching;
     public bool freeze;
     public bool activeGrapple;
+    public bool ropeClimbing;
 
     void Start()
     {
@@ -85,6 +86,9 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
+
+        if (ropeClimbing)
+            return;
 
         MyInput();
         SpeedControl();
@@ -224,6 +228,7 @@ public class PlayerMovement : MonoBehaviour
     void MovePlayer()
     {
         if (activeGrapple) return;
+        if (ropeClimbing) return;
 
         // calculate movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
