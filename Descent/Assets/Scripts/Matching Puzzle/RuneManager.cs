@@ -6,7 +6,6 @@ using UnityEngine.Events;
 public class RuneManager : MonoBehaviour
 {
     [SerializeField] RuneController[] runes;
-    [SerializeField] GameObject _dynamitePiece;
     [SerializeField] UnityEvent _puzzleCompleted;
     public bool _incorrectGuess { get; private set; }
 
