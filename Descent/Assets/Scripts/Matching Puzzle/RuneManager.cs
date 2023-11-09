@@ -38,9 +38,9 @@ public class RuneManager : MonoBehaviour
                 {
                     Debug.Log("All sets matched!");
                     foreach (var rune in _allRunes)
-                        Destroy(rune.gameObject, 1f);
-                    _allRunes.Clear();
+                        Destroy(rune.gameObject, 0.25f);
                     _puzzleCompleted.Invoke();
+                    _allRunes.Clear();
                 }
             }
             else
