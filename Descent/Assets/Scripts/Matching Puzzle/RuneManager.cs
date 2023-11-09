@@ -60,7 +60,7 @@ public class RuneManager : MonoBehaviour
 
         foreach (var rune in runes)
         {
-            rune.transform.rotation = Quaternion.identity;
+            rune.transform.rotation = Quaternion.Euler(0, -90, 0);
             rune.IsMatched = false;
         }
         _allRunes.Clear();

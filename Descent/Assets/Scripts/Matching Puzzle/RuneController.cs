@@ -6,15 +6,20 @@ public class RuneController : MonoBehaviour
     public bool IsMatched;
 
     RuneManager _runeManager;
+    Vector3 _startPosition;
 
-    void Start() => _runeManager = FindObjectOfType<RuneManager>();
+    void Start()
+    {
+        _runeManager = FindObjectOfType<RuneManager>();
+        _startPosition = transform.position;
+    }
 
     public void Interact()
     {
         if (_runeManager != null && !IsMatched)
         {
             _runeManager.OnRuneClicked(this);
-            transform.Rotate(0, -180, 0);
+            transform.Rotate(Vector3.up, 180f, Space.World);
             IsMatched = true;
         }
 
