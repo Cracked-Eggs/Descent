@@ -1,13 +1,15 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Pedestal : MonoBehaviour
 {
     [SerializeField] PedestalManager _pedestalManager;
-    public AudioClip _pedestalSound;
+    [SerializeField] UnityEvent _pedestalSound;
 
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
             _pedestalManager.PedestalActivated(this);
+        _pedestalSound.Invoke();
     }
 }

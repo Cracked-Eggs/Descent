@@ -6,10 +6,8 @@ public class Player : MonoBehaviour
 {
     [SerializeField] GameObject _dynamite;
     [SerializeField] Transform _dynamitePlacement;
-    [SerializeField] UnityEvent _startTimer;
+    [SerializeField] UnityEvent _startTimerandSound;
     [SerializeField] Camera _cam;
-    [SerializeField] AudioClip _musicPlayer;
-    [SerializeField] AudioSource _audioSource;
 
     public int _dynamites { get; private set; }
     public event Action DynamitesChanged;
@@ -36,7 +34,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            _startTimer.Invoke();
+            _startTimerandSound.Invoke();
             var dynamite = Instantiate(_dynamite, _dynamitePlacement.position, transform.rotation);
             Destroy(dynamite, 3f);
         }

@@ -1,18 +1,15 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class RuneController : MonoBehaviour
 {
     public int ID;
     public bool IsMatched;
+    [SerializeField] UnityEvent _runeTurnSound;
 
     RuneManager _runeManager;
-    Vector3 _startPosition;
 
-    void Start()
-    {
-        _runeManager = FindObjectOfType<RuneManager>();
-        _startPosition = transform.position;
-    }
+    void Start() => _runeManager = FindObjectOfType<RuneManager>();
 
     public void Interact()
     {
@@ -21,12 +18,9 @@ public class RuneController : MonoBehaviour
             _runeManager.OnRuneClicked(this);
             transform.Rotate(Vector3.up, 180f, Space.World);
             IsMatched = true;
+            _runeTurnSound.Invoke();
         }
 
         if (_runeManager._incorrectGuess == true) IsMatched = false;
-    }
-
-    void ResetRunes()
-    {
     }
 } 

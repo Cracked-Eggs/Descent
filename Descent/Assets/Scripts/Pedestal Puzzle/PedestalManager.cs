@@ -4,11 +4,10 @@ using UnityEngine.Events;
 
 public class PedestalManager : MonoBehaviour
 {
-    [SerializeField] AudioSource _audioSource;
-    [SerializeField] AudioClip _fullTune;
-    [SerializeField] AudioClip _pedestalsReset;
     [SerializeField] List<Pedestal> _pedestals;
     [SerializeField] UnityEvent _puzzleCompleted;
+    [SerializeField] UnityEvent _pedestalResetSound;
+    [SerializeField] UnityEvent _pedestalFullTune;
 
 
     List<Pedestal> activatedPedestals = new List<Pedestal>();
@@ -30,14 +29,13 @@ public class PedestalManager : MonoBehaviour
             {
                 // correct pedestal activated
                 activatedPedestals.Add(activatedPedestal);
-                PlaySound(activatedPedestal._pedestalSound);
 
                 currentPedestalIndex++;
 
                 if (currentPedestalIndex == _pedestals.Count)
                 {
                     // puzzle completed
-                    PlaySound(_fullTune);
+                    _pedestalFullTune.Invoke();
                     foreach (var pedestals in _pedestals)
                         Destroy(pedestals.gameObject);
                     _puzzleCompleted.Invoke();
@@ -48,16 +46,10 @@ public class PedestalManager : MonoBehaviour
         }
     }
 
-    void PlaySound(AudioClip clip)
-    {
-        _audioSource.clip = clip;
-        _audioSource.Play();
-    }
-
     void ResetPuzzle()
     {
         activatedPedestals.Clear();
         currentPedestalIndex = 0;
-        PlaySound(_pedestalsReset);
+        _pedestalResetSound.Invoke();
     }
 }

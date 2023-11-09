@@ -1,16 +1,16 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class MusicPlayer : MonoBehaviour
 {
-    [SerializeField] AudioClip interactSound;
-    [SerializeField] AudioSource _audioSource;
     public bool _inRange;
+    [SerializeField] UnityEvent _playTune;
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E) && _inRange == true) 
         {
-            _audioSource.PlayOneShot(interactSound);
+            _playTune.Invoke();
         }
     }
 

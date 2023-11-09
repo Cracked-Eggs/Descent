@@ -43,7 +43,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3712161999596168661}
-  m_Mesh: {fileID: -5495902117074765545, guid: 5004ea89ded5b5d4c8771ad9741fe361, type: 3}
+  m_Mesh: {fileID: 982670621201850006, guid: cfb5269e2bac8a444b04844dd8e4ca5c, type: 3}
 --- !u!23 &8548769830813559804
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -120,9 +120,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _triggerForce: 0.5
-  _explosionRadius: 5
-  _explosionForce: 10
-  _explosionSpeed: 5
+  _explosionRadius: 3
+  _explosionForce: 5
+  _explosionSpeed: 10
   _rb: {fileID: 0}
 --- !u!54 &4696423430702133561
 Rigidbody:

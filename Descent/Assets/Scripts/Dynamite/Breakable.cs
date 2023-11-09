@@ -11,6 +11,7 @@ public class Breakable : MonoBehaviour
     {
         if (_broken) return;
         if (collision.gameObject.CompareTag("Player")) return;
+        if (collision.gameObject.CompareTag("Ground")) return;
         if (collision.relativeVelocity.magnitude >= _breakForce)
         {
             _broken = true;
