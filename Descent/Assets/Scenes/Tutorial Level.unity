@@ -1652,24 +1652,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 9194916642763446711}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2545078926582238185
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5115907835732157040}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3710eed2b4565843b65d8322216f409, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  orientation: {fileID: 2084601750388025068}
-  playerObj: {fileID: 4156013861315640182}
-  maxSlideTime: 0.75
-  slideForce: 200
-  slideYScale: 0.5
-  slideKey: 306
 --- !u!114 &3510433431015597351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1817,7 +1799,6 @@ GameObject:
   - component: {fileID: 9194916642763446711}
   - component: {fileID: 4669371413395868472}
   - component: {fileID: 3510433431015597351}
-  - component: {fileID: 2545078926582238185}
   - component: {fileID: 9194916642763446712}
   m_Layer: 6
   m_Name: PLAYER
@@ -2062,7 +2043,7 @@ MonoBehaviour:
   groundedDistance: 0.6
   groundLayer:
     serializedVersion: 2
-    m_Bits: 384
+    m_Bits: 0
   ropeOffset: 1.5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
