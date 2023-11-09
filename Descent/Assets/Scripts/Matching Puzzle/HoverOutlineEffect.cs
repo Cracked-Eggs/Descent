@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class HoverOutlineEffect : MonoBehaviour
 {
-    [SerializeField] Material outlineMaterial; 
+    [SerializeField] Material outlineMaterial;
+    
     Material originalMaterial; 
     Renderer objectRenderer;
 

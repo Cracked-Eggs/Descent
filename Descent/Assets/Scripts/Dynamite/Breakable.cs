@@ -17,13 +17,12 @@ public class Breakable : MonoBehaviour
             var replacement = Instantiate(_replacement, transform.position, transform.rotation);
 
             var rbs = replacement.GetComponentsInChildren<Rigidbody>();
+
             foreach (var rb in rbs)
-            {
                 rb.AddExplosionForce(collision.relativeVelocity.magnitude * _collisionMultiplier, collision.contacts[0].point, 2);
-            }
 
             Destroy(gameObject);
-            Destroy(replacement, 2f); 
+            Destroy(replacement, 2f);
         }
     }
 }

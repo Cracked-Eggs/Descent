@@ -8,6 +8,7 @@ TagManager:
   - DynamitePiece
   - DynamiteTrigger
   - InteractableRune
+  - MusicPlayer
   layers:
   - Default
   - TransparentFX

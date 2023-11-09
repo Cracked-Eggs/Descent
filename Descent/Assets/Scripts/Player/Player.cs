@@ -7,11 +7,27 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject _dynamite;
     [SerializeField] Transform _dynamitePlacement;
     [SerializeField] UnityEvent _startTimer;
-    public int _dynamites {  get; private set; }
+    [SerializeField] Camera _cam;
+    [SerializeField] AudioClip _musicPlayer;
+    [SerializeField] AudioSource _audioSource;
+
+    public int _dynamites { get; private set; }
     public event Action DynamitesChanged;
+    public event Action MusicPlayerInteract;
+    public event Action MusicPlayerDisable;
+    public float interactRange = 5f;
 
     void Awake() => FindObjectOfType<PlayerUI>().Bind(this);
-    void Update() => BlowupDynamite();
+
+    void Update()
+    {
+        BlowupDynamite();
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            TryInteractWithRune();
+        }
+    }
 
     void BlowupDynamite()
     {
@@ -33,6 +49,31 @@ public class Player : MonoBehaviour
             _dynamites++;
             DynamitesChanged?.Invoke();
             Destroy(other.gameObject);
+        }
+
+        if (other.CompareTag("MusicPlayer"))
+            MusicPlayerInteract.Invoke();
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("MusicPlayer"))
+            MusicPlayerDisable.Invoke();
+    }
+
+    void TryInteractWithRune()
+    {
+        Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, interactRange))
+        {
+            RuneController rune = hit.collider.GetComponent<RuneController>();
+
+            if (rune != null)
+            {
+                rune.Interact();
+            }
         }
     }
 }
