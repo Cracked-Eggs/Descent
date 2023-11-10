@@ -1,3 +1,4 @@
+using SA;
 using System.Collections;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float slopeIncreaseMultiplier;
 
     [SerializeField] float groundDrag;
+    public float climbSpeed;
 
     float moveSpeed;
     float desiredMoveSpeed;
@@ -55,6 +57,9 @@ public class PlayerMovement : MonoBehaviour
 
     Vector3 moveDirection;
     Rigidbody rb;
+    FreeClimb cb;
+
+    bool wasClimbing;
 
     public MovementState state;
     public enum MovementState
@@ -64,7 +69,8 @@ public class PlayerMovement : MonoBehaviour
         sprinting,
         crouching,
         sliding,
-        air
+        air,
+        climbing
     }
 
     public bool sliding;
@@ -72,9 +78,11 @@ public class PlayerMovement : MonoBehaviour
     public bool freeze;
     public bool activeGrapple;
     public bool ropeClimbing;
+    public bool climbing;
 
     void Start()
     {
+        cb = GetComponent<FreeClimb>();
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
 
@@ -85,6 +93,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        wasClimbing = climbing;
+        climbing = false;
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
 
         if (ropeClimbing)
@@ -94,7 +104,7 @@ public class PlayerMovement : MonoBehaviour
         SpeedControl();
         StateHandler();
 
-        if (grounded && !activeGrapple)
+        if (grounded)
             rb.drag = groundDrag;
         else
             rb.drag = 0;

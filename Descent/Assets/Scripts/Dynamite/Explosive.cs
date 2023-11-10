@@ -11,7 +11,7 @@ public class Explosive : MonoBehaviour
     void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        _rb.velocity = Vector3.right * _explosionSpeed;
+        _rb.velocity = Vector3.left * _explosionSpeed;
     }
 
     void OnCollisionEnter(Collision collision)
