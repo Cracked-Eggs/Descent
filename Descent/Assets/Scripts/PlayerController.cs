@@ -1,58 +1,215 @@
-using System.Collections;
-using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private CharacterController playerController;
-    [SerializeField] private Transform player;
-    [SerializeField] private Transform playerCamera;
-    [SerializeField] private float movementSpeed;
-    [SerializeField] private float horizontalSensitivity;
-    [SerializeField] private float verticalSensitivity;
-    [SerializeField] private float gravity;
 
-    private Vector2 moveDirection;
-    private float downVelocity;
+    [Header("Look Settings")]
+    [SerializeField, Range(0, 1)] float lookSpeedX = 2.0f;
+    [SerializeField, Range(0, 1)] float lookSpeedY = 2.0f;
+    [SerializeField, Range(1, 180)] float upperlookLimit = 80.0f;
+    [SerializeField, Range(1, 180)] float lowerlookLimit = 80.0f;
+    [SerializeField] CinemachineVirtualCamera virtualCamera;
+    [SerializeField] Transform position;
+
+
+    [Header("Movement Settings")]
+    [SerializeField] float moveSpeed = 3f;
+    [SerializeField] float sprintSpeed = 6.0f;
+    [SerializeField] float gravity = 9.8f;
+    [SerializeField] float jumpForce = 4.0f;
+    [SerializeField] bool Sprinting = true;
+    [SerializeField] bool Jumping = true;
+    [SerializeField] bool canUseHeadbob = true;
+    [SerializeField] bool canUseFootsteps = true;
+    [SerializeField] KeyCode sprintKey = KeyCode.LeftShift;
+    [SerializeField] KeyCode jumpKey = KeyCode.Space;
+    [SerializeField] KeyCode crouchKey = KeyCode.C;
+
+    [Header("Sprint Settings")]
+    [SerializeField] float sprintAcceleration = 2.0f;
+    [SerializeField] float sprintDeceleration = 0.3f;
+    float currentSpeed = 0.0f;
+
+    [Header("Crouch Settings")]
+    [SerializeField] float crouchSpeed = 1.0f;
+    [SerializeField] float standingHeight = 2.0f;
+    [SerializeField] float crouchingHeight = 1.0f;
+    bool isCrouching = false;
+
+    [Header("Headbob")]
+    [SerializeField] float walkBobSpeed = 14f;
+    [SerializeField] float walkBobValue = 0.05f;
+    [SerializeField] float sprintBobSpeed = 18f;
+    [SerializeField] float sprintBobValue = 0.05f;
+    float defaultYpos = 0;
+    float timer;
+
+
+    [Header("Footsteps")]
+    [SerializeField] float baseStepSpeed = 0.5f;
+    [SerializeField] float sprintStepMultiplier = 0.6f;
+    [SerializeField] AudioSource stepSource = default;
+    [SerializeField] AudioClip[] steps = default;
+    float footstepTimer = 0;
+    float GetCurrentOffset => isSprinting ? baseStepSpeed * sprintStepMultiplier : baseStepSpeed;
+
+    [Header("Look Settings")]
+    [SerializeField] float defaultFOV = 60.0f;
+    [SerializeField] float sprintingFOV = 70.0f;
+    [SerializeField] float fovLerpSpeed = 5.0f;
+
+    bool curry;
+    public bool isMove { get; private set; } = true;
+    bool isSprinting => Sprinting && Input.GetKey(sprintKey);
+
+    float targetFOV, currentFOV;
+    float _mouseMovementX = 0;
+
+    CharacterController characterController;
+    Vector3 moveDir;
+    Vector2 currInput;
+
+    void Awake()
+    {
+        characterController = GetComponent<CharacterController>();
+        defaultYpos = virtualCamera.transform.localPosition.y;
+        currentFOV = defaultFOV;
+        currentSpeed = moveSpeed;
+    }
+
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
 
     void Update()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-
-        if (Input.GetKey(KeyCode.W))
+        if (isMove)
         {
-            moveDirection.y = 1;
+            MouseLook();
+            Move();
+            HandleCrouch();
+
+            bool canJump = !isCrouching && characterController.isGrounded;
+
+            if (Jumping && canJump)
+            {
+                if (Input.GetKeyDown(jumpKey))
+                    Jump();
+            }
+
+            if (canUseHeadbob)
+                HeadBob();
+
+            if (canUseFootsteps)
+                Footsteps();
+
+            bool isSprintKeyPressed = Input.GetKey(sprintKey) && Input.GetAxisRaw("Vertical") > 0;
+            bool isCrouchKeyPressed = Input.GetKey(crouchKey);
+
+            if (isCrouchKeyPressed && !isSprintKeyPressed)
+                curry = true;
+            else if (!isCrouchKeyPressed)
+                curry = false;
+
+            if (isSprintKeyPressed && !curry) // Check if sprint key is pressed
+            {
+                currentSpeed = Mathf.Lerp(currentSpeed, sprintSpeed, Time.deltaTime * sprintAcceleration);
+                targetFOV = sprintingFOV;
+                Sprinting = true;
+            }
+            else if (!isSprintKeyPressed)
+            {
+                currentSpeed = Mathf.Lerp(currentSpeed, moveSpeed, Time.deltaTime * sprintDeceleration);
+                targetFOV = defaultFOV;
+                Sprinting = false;
+            }
+            currentFOV = Mathf.Lerp(currentFOV, targetFOV, fovLerpSpeed * Time.deltaTime);
         }
-        if(Input.GetKey(KeyCode.S)) 
+    }
+    void HandleCrouch()
+    {
+        if (Input.GetKeyDown(crouchKey) && !isCrouching && !isSprinting)
+            StartCrouch();
+        else if (Input.GetKeyUp(crouchKey) && isCrouching)
+            StopCrouch();
+    }
+
+    void StartCrouch()
+    {
+        isCrouching = true;
+        characterController.height = crouchingHeight;
+        currentSpeed = crouchSpeed;
+    }
+
+    void StopCrouch()
+    {
+        isCrouching = false;
+        characterController.height = standingHeight;
+    }
+
+
+    void MouseLook()
+    {
+        _mouseMovementX -= Input.GetAxis("Mouse Y") * lookSpeedY;
+        _mouseMovementX = Mathf.Clamp(_mouseMovementX, -upperlookLimit, lowerlookLimit);
+        virtualCamera.transform.localRotation = Quaternion.Euler(_mouseMovementX, 0, 0);
+        transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeedX, 0);
+
+    }
+    void Jump()
+    {
+        if (characterController.isGrounded)
         {
-            moveDirection.y = -1;
+            Vector3 jumpDirection = moveDir;
+            jumpDirection.y = jumpForce;
+            moveDir = jumpDirection;
         }
-        if (Input.GetKey(KeyCode.D))
+    }
+    void HeadBob()
+    {
+        if (!characterController.isGrounded) return;
+
+        if (Mathf.Abs(moveDir.x) > 0.1f || Mathf.Abs(moveDir.z) > 0.1f)
         {
-            moveDirection.x = 1;
+            timer += Time.deltaTime * (isSprinting ? sprintBobSpeed : walkBobSpeed);
+            virtualCamera.transform.localPosition = new Vector3(
+            virtualCamera.transform.localPosition.x, defaultYpos + Mathf.Sin(timer) * (isSprinting ? sprintBobValue : walkBobValue), virtualCamera.transform.localPosition.z);
         }
-        if (Input.GetKey(KeyCode.A))
+    }
+
+    void Footsteps()
+    {
+        if (!characterController.isGrounded) return;
+        if (currInput == Vector2.zero) return;
+        footstepTimer -= Time.deltaTime;
+
+        if (footstepTimer <= 0)
         {
-            moveDirection.x = -1;
+            if (Physics.Raycast(virtualCamera.transform.position, Vector3.down, out RaycastHit hit, 3))
+                switch (hit.collider.tag)
+                {
+                    case "Rocks":
+                        stepSource.PlayOneShot(steps[Random.Range(0, steps.Length - 1)]);
+                        break;
+                }
+            footstepTimer = GetCurrentOffset;
         }
+    }
+    
+    void Move()
+    {
+        currInput = new Vector2((isSprinting ? sprintSpeed : moveSpeed) * Input.GetAxis("Vertical"), (isSprinting ? sprintSpeed : moveSpeed) * Input.GetAxis("Horizontal"));
 
-        playerController.Move((player.forward * moveDirection.y + 
-            player.right * moveDirection.x).normalized * movementSpeed * Time.deltaTime);
+        float moveDirectionY = moveDir.y;
 
-        moveDirection = Vector2.zero;
-
-        downVelocity = !playerController.isGrounded ? downVelocity + gravity * Time.deltaTime : 0;
-        playerController.Move(Vector3.down * downVelocity);
+        moveDir = (transform.TransformDirection(Vector3.forward) * currInput.x) + (transform.TransformDirection(Vector3.right) * currInput.y);
+        moveDir.y = moveDirectionY;
 
 
-        float mouseDeltaX = Input.GetAxis("Mouse X");
-        float mouseDeltaY = Input.GetAxis("Mouse Y");
-
-        player.rotation = Quaternion.Euler(player.rotation.eulerAngles + 
-            player.up * mouseDeltaX * horizontalSensitivity * Time.deltaTime);
-
-        playerCamera.localRotation *= 
-            Quaternion.Euler(Vector3.right * -mouseDeltaY * horizontalSensitivity * Time.deltaTime);
+        moveDir.y -= gravity * Time.deltaTime;
+        characterController.Move(moveDir * Time.deltaTime);
     }
 }
