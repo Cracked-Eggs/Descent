@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d8ecf19c89057904f87f740adda03300
+guid: cfb5269e2bac8a444b04844dd8e4ca5c
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,7 +7,7 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: CaveWalls
+      name: Stalagtite
     second: {fileID: 2100000, guid: 1c66972b0bfc86a4a95b97764d1524c0, type: 2}
   materials:
     materialImportMode: 2

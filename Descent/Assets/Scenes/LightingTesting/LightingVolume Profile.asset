@@ -96,10 +96,10 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 1
   upperHemisphereLuxValue:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
   upperHemisphereLuxColor:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: {x: 0, y: 0, z: 0}
   desiredLuxValue:
     m_OverrideState: 1
@@ -246,13 +246,13 @@ MonoBehaviour:
     m_Value: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 1.68
+    m_Value: 0.43
   directLightingStrength:
     m_OverrideState: 1
     m_Value: 1
   radius:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.49
   spatialBilateralAggressiveness:
     m_OverrideState: 0
     m_Value: 0.15
@@ -402,7 +402,7 @@ MonoBehaviour:
     m_Value: 27.7
   enableVolumetricFog:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
   albedo:
     m_OverrideState: 1
     m_Value: {r: 1, g: 1, b: 1, a: 1}
