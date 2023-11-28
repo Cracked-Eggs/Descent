@@ -30858,6 +30858,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f314be06c308c6a44ba44f880f09a4db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxFallHeight: 10
   lookSpeedX: 1
   lookSpeedY: 1
   upperlookLimit: 80
@@ -30876,20 +30877,23 @@ MonoBehaviour:
   jumpKey: 32
   crouchKey: 99
   sprintAcceleration: 2
-  sprintDeceleration: 0.3
+  sprintDeceleration: 1
   crouchSpeed: 1
   standingHeight: 2
   crouchingHeight: 1
+  crouchingSpeed: 12
   walkBobSpeed: 14
-  walkBobValue: 0.05
+  walkBobAmplitude: 0.05
   sprintBobSpeed: 18
-  sprintBobValue: 0.05
+  sprintBobAmplitude: 0.06
+  crouchBobSpeed: 10
+  crouchBobAmplitude: 0.03
   baseStepSpeed: 0.5
   sprintStepMultiplier: 0.6
   stepSource: {fileID: 0}
   steps: []
   defaultFOV: 60
-  sprintingFOV: 70
+  sprintingFOV: 65
   fovLerpSpeed: 5
 --- !u!64 &6735961214066261343
 MeshCollider:

@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Fall Settings")]
+    [SerializeField] float maxFallHeight;
+    private float YPosBeforeJump;
+    private bool jumpedOffLedge;
 
     [Header("Look Settings")]
     [SerializeField, Range(0, 1)] float lookSpeedX = 2.0f;
@@ -11,7 +15,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Range(1, 180)] float lowerlookLimit = 80.0f;
     [SerializeField] CinemachineVirtualCamera virtualCamera;
     [SerializeField] Transform position;
-
 
     [Header("Movement Settings")]
     [SerializeField] float moveSpeed = 3f;
@@ -35,13 +38,22 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float crouchSpeed = 1.0f;
     [SerializeField] float standingHeight = 2.0f;
     [SerializeField] float crouchingHeight = 1.0f;
+    [SerializeField] float crouchingSpeed = 2.0f;
     bool isCrouching = false;
 
     [Header("Headbob")]
     [SerializeField] float walkBobSpeed = 14f;
-    [SerializeField] float walkBobValue = 0.05f;
+    [SerializeField] float walkBobAmplitude = 0.05f;
+
     [SerializeField] float sprintBobSpeed = 18f;
-    [SerializeField] float sprintBobValue = 0.05f;
+    [SerializeField] float sprintBobAmplitude = 0.08f;
+
+    [SerializeField] float crouchBobSpeed = 10f;
+    [SerializeField] float crouchBobAmplitude = 0.01f;
+
+    private float currentBobSpeed;
+    private float currentBobAmplitude;
+
     float defaultYpos = 0;
     float timer;
 
@@ -69,6 +81,9 @@ public class PlayerController : MonoBehaviour
     CharacterController characterController;
     Vector3 moveDir;
     Vector2 currInput;
+    float jumpInput;
+
+    private float targetHeight;
 
     void Awake()
     {
@@ -76,6 +91,9 @@ public class PlayerController : MonoBehaviour
         defaultYpos = virtualCamera.transform.localPosition.y;
         currentFOV = defaultFOV;
         currentSpeed = moveSpeed;
+        currentBobSpeed = walkBobSpeed;
+        currentBobAmplitude = walkBobAmplitude;
+        targetHeight = standingHeight;
     }
 
     void Start()
@@ -117,16 +135,48 @@ public class PlayerController : MonoBehaviour
             if (isSprintKeyPressed && !curry) // Check if sprint key is pressed
             {
                 currentSpeed = Mathf.Lerp(currentSpeed, sprintSpeed, Time.deltaTime * sprintAcceleration);
+                currentBobSpeed = sprintBobSpeed;
                 targetFOV = sprintingFOV;
+                currentBobAmplitude = sprintBobAmplitude;
                 Sprinting = true;
             }
-            else if (!isSprintKeyPressed)
+            else if (!isSprintKeyPressed && !curry)
             {
                 currentSpeed = Mathf.Lerp(currentSpeed, moveSpeed, Time.deltaTime * sprintDeceleration);
+                currentBobSpeed = walkBobSpeed;
                 targetFOV = defaultFOV;
+                currentBobAmplitude = walkBobAmplitude;
                 Sprinting = false;
             }
             currentFOV = Mathf.Lerp(currentFOV, targetFOV, fovLerpSpeed * Time.deltaTime);
+        }
+
+        characterController.height = Mathf.Lerp(characterController.height, targetHeight,
+            Time.deltaTime * crouchingSpeed);
+
+        virtualCamera.m_Lens.FieldOfView = currentFOV;
+
+        if (characterController.isGrounded)
+        {
+            if (!jumpedOffLedge)
+                return;
+
+            jumpedOffLedge = false;
+
+            if (Mathf.Abs(Mathf.Abs(characterController.transform.position.y) - 
+                Mathf.Abs(YPosBeforeJump)) <= maxFallHeight)
+                return;
+
+            Debug.Log("You're dead");
+        }
+        else if (!characterController.isGrounded)
+        {
+            if (jumpedOffLedge)
+                return;
+
+            jumpedOffLedge = true;
+            YPosBeforeJump = characterController.transform.position.y;
+            Debug.Log("Fallen off ledge");
         }
     }
     void HandleCrouch()
@@ -140,14 +190,19 @@ public class PlayerController : MonoBehaviour
     void StartCrouch()
     {
         isCrouching = true;
-        characterController.height = crouchingHeight;
+        targetHeight = crouchingHeight;
         currentSpeed = crouchSpeed;
+        currentBobSpeed = crouchBobSpeed;
+        currentBobAmplitude = crouchBobAmplitude;
     }
 
     void StopCrouch()
     {
         isCrouching = false;
-        characterController.height = standingHeight;
+        targetHeight = standingHeight;
+        currentBobSpeed = walkBobSpeed;
+        currentBobAmplitude = walkBobAmplitude;
+        currentSpeed = moveSpeed;
     }
 
 
@@ -163,9 +218,7 @@ public class PlayerController : MonoBehaviour
     {
         if (characterController.isGrounded)
         {
-            Vector3 jumpDirection = moveDir;
-            jumpDirection.y = jumpForce;
-            moveDir = jumpDirection;
+            jumpInput = jumpForce;
         }
     }
     void HeadBob()
@@ -174,9 +227,12 @@ public class PlayerController : MonoBehaviour
 
         if (Mathf.Abs(moveDir.x) > 0.1f || Mathf.Abs(moveDir.z) > 0.1f)
         {
-            timer += Time.deltaTime * (isSprinting ? sprintBobSpeed : walkBobSpeed);
+            timer += Time.deltaTime * currentBobSpeed;
+
             virtualCamera.transform.localPosition = new Vector3(
-            virtualCamera.transform.localPosition.x, defaultYpos + Mathf.Sin(timer) * (isSprinting ? sprintBobValue : walkBobValue), virtualCamera.transform.localPosition.z);
+            virtualCamera.transform.localPosition.x, 
+            defaultYpos + Mathf.Sin(timer) * currentBobAmplitude, 
+            virtualCamera.transform.localPosition.z);
         }
     }
 
@@ -201,15 +257,21 @@ public class PlayerController : MonoBehaviour
     
     void Move()
     {
-        currInput = new Vector2((isSprinting ? sprintSpeed : moveSpeed) * Input.GetAxis("Vertical"), (isSprinting ? sprintSpeed : moveSpeed) * Input.GetAxis("Horizontal"));
+        currInput = new Vector2(currentSpeed * Input.GetAxis("Vertical"), currentSpeed * Input.GetAxis("Horizontal"));
 
         float moveDirectionY = moveDir.y;
 
         moveDir = (transform.TransformDirection(Vector3.forward) * currInput.x) + (transform.TransformDirection(Vector3.right) * currInput.y);
         moveDir.y = moveDirectionY;
 
+        if (!characterController.isGrounded)
+            moveDir.y -= gravity * Time.deltaTime;
+        else if (characterController.isGrounded)
+            moveDir.y = 0;
 
-        moveDir.y -= gravity * Time.deltaTime;
+        moveDir.y += jumpInput;
+
         characterController.Move(moveDir * Time.deltaTime);
+        jumpInput = 0;
     }
 }
