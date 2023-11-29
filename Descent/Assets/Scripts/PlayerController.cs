@@ -187,8 +187,8 @@ public class PlayerController : MonoBehaviour
 
             jumpedOffLedge = false;
 
-            if (Mathf.Abs(Mathf.Abs(characterController.transform.position.y) - 
-                Mathf.Abs(YPosBeforeJump)) <= maxFallHeight)
+            if (YPosBeforeJump - 
+                characterController.transform.position.y <= maxFallHeight)
                 return;
 
             Debug.Log("You're dead");
