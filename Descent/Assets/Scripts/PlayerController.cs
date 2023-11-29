@@ -1,5 +1,6 @@
 using Cinemachine;
 using UnityEngine;
+using SA;
 
 public class PlayerController : MonoBehaviour
 {
@@ -82,8 +83,22 @@ public class PlayerController : MonoBehaviour
     Vector3 moveDir;
     Vector2 currInput;
     float jumpInput;
-
     private float targetHeight;
+    FreeClimb cb;
+    bool wasClimbing;
+
+    public MovementState state;
+    public enum MovementState
+    {
+        freeze,
+        climbing
+    }
+
+    public bool ropeClimbing;
+    public bool climbing;
+    public float climbSpeed;
+    public bool freeze;
+    public bool IsGrounded;
 
     void Awake()
     {
@@ -94,6 +109,8 @@ public class PlayerController : MonoBehaviour
         currentBobSpeed = walkBobSpeed;
         currentBobAmplitude = walkBobAmplitude;
         targetHeight = standingHeight;
+        cb = GetComponent<FreeClimb>();
+        IsGrounded = characterController.isGrounded;
     }
 
     void Start()
@@ -104,6 +121,12 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        wasClimbing = climbing;
+        climbing = false;
+
+        if (ropeClimbing)
+            return;
+
         if (isMove)
         {
             MouseLook();
@@ -258,6 +281,16 @@ public class PlayerController : MonoBehaviour
     void Move()
     {
         currInput = new Vector2(currentSpeed * Input.GetAxis("Vertical"), currentSpeed * Input.GetAxis("Horizontal"));
+        if (ropeClimbing) return;
+
+        if (freeze)
+        {
+            state = MovementState.freeze;
+            moveSpeed = 0;
+            characterController.SimpleMove(Vector3.zero);
+        }
+
+        currInput = new Vector2((isSprinting ? sprintSpeed : moveSpeed) * Input.GetAxis("Vertical"), (isSprinting ? sprintSpeed : moveSpeed) * Input.GetAxis("Horizontal"));
 
         float moveDirectionY = moveDir.y;
 

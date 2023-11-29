@@ -14027,6 +14027,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2477511411847689622, guid: bc4b1978c21069b43867b48d651ce46a, type: 3}
+--- !u!1 &1049916249
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1049916250}
+  m_Layer: 0
+  m_Name: RopeHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1049916250
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049916249}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.74368334, y: 0.7937332, z: 0.74368334}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3597018051476271584}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1053578609
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29221,6 +29252,9 @@ GameObject:
   - component: {fileID: 625276831874019765}
   - component: {fileID: 6658111419078935029}
   - component: {fileID: 3045507711373704290}
+  - component: {fileID: 8017818922603631909}
+  - component: {fileID: 8017818922603631908}
+  - component: {fileID: 8017818922603631907}
   m_Layer: 0
   m_Name: PLAYER
   m_TagString: Untagged
@@ -30014,6 +30048,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 327271513158849211}
+  - {fileID: 1049916250}
   m_Father: {fileID: 1827142119988319221}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3758697693798347931
@@ -30895,6 +30930,12 @@ MonoBehaviour:
   defaultFOV: 60
   sprintingFOV: 65
   fovLerpSpeed: 5
+  state: 0
+  ropeClimbing: 0
+  climbing: 0
+  climbSpeed: 0
+  freeze: 0
+  IsGrounded: 0
 --- !u!64 &6735961214066261343
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -31082,6 +31123,77 @@ Transform:
   - {fileID: 1827142119988319221}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 13.5, z: 0}
+--- !u!114 &8017818922603631907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386158116498001608}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17d69645d06d91b46aace9fd32d24b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 0}
+  isClimbing: 0
+  possitionOffset: 0
+  offsetFromWall: 0.3
+  speed_multiplier: 0.2
+  climbSpeed: 3
+  rotateSpeed: 5
+  rayTowardsMoveDir: 0.5
+  rayForwardTowardsWall: 1
+  maxClimbAngle: 60
+  horizontal: 0
+  vertical: 0
+  isMid: 0
+  helper: {fileID: 0}
+--- !u!114 &8017818922603631908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386158116498001608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8c51128057aee240b5488ca4e18c140, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMovement: {fileID: 6658111419078935029}
+  climbingScript: {fileID: 8017818922603631907}
+  checker: {fileID: 0}
+--- !u!114 &8017818922603631909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386158116498001608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 447b61193e475814296a223d7173289f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 3597018051476271584}
+  throwForce: 20
+  ropeSystemPrefab: {fileID: 0}
+  ropeEndHolder: {fileID: 1049916250}
+  ropeRange: 3
+  ropeCount: 1
+  ropeClimbRange: 7
+  player: {fileID: 8017818922603631906}
+  playerMovement: {fileID: 6658111419078935029}
+  playerRb: {fileID: 0}
+  climbSpeed: 1
+  climbLerpSpeed: 8
+  climbOffset: 3
+  groundedDistance: 0.6
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 192
+  ropeOffset: 1.5
 --- !u!1 &8096710153961072871
 GameObject:
   m_ObjectHideFlags: 0
