@@ -10641,7 +10641,7 @@ GameObject:
   m_Component:
   - component: {fileID: 664227536}
   - component: {fileID: 664227537}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Orientation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16106,7 +16106,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1049916250}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RopeHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17349,7 +17349,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 145.3
+  m_fontSize: 138.1
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -19115,7 +19115,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1195863752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33701,11 +33701,8 @@ GameObject:
   - component: {fileID: 6658111419078935029}
   - component: {fileID: 3045507711373704290}
   - component: {fileID: 8017818922603631909}
-  - component: {fileID: 8017818922603631908}
-  - component: {fileID: 8017818922603631907}
-  - component: {fileID: 8017818922603631910}
   - component: {fileID: 8017818922603631911}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PLAYER
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -33721,7 +33718,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 327271513158849211}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: FlashlightHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35535,7 +35532,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4676405299489579685}
   - component: {fileID: 6834373783071344141}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35642,47 +35639,6 @@ Transform:
   - {fileID: 1827142119988319221}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 13.5, z: 0}
---- !u!114 &8017818922603631907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 386158116498001608}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17d69645d06d91b46aace9fd32d24b07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 0}
-  isClimbing: 0
-  possitionOffset: 0
-  offsetFromWall: 0.3
-  speed_multiplier: 0.2
-  climbSpeed: 3
-  rotateSpeed: 5
-  rayTowardsMoveDir: 0.5
-  rayForwardTowardsWall: 1
-  maxClimbAngle: 60
-  horizontal: 0
-  vertical: 0
-  isMid: 0
-  helper: {fileID: 0}
---- !u!114 &8017818922603631908
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 386158116498001608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8c51128057aee240b5488ca4e18c140, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerMovement: {fileID: 6658111419078935029}
-  climbingScript: {fileID: 8017818922603631907}
-  checker: {fileID: 664227537}
 --- !u!114 &8017818922603631909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35696,7 +35652,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 3597018051476271584}
-  throwForce: 20
+  throwForce: 15
   ropeSystemPrefab: {fileID: 3595193682850572482, guid: c44995480059bd14ab61654137a23927, type: 3}
   ropeEndHolder: {fileID: 1049916250}
   ropeRange: 3
@@ -35704,7 +35660,6 @@ MonoBehaviour:
   ropeClimbRange: 7
   player: {fileID: 8017818922603631906}
   playerMovement: {fileID: 6658111419078935029}
-  playerCharacter: {fileID: 0}
   climbSpeed: 1
   climbLerpSpeed: 8
   climbOffset: 3
@@ -35712,34 +35667,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 192
-  ropeOffset: 1.5
---- !u!54 &8017818922603631910
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 386158116498001608}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 80
-  m_CollisionDetection: 0
+  ropeOffset: -0.5
 --- !u!114 &8017818922603631911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35747,7 +35675,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 386158116498001608}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8124db08204b67d48966ca44e7137043, type: 3}
   m_Name: 
@@ -35787,7 +35715,7 @@ GameObject:
   - component: {fileID: 5575016418949606158}
   - component: {fileID: 7718274591729314257}
   - component: {fileID: 1247160060528373128}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: CAMERA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36294,7 +36222,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4764307032130778978}
   - component: {fileID: 6075028030087896745}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Virtual Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36537,7 +36465,7 @@ GameObject:
   - component: {fileID: 1827142119988319221}
   - component: {fileID: 8923392811326288510}
   - component: {fileID: 8923392811326288509}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}

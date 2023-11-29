@@ -124,12 +124,13 @@ public class PlayerController : MonoBehaviour
         wasClimbing = climbing;
         climbing = false;
 
+        MouseLook();
+
         if (ropeClimbing)
             return;
 
         if (isMove)
         {
-            MouseLook();
             Move();
             HandleCrouch();
 
@@ -199,7 +200,6 @@ public class PlayerController : MonoBehaviour
 
             jumpedOffLedge = true;
             YPosBeforeJump = characterController.transform.position.y;
-            Debug.Log("Fallen off ledge");
         }
     }
     void HandleCrouch()
@@ -228,14 +228,12 @@ public class PlayerController : MonoBehaviour
         currentSpeed = moveSpeed;
     }
 
-
     void MouseLook()
     {
         _mouseMovementX -= Input.GetAxis("Mouse Y") * lookSpeedY;
         _mouseMovementX = Mathf.Clamp(_mouseMovementX, -upperlookLimit, lowerlookLimit);
         virtualCamera.transform.localRotation = Quaternion.Euler(_mouseMovementX, 0, 0);
         transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeedX, 0);
-
     }
     void Jump()
     {
