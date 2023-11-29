@@ -6,8 +6,11 @@ TagManager:
   tags:
   - Ground
   - Obstacle
-  - Rocks
   - GameEnd
+  - DynamitePiece
+  - Safe
+  - Runes
+  - Rune
   layers:
   - Default
   - TransparentFX

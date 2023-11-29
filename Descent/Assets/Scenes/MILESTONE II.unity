@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -243,7 +243,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 186864c9ae91dea428707ed2ccdd50ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMaterial: {fileID: 2100000, guid: b3639aa4873ef70409a1199d4ed8a627, type: 2}
 --- !u!114 &47365625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,11 +255,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ffda391018264b41b2915f9341fdd28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 1
-  IsMatched: 0
-  _runeTurnSound:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &72054152
 GameObject:
   m_ObjectHideFlags: 0
@@ -788,11 +782,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ffda391018264b41b2915f9341fdd28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 3
-  IsMatched: 0
-  _runeTurnSound:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &223807342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -805,7 +794,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 186864c9ae91dea428707ed2ccdd50ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMaterial: {fileID: 2100000, guid: b3639aa4873ef70409a1199d4ed8a627, type: 2}
 --- !u!65 &223807343
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1127,6 +1115,7 @@ GameObject:
   - component: {fileID: 397525347}
   - component: {fileID: 397525346}
   - component: {fileID: 397525348}
+  - component: {fileID: 397525349}
   m_Layer: 0
   m_Name: Spot Light
   m_TagString: Untagged
@@ -1209,7 +1198,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4605498817039627343}
+  m_Father: {fileID: 1939720363}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &397525348
 MonoBehaviour:
@@ -1223,9 +1212,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4df42243866865143a03e8cf63060203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensX: 200
-  sensY: 200
-  orientation: {fileID: 1113003736}
+--- !u!114 &397525349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 397525345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &481179961
 GameObject:
   m_ObjectHideFlags: 0
@@ -1285,8 +1294,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: E - Interact
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1858,6 +1867,7 @@ GameObject:
   m_Component:
   - component: {fileID: 705507995}
   - component: {fileID: 705507994}
+  - component: {fileID: 705507996}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -1942,6 +1952,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 737046029}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &705507996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705507993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &737046028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2034,11 +2067,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ffda391018264b41b2915f9341fdd28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 4
-  IsMatched: 0
-  _runeTurnSound:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &744626495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2051,7 +2079,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 186864c9ae91dea428707ed2ccdd50ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMaterial: {fileID: 2100000, guid: b3639aa4873ef70409a1199d4ed8a627, type: 2}
 --- !u!65 &744626496
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2980,11 +3007,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ffda391018264b41b2915f9341fdd28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 2
-  IsMatched: 0
-  _runeTurnSound:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &996944253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2997,7 +3019,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 186864c9ae91dea428707ed2ccdd50ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMaterial: {fileID: 2100000, guid: b3639aa4873ef70409a1199d4ed8a627, type: 2}
 --- !u!65 &996944254
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3106,11 +3127,6 @@ Transform:
   - {fileID: 776551476}
   m_Father: {fileID: 860345707}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1058576450 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2524262070584201890, guid: 80ebe6e338efc5d499d83aab7f7d434c, type: 3}
-  m_PrefabInstance: {fileID: 4605498817039627342}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1083632188
 GameObject:
   m_ObjectHideFlags: 0
@@ -3209,7 +3225,6 @@ RectTransform:
   - {fileID: 1283550468}
   - {fileID: 1211080519}
   - {fileID: 481179962}
-  - {fileID: 1686974533}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3231,11 +3246,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dynamiteText: {fileID: 1211080520}
   _musicPlayerText: {fileID: 481179963}
---- !u!4 &1113003736 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 452370229535805240, guid: 80ebe6e338efc5d499d83aab7f7d434c, type: 3}
-  m_PrefabInstance: {fileID: 4605498817039627342}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1134156328
 GameObject:
   m_ObjectHideFlags: 0
@@ -3400,8 +3410,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Dynamites: 0/3'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3859,11 +3869,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ffda391018264b41b2915f9341fdd28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 4
-  IsMatched: 0
-  _runeTurnSound:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1521730154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3876,7 +3881,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 186864c9ae91dea428707ed2ccdd50ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMaterial: {fileID: 2100000, guid: b3639aa4873ef70409a1199d4ed8a627, type: 2}
 --- !u!65 &1521730155
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4158,74 +4162,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1629252827}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1686974530
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1686974533}
-  - component: {fileID: 1686974532}
-  - component: {fileID: 1686974531}
-  m_Layer: 0
-  m_Name: EventSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1686974531
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1686974530}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SendPointerHoverToParent: 1
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
---- !u!114 &1686974532
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1686974530}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
---- !u!4 &1686974533
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1686974530}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -960, y: -540, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1083632192}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1728735821
 GameObject:
   m_ObjectHideFlags: 0
@@ -4442,11 +4378,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ffda391018264b41b2915f9341fdd28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 3
-  IsMatched: 0
-  _runeTurnSound:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1798897583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4459,7 +4390,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 186864c9ae91dea428707ed2ccdd50ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMaterial: {fileID: 2100000, guid: b3639aa4873ef70409a1199d4ed8a627, type: 2}
 --- !u!65 &1798897584
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4580,11 +4510,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ffda391018264b41b2915f9341fdd28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 2
-  IsMatched: 0
-  _runeTurnSound:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1829696787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4597,7 +4522,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 186864c9ae91dea428707ed2ccdd50ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMaterial: {fileID: 2100000, guid: b3639aa4873ef70409a1199d4ed8a627, type: 2}
 --- !u!65 &1829696788
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4774,9 +4698,9 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1832056944}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &1858017175 stripped
+--- !u!4 &1939720363 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 3024159471495582298, guid: 80ebe6e338efc5d499d83aab7f7d434c, type: 3}
+  m_CorrespondingSourceObject: {fileID: 1193226210069265269, guid: 80ebe6e338efc5d499d83aab7f7d434c, type: 3}
   m_PrefabInstance: {fileID: 4605498817039627342}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2017989376
@@ -5085,11 +5009,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ffda391018264b41b2915f9341fdd28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 1
-  IsMatched: 0
-  _runeTurnSound:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &2109699695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5102,7 +5021,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 186864c9ae91dea428707ed2ccdd50ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMaterial: {fileID: 2100000, guid: b3639aa4873ef70409a1199d4ed8a627, type: 2}
 --- !u!65 &2109699696
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5229,7 +5147,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40e4471833d2092459cfc154ecc377bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraPosition: {fileID: 1858017175}
 --- !u!23 &263230743309921985
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5939,16 +5856,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 4643461069839199737, guid: 80ebe6e338efc5d499d83aab7f7d434c, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 1193226210069265269, guid: 80ebe6e338efc5d499d83aab7f7d434c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 397525347}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80ebe6e338efc5d499d83aab7f7d434c, type: 3}
---- !u!4 &4605498817039627343 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4643461069839199737, guid: 80ebe6e338efc5d499d83aab7f7d434c, type: 3}
-  m_PrefabInstance: {fileID: 4605498817039627342}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4612876915276874099
 Transform:
   m_ObjectHideFlags: 0
@@ -6092,7 +6004,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 186864c9ae91dea428707ed2ccdd50ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMaterial: {fileID: 2100000, guid: b3639aa4873ef70409a1199d4ed8a627, type: 2}
 --- !u!114 &6488225329293831930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6105,11 +6016,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ffda391018264b41b2915f9341fdd28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 3
-  IsMatched: 0
-  _runeTurnSound:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!64 &6488225329293831931
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -6181,7 +6087,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 186864c9ae91dea428707ed2ccdd50ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMaterial: {fileID: 2100000, guid: b3639aa4873ef70409a1199d4ed8a627, type: 2}
 --- !u!114 &6678183903724624038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6194,11 +6099,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ffda391018264b41b2915f9341fdd28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 1
-  IsMatched: 0
-  _runeTurnSound:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!64 &6678183903724624039
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -6262,7 +6162,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 186864c9ae91dea428707ed2ccdd50ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMaterial: {fileID: 2100000, guid: b3639aa4873ef70409a1199d4ed8a627, type: 2}
 --- !u!114 &7003615226697334420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6275,11 +6174,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ffda391018264b41b2915f9341fdd28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 2
-  IsMatched: 0
-  _runeTurnSound:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!64 &7003615226697334421
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -6322,7 +6216,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 186864c9ae91dea428707ed2ccdd50ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMaterial: {fileID: 2100000, guid: b3639aa4873ef70409a1199d4ed8a627, type: 2}
 --- !u!114 &7316579858063428845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6335,11 +6228,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ffda391018264b41b2915f9341fdd28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 2
-  IsMatched: 0
-  _runeTurnSound:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!64 &7316579858063428846
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -6417,7 +6305,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 186864c9ae91dea428707ed2ccdd50ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMaterial: {fileID: 2100000, guid: b3639aa4873ef70409a1199d4ed8a627, type: 2}
 --- !u!114 &7462672626021646937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6430,11 +6317,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ffda391018264b41b2915f9341fdd28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 3
-  IsMatched: 0
-  _runeTurnSound:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!64 &7462672626021646938
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -6477,7 +6359,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 186864c9ae91dea428707ed2ccdd50ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMaterial: {fileID: 2100000, guid: b3639aa4873ef70409a1199d4ed8a627, type: 2}
 --- !u!114 &7507171155616665865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6490,11 +6371,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ffda391018264b41b2915f9341fdd28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 4
-  IsMatched: 0
-  _runeTurnSound:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!64 &7507171155616665866
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -6565,7 +6441,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 186864c9ae91dea428707ed2ccdd50ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMaterial: {fileID: 2100000, guid: b3639aa4873ef70409a1199d4ed8a627, type: 2}
 --- !u!114 &8190783835769154390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6578,11 +6453,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ffda391018264b41b2915f9341fdd28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 4
-  IsMatched: 0
-  _runeTurnSound:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!64 &8190783835769154391
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -6617,9 +6487,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4df42243866865143a03e8cf63060203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensX: 200
-  sensY: 200
-  orientation: {fileID: 1058576450}
 --- !u!33 &8760301791277705778
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -6640,7 +6507,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 186864c9ae91dea428707ed2ccdd50ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMaterial: {fileID: 2100000, guid: b3639aa4873ef70409a1199d4ed8a627, type: 2}
 --- !u!114 &8760301791277705780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6653,11 +6519,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ffda391018264b41b2915f9341fdd28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 1
-  IsMatched: 0
-  _runeTurnSound:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!64 &8760301791277705781
 MeshCollider:
   m_ObjectHideFlags: 0

@@ -8,14 +8,14 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject _dynamite;
     [SerializeField] Transform _dynamitePlacement;
     [SerializeField] UnityEvent _startTimerandSound;
-    [SerializeField] Camera _cam;
 
     public int _dynamites { get; private set; }
-    public event Action DynamitesChanged;
-    public event Action MusicPlayerInteract;
-    public event Action MusicPlayerDisable;
+    public int _runes { get; private set; }
+    public event Action SafeText;
+    public event Action RunesChanged;
     public float interactRange = 5f;
 
+    [SerializeField] Canvas _canvas;
     CharacterController _characterController;
 
     void Awake() => FindObjectOfType<PlayerUI>().Bind(this);
@@ -25,6 +25,11 @@ public class Player : MonoBehaviour
     void Update()
     {
         BlowupDynamite();
+
+        if (Input.GetKey(KeyCode.Tab))
+            _canvas.gameObject.SetActive(true);
+        else
+            _canvas.gameObject.SetActive(false);
     }
 
     void BlowupDynamite()
@@ -45,25 +50,25 @@ public class Player : MonoBehaviour
         if (other.CompareTag("DynamitePiece"))
         {
             _dynamites++;
-            DynamitesChanged?.Invoke();
+            //DynamitesChanged?.Invoke();
             Destroy(other.gameObject);
         }
-
-        if (other.CompareTag("MusicPlayer"))
-            MusicPlayerInteract.Invoke();
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("MusicPlayer"))
-            MusicPlayerDisable.Invoke();
     }
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
         if (hit.collider.CompareTag("GameEnd"))
             _gameEnd.Invoke();
-    }
 
-    
+        if (hit.collider.CompareTag("Safe"))
+            SafeText.Invoke();
+
+        if (hit.collider.CompareTag("Rune"))
+        {
+            Debug.Log("Hit Rune");
+            _runes++;
+            RunesChanged.Invoke();
+            Destroy(hit.gameObject);
+        }
+    }
 }
