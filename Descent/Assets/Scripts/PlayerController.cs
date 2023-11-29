@@ -268,7 +268,10 @@ public class PlayerController : MonoBehaviour
             if (Physics.Raycast(virtualCamera.transform.position, Vector3.down, out RaycastHit hit, 3))
                 switch (hit.collider.tag)
                 {
-                    case "Rocks":
+                    case "Ground":
+                        stepSource.PlayOneShot(steps[Random.Range(0, steps.Length - 1)]);
+                        break;
+                    case "Safe":
                         stepSource.PlayOneShot(steps[Random.Range(0, steps.Length - 1)]);
                         break;
                 }

@@ -26,7 +26,7 @@ public class PlayerUI : MonoBehaviour
     void UpdateRunesText()
     {
         var currentRunes = _player._runes;
-        _runesText.text = "Find Runes for Safe (0/" + currentRunes + ")";
+        _runesText.text = "Find Runes for Safe (" + currentRunes + "/4)";
         if (currentRunes == 4)
         {
             _runesText.fontStyle = FontStyles.Strikethrough;
