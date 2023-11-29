@@ -2,9 +2,8 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Player : MonoBehaviour
+public class Playe : MonoBehaviour
 {
-    [SerializeField] UnityEvent _gameEnd;
     [SerializeField] GameObject _dynamite;
     [SerializeField] Transform _dynamitePlacement;
     [SerializeField] UnityEvent _startTimerandSound;
@@ -16,11 +15,6 @@ public class Player : MonoBehaviour
     public event Action MusicPlayerDisable;
     public float interactRange = 5f;
 
-    CharacterController _characterController;
-
-    void Awake() => FindObjectOfType<PlayerUI>().Bind(this);
-
-    void Start() => _characterController = GetComponent<CharacterController>();
 
     void Update()
     {
@@ -58,12 +52,4 @@ public class Player : MonoBehaviour
         if (other.CompareTag("MusicPlayer"))
             MusicPlayerDisable.Invoke();
     }
-
-    void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        if (hit.collider.CompareTag("GameEnd"))
-            _gameEnd.Invoke();
-    }
-
-    
 }
