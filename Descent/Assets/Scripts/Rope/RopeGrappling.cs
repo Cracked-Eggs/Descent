@@ -15,7 +15,7 @@ public class RopeGrappling : MonoBehaviour
 
     [SerializeField] private Transform player;
     [SerializeField] private PlayerController playerMovement;
-    [SerializeField] private Rigidbody playerRb;
+    [SerializeField] private Rigidbody playerCharacter;
     [SerializeField] private float climbSpeed;
     [SerializeField] private float climbLerpSpeed;
     [SerializeField] private float climbOffset;
@@ -101,7 +101,7 @@ public class RopeGrappling : MonoBehaviour
             player.transform.position = ropes[closestRopeIndex][currentValidRopeSegmentIndex].gameObject.transform.position;
             
             isClimbing = true;
-            playerRb.useGravity = false;
+            playerCharacter.useGravity = false;
             lerp = currentValidRopeSegmentIndex / (ropes[closestRopeIndex].Count - 1.0f);
             currentRope = ropes[closestRopeIndex];
 
@@ -118,7 +118,7 @@ public class RopeGrappling : MonoBehaviour
                     Vector3.up * ropeOffset;
 
                 isClimbing = false;
-                playerRb.useGravity = true;
+                playerCharacter.useGravity = true;
                 playerMovement.ropeClimbing = false;
 
                 Debug.Log("Dropping off rope");
