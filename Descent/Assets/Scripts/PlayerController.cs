@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
     bool isSprinting => Sprinting && Input.GetKey(sprintKey);
 
     float targetFOV, currentFOV;
-    
+    float _mouseMovementX = 0;
 
     CharacterController characterController;
     Vector3 moveDir;
@@ -124,12 +124,13 @@ public class PlayerController : MonoBehaviour
         wasClimbing = climbing;
         climbing = false;
 
+        MouseLook();
+
         if (ropeClimbing)
             return;
 
         if (isMove)
         {
-            
             Move();
             HandleCrouch();
 
@@ -186,8 +187,8 @@ public class PlayerController : MonoBehaviour
 
             jumpedOffLedge = false;
 
-            if (Mathf.Abs(Mathf.Abs(characterController.transform.position.y) - 
-                Mathf.Abs(YPosBeforeJump)) <= maxFallHeight)
+            if (YPosBeforeJump - 
+                characterController.transform.position.y <= maxFallHeight)
                 return;
 
             Debug.Log("You're dead");
@@ -199,7 +200,6 @@ public class PlayerController : MonoBehaviour
 
             jumpedOffLedge = true;
             YPosBeforeJump = characterController.transform.position.y;
-            Debug.Log("Fallen off ledge");
         }
     }
     void HandleCrouch()
@@ -228,8 +228,13 @@ public class PlayerController : MonoBehaviour
         currentSpeed = moveSpeed;
     }
 
-
-    
+    void MouseLook()
+    {
+        _mouseMovementX -= Input.GetAxis("Mouse Y") * lookSpeedY;
+        _mouseMovementX = Mathf.Clamp(_mouseMovementX, -upperlookLimit, lowerlookLimit);
+        virtualCamera.transform.localRotation = Quaternion.Euler(_mouseMovementX, 0, 0);
+        transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeedX, 0);
+    }
     void Jump()
     {
         if (characterController.isGrounded)
@@ -263,7 +268,10 @@ public class PlayerController : MonoBehaviour
             if (Physics.Raycast(virtualCamera.transform.position, Vector3.down, out RaycastHit hit, 3))
                 switch (hit.collider.tag)
                 {
-                    case "Rocks":
+                    case "Ground":
+                        stepSource.PlayOneShot(steps[Random.Range(0, steps.Length - 1)]);
+                        break;
+                    case "Safe":
                         stepSource.PlayOneShot(steps[Random.Range(0, steps.Length - 1)]);
                         break;
                 }

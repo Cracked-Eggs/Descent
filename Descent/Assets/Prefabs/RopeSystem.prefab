@@ -47,11 +47,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   segmentCount: 10
-  segmentSpacing: 5
+  segmentSpacing: 9
   ropeStiffness: 5
   errorThreshold: 1
-  drag: 5
-  ropeLength: 10
+  drag: 2
+  ropeLength: 6
   segmentPrefab: {fileID: 4856565315575636943, guid: 4a42ad85e172e5a41afd91e67f6972da, type: 3}
 --- !u!1 &5217058800314262773
 GameObject:

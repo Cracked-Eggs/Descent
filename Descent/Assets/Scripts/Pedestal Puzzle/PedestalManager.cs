@@ -7,7 +7,6 @@ public class PedestalManager : MonoBehaviour
     [SerializeField] List<Pedestal> _pedestals;
     [SerializeField] UnityEvent _puzzleCompleted;
     [SerializeField] UnityEvent _pedestalResetSound;
-    [SerializeField] UnityEvent _pedestalFullTune;
 
 
     List<Pedestal> activatedPedestals = new List<Pedestal>();
@@ -35,7 +34,6 @@ public class PedestalManager : MonoBehaviour
                 if (currentPedestalIndex == _pedestals.Count)
                 {
                     // puzzle completed
-                    _pedestalFullTune.Invoke();
                     foreach (var pedestals in _pedestals)
                         Destroy(pedestals.gameObject);
                     _puzzleCompleted.Invoke();
