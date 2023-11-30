@@ -64,6 +64,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             _startTimerandSound.Invoke();
+            _audioManager.Play("DynamitePlace");
             var dynamite = Instantiate(_dynamite, _dynamitePlacement.position, transform.rotation);
             Destroy(dynamite, 3f);
         }

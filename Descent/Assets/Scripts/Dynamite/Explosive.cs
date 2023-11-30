@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Explosive : MonoBehaviour
 {
@@ -7,11 +8,13 @@ public class Explosive : MonoBehaviour
     [SerializeField] float _explosionForce = 500;
     [SerializeField] float _explosionSpeed = 5;
     [SerializeField] Rigidbody _rb;
+    AudioManager _audioManager;
 
     void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _rb.velocity = Vector3.left * _explosionSpeed;
+        _audioManager = FindObjectOfType<AudioManager>();
     }
 
     void OnCollisionEnter(Collision collision)
@@ -27,7 +30,7 @@ public class Explosive : MonoBehaviour
 
                 rb.AddExplosionForce(_explosionForce, transform.position, _explosionRadius, 1);
             }
-
+            _audioManager.Play("Explosion");
             Destroy(gameObject);
         }
     }
