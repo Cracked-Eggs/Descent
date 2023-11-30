@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
     bool isSprinting => Sprinting && Input.GetKey(sprintKey);
 
     float targetFOV, currentFOV;
-    float _mouseMovementX = 0;
+    
 
     CharacterController characterController;
     Vector3 moveDir;
@@ -129,7 +129,7 @@ public class PlayerController : MonoBehaviour
 
         if (isMove)
         {
-            MouseLook();
+            
             Move();
             HandleCrouch();
 
@@ -229,14 +229,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    void MouseLook()
-    {
-        _mouseMovementX -= Input.GetAxis("Mouse Y") * lookSpeedY;
-        _mouseMovementX = Mathf.Clamp(_mouseMovementX, -upperlookLimit, lowerlookLimit);
-        virtualCamera.transform.localRotation = Quaternion.Euler(_mouseMovementX, 0, 0);
-        transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeedX, 0);
-
-    }
+    
     void Jump()
     {
         if (characterController.isGrounded)

@@ -1,4 +1,4 @@
-using SA;
+    using SA;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -118,10 +118,6 @@ public class PlayerStateManager : MonoBehaviour
             SetWalkingState();
             
         }
-
-        
-       
-
     }
 
     public void ClimbLedge()
