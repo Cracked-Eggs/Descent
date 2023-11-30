@@ -1,11 +1,15 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerUI : MonoBehaviour
 {
     [SerializeField] TMP_Text _safeText;
     [SerializeField] TMP_Text _runesText;
     [SerializeField] TMP_Text _openText;
+    [SerializeField] TMP_Text _dynamiteText;
+
+    [SerializeField] UnityEvent _dynamitePickup;
     Player _player;
 
     public void Bind(Player player)
@@ -13,8 +17,7 @@ public class PlayerUI : MonoBehaviour
         _player = player;
         _player.SafeText += UpdateSafeText;
         _player.RunesChanged += UpdateRunesText;
-        //_player.DynamitesChanged += UpdateDynamite;
-        //UpdateDynamite();
+        _player.DynamitesChanged += UpdateDynamite;
     }
 
     void UpdateSafeText()
@@ -34,15 +37,9 @@ public class PlayerUI : MonoBehaviour
         }
     }
 
-    /*void UpdateDynamite()
+    void UpdateDynamite()
     {
-        var currentDynamites = _player._dynamites;
-        _dynamiteText.text = "Dynamites: " + currentDynamites + "/3";
-
-        if (currentDynamites == 3)
-        {
-            _dynamiteText.text = "Collected all Dynamites!";
-            Destroy(_dynamiteText, 3f);
-        }
-    }*/
+        _dynamiteText.gameObject.SetActive(true);
+        _dynamitePickup.Invoke();
+    }
 }
