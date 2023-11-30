@@ -9,9 +9,13 @@ TagManager:
   - GameEnd
   - DynamitePiece
   - Safe
-  - Runes
   - Rune
   - MatrixElement
+  - InteractableRune
+  - Pedestal
+  - Plate
+  - MusicPlayer
+  - PlayerTrigger
   layers:
   - Default
   - TransparentFX
