@@ -18,6 +18,7 @@ TagManager:
   - PPlates
   - DynamiteInteract
   - climable wall
+  - UV Num
   layers:
   - Default
   - TransparentFX

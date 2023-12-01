@@ -16,11 +16,13 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject _UVFlash;
     [SerializeField] GameObject _flash;
     [SerializeField] Camera _cam;
+    [SerializeField] GameObject[] _nums;
 
 
     public int _dynamites { get; private set; }
     public int _runes { get; private set; }
     public int _UV {  get; private set; }
+    public bool _UVObtained;
     public event Action SafeText;
     public event Action RunesChanged;
     public event Action DynamitesChanged;
@@ -35,7 +37,6 @@ public class Player : MonoBehaviour
     bool _safeEventTriggered = false;
     bool _plateEventTriggered = false;
     bool _dynamiteInteractTriggered = true;
-    bool _gameEnded = false;
     AudioManager _audioManager;
     RuneManager _runeMangaer;
 
@@ -62,19 +63,21 @@ public class Player : MonoBehaviour
         if (_runeMangaer._completed == true)
             SafeComplete.Invoke();
 
-
-        /*if (Input.GetKey(KeyCode.F))
+        if (_UVObtained == true)
         {
-            _UVFlash.gameObject.SetActive(true);
-            _flash.gameObject.SetActive(false);
-            _audioManager.Play("FlashlightOn");
+            if (Input.GetKey(KeyCode.LeftControl))
+            {
+                _UVFlash.gameObject.SetActive(true);
+                _flash.gameObject.SetActive(false);
+                _audioManager.Play("FlashlightOn");
+            }
+            else
+            {
+                _UVFlash.gameObject.SetActive(false);
+                _flash.gameObject.SetActive(true);
+                _audioManager.Play("FlashlightOff");
+            }
         }
-        else
-        {
-            _UVFlash.gameObject.SetActive(false);
-            _flash.gameObject.SetActive(true);
-            _audioManager.Play("FlashlightOff");
-        }*/
     }
 
     void BlowupDynamite()
@@ -104,6 +107,17 @@ public class Player : MonoBehaviour
         {
             _safeEventTriggered = true;
             SafeText.Invoke();
+        }
+
+        if (hit.collider.CompareTag("UV Num") && _UVFlash.activeSelf)
+        {
+            foreach (var num in _nums)
+                num.gameObject.SetActive(true);
+        }
+        else
+        {
+            foreach (var num in _nums)
+                num.gameObject.SetActive(false);
         }
 
         if (hit.collider.CompareTag("PPlates") && _plateEventTriggered == false && _safeEventTriggered == true)

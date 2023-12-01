@@ -45,7 +45,7 @@ public class PlayerStateManager : MonoBehaviour
         isClimbing = false;
 
         transform.rotation = initialRotation; // Use transform.rotation instead of rb.rotation
-        characterController.detectCollisions = true; // Enable collisions for CharacterController
+        //characterController.detectCollisions = true; // Enable collisions for CharacterController
         isClimbing = false;
         Destroy(climbHelperObject);
 

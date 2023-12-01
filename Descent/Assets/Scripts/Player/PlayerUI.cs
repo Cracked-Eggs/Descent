@@ -45,6 +45,7 @@ public class PlayerUI : MonoBehaviour
     {
         _openText.fontStyle = FontStyles.Strikethrough;
         _platesText.gameObject.SetActive(true);
+        _player._UVObtained = true;
     }
 
     void UpdatePlatesText()
