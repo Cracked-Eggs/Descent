@@ -10,12 +10,13 @@ TagManager:
   - DynamitePiece
   - Safe
   - Rune
-  - MatrixElement
   - InteractableRune
   - Pedestal
   - Plate
   - PlayerTrigger
   - UV
+  - PPlates
+  - DynamiteInteract
   layers:
   - Default
   - TransparentFX

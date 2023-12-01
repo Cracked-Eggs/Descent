@@ -25,11 +25,16 @@ public class Player : MonoBehaviour
     public event Action RunesChanged;
     public event Action DynamitesChanged;
     public event Action SafeComplete;
+    public event Action PlatesFound;
     public event Action UVComplete;
+    public event Action DynamiteInteract;
+    public event Action DynamiteInteracted;
     public float interactRange = 5f;
 
     private bool canInteract = true;
     bool _safeEventTriggered = false;
+    bool _plateEventTriggered = false;
+    bool _dynamiteInteractTriggered = true;
     AudioManager _audioManager;
     RuneManager _runeMangaer;
 
@@ -80,6 +85,7 @@ public class Player : MonoBehaviour
             _startTimerandSound.Invoke();
             _audioManager.Play("DynamitePlace");
             var dynamite = Instantiate(_dynamite, _dynamitePlacement.position, transform.rotation);
+            DynamiteInteracted.Invoke();
             Destroy(dynamite, 3f);
         }
     }
@@ -93,6 +99,18 @@ public class Player : MonoBehaviour
         {
             _safeEventTriggered = true;
             SafeText.Invoke();
+        }
+
+        if (hit.collider.CompareTag("PPlates") && _plateEventTriggered == false && _safeEventTriggered == true)
+        {
+            _plateEventTriggered = true;
+            PlatesFound.Invoke();
+        }
+
+        if (hit.collider.CompareTag("DynamiteInteract") && _dynamiteInteractTriggered == false)
+        {
+            _dynamiteInteractTriggered = true;
+            DynamiteInteract.Invoke();
         }
 
         if (hit.collider.CompareTag("Rune"))
@@ -127,6 +145,7 @@ public class Player : MonoBehaviour
         {
             _dynamites++;
             DynamitesChanged?.Invoke();
+            _dynamiteInteractTriggered = false;
             Destroy(hit.gameObject);
         }
     }

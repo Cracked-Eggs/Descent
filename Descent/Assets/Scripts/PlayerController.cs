@@ -274,6 +274,12 @@ public class PlayerController : MonoBehaviour
                     case "Safe":
                         stepSource.PlayOneShot(steps[Random.Range(0, steps.Length - 1)]);
                         break;
+                    case "PPlates":
+                        stepSource.PlayOneShot(steps[Random.Range(0, steps.Length - 1)]);
+                        break;
+                    case "DynamiteInteract":
+                        stepSource.PlayOneShot(steps[Random.Range(0, steps.Length - 1)]);
+                        break;
                 }
             footstepTimer = GetCurrentOffset;
         }
