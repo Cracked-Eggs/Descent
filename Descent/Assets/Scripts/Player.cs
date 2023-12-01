@@ -98,7 +98,6 @@ public class Player : MonoBehaviour
     {
         if (hit.collider.CompareTag("GameEnd"))
         {
-            StartCoroutine(Monster());
             _gameEnd.Invoke();
         }
 
@@ -189,12 +188,5 @@ public class Player : MonoBehaviour
                 rune.Interact();
             }
         }
-    }
-
-    IEnumerator Monster()
-    {
-        Debug.Log("playing");
-        yield return new WaitForSeconds(3f);
-        _audioManager.Play("Monster");
     }
 }
