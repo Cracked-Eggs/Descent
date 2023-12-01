@@ -790,6 +790,54 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -182.141
       objectReference: {fileID: 0}
+    - target: {fileID: 6041801942935395814, guid: 97d8bd76ebd68834aa1a559b3af5f76d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.00785
+      objectReference: {fileID: 0}
+    - target: {fileID: 6041801942935395814, guid: 97d8bd76ebd68834aa1a559b3af5f76d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.00848
+      objectReference: {fileID: 0}
+    - target: {fileID: 6041801942935395814, guid: 97d8bd76ebd68834aa1a559b3af5f76d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.00271
+      objectReference: {fileID: 0}
+    - target: {fileID: 6041801942935395814, guid: 97d8bd76ebd68834aa1a559b3af5f76d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.019691572
+      objectReference: {fileID: 0}
+    - target: {fileID: 6041801942935395814, guid: 97d8bd76ebd68834aa1a559b3af5f76d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.028121173
+      objectReference: {fileID: 0}
+    - target: {fileID: 6041801942935395814, guid: 97d8bd76ebd68834aa1a559b3af5f76d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.092277944
+      objectReference: {fileID: 0}
+    - target: {fileID: 6041801942935395814, guid: 97d8bd76ebd68834aa1a559b3af5f76d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.9951414
+      objectReference: {fileID: 0}
+    - target: {fileID: 6041801942935395814, guid: 97d8bd76ebd68834aa1a559b3af5f76d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 190.648
+      objectReference: {fileID: 0}
+    - target: {fileID: 6041801942935395814, guid: 97d8bd76ebd68834aa1a559b3af5f76d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 176.947
+      objectReference: {fileID: 0}
+    - target: {fileID: 6041801942935395814, guid: 97d8bd76ebd68834aa1a559b3af5f76d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -1.9830017
+      objectReference: {fileID: 0}
+    - target: {fileID: 6938315877957118597, guid: 97d8bd76ebd68834aa1a559b3af5f76d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ca9451a7cbfc50044a7c0806ee1d6a6c, type: 2}
+    - target: {fileID: 7719894907499787038, guid: 97d8bd76ebd68834aa1a559b3af5f76d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -913,6 +961,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 394908471}
     m_Modifications:
+    - target: {fileID: 3661248488715313412, guid: 3ffdaa72d141bc04397ecd10c01fbb39, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6801715446336374626, guid: 3ffdaa72d141bc04397ecd10c01fbb39, type: 3}
       propertyPath: m_Name
       value: PuzzleRock2
@@ -3832,17 +3884,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: PuzzleRock4
       objectReference: {fileID: 0}
+    - target: {fileID: 752987596470800299, guid: 443c47b195581814982c16879f3af6f6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6298921458774207643, guid: 443c47b195581814982c16879f3af6f6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -22.952242
+      value: -22.863
       objectReference: {fileID: 0}
     - target: {fileID: 6298921458774207643, guid: 443c47b195581814982c16879f3af6f6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 28.229813
+      value: 28.544
       objectReference: {fileID: 0}
     - target: {fileID: 6298921458774207643, guid: 443c47b195581814982c16879f3af6f6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 57.577763
+      value: 57.608
       objectReference: {fileID: 0}
     - target: {fileID: 6298921458774207643, guid: 443c47b195581814982c16879f3af6f6, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4869,6 +4925,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -189.651
       objectReference: {fileID: 0}
+    - target: {fileID: 3192896500354147311, guid: 67dc8499016f5aa4c813b183410a8a88, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8248523140225110126, guid: 67dc8499016f5aa4c813b183410a8a88, type: 3}
       propertyPath: m_Name
       value: PuzzleRock1
@@ -4998,7 +5058,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2387036808155223415, guid: 36869852f60002446b0f3ec9d99226a3, type: 3}
       propertyPath: sounds.Array.size
-      value: 12
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 2387036808155223415, guid: 36869852f60002446b0f3ec9d99226a3, type: 3}
       propertyPath: sounds.Array.data[0].clip
@@ -5101,6 +5161,14 @@ PrefabInstance:
       value: Goal
       objectReference: {fileID: 0}
     - target: {fileID: 2387036808155223415, guid: 36869852f60002446b0f3ec9d99226a3, type: 3}
+      propertyPath: sounds.Array.data[12].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: c79e65a6bebfc4846bc5173aeb0e44c0, type: 3}
+    - target: {fileID: 2387036808155223415, guid: 36869852f60002446b0f3ec9d99226a3, type: 3}
+      propertyPath: sounds.Array.data[12].name
+      value: Monster
+      objectReference: {fileID: 0}
+    - target: {fileID: 2387036808155223415, guid: 36869852f60002446b0f3ec9d99226a3, type: 3}
       propertyPath: sounds.Array.data[0].volume
       value: 0.5
       objectReference: {fileID: 0}
@@ -5122,6 +5190,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2387036808155223415, guid: 36869852f60002446b0f3ec9d99226a3, type: 3}
       propertyPath: sounds.Array.data[11].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2387036808155223415, guid: 36869852f60002446b0f3ec9d99226a3, type: 3}
+      propertyPath: sounds.Array.data[12].volume
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7272250625828229834, guid: 36869852f60002446b0f3ec9d99226a3, type: 3}
@@ -12406,7 +12478,6 @@ MonoBehaviour:
   sprintStepMultiplier: 0.6
   stepSource: {fileID: 3045507711373704290}
   steps:
-  - {fileID: 8300000, guid: 3f8665d81dfef7446a57c1f4eab8dd94, type: 3}
   - {fileID: 8300000, guid: bf8aeced697099f46871622777ae405a, type: 3}
   - {fileID: 8300000, guid: d49fde2e71ded88429af6eb00e7b31de, type: 3}
   - {fileID: 8300000, guid: 1ddeef10c74205f4c8ac32d5291ee668, type: 3}

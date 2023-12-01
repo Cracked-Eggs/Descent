@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
     bool _safeEventTriggered = false;
     bool _plateEventTriggered = false;
     bool _dynamiteInteractTriggered = true;
+    bool _gameEnded = false;
     AudioManager _audioManager;
     RuneManager _runeMangaer;
 
@@ -60,6 +61,7 @@ public class Player : MonoBehaviour
 
         if (_runeMangaer._completed == true)
             SafeComplete.Invoke();
+
 
         /*if (Input.GetKey(KeyCode.F))
         {
@@ -93,7 +95,10 @@ public class Player : MonoBehaviour
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
         if (hit.collider.CompareTag("GameEnd"))
+        {
+            StartCoroutine(Monster());
             _gameEnd.Invoke();
+        }
 
         if (hit.collider.CompareTag("Safe") && _safeEventTriggered == false)
         {
@@ -171,5 +176,12 @@ public class Player : MonoBehaviour
                 rune.Interact();
             }
         }
+    }
+
+    IEnumerator Monster()
+    {
+        Debug.Log("playing");
+        yield return new WaitForSeconds(3f);
+        _audioManager.Play("Monster");
     }
 }

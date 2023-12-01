@@ -8,12 +8,14 @@ public class Explosive : MonoBehaviour
     [SerializeField] float _explosionForce = 500;
     [SerializeField] float _explosionSpeed = 5;
     [SerializeField] Rigidbody _rb;
+    [SerializeField] ParticleSystem _particleSystem;
     AudioManager _audioManager;
 
     void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _rb.velocity = Vector3.forward * _explosionSpeed;
+        Instantiate(_particleSystem, transform.position, Quaternion.identity);
         _audioManager = FindObjectOfType<AudioManager>();
     }
 
