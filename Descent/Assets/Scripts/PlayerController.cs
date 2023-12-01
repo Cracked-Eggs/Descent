@@ -1,6 +1,7 @@
 using Cinemachine;
 using UnityEngine;
 using SA;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -99,6 +100,7 @@ public class PlayerController : MonoBehaviour
     public float climbSpeed;
     public bool freeze;
     public bool IsGrounded;
+    public bool _canRestart;
 
     void Awake()
     {
@@ -121,6 +123,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (_canRestart)
+            if (Input.GetKeyDown(KeyCode.R)) SceneManager.LoadScene(0);
+
         wasClimbing = climbing;
         climbing = false;
 
@@ -187,7 +192,7 @@ public class PlayerController : MonoBehaviour
 
             jumpedOffLedge = false;
 
-            if (YPosBeforeJump - 
+            if (YPosBeforeJump -
                 characterController.transform.position.y <= maxFallHeight)
                 return;
 
@@ -251,8 +256,8 @@ public class PlayerController : MonoBehaviour
             timer += Time.deltaTime * currentBobSpeed;
 
             virtualCamera.transform.localPosition = new Vector3(
-            virtualCamera.transform.localPosition.x, 
-            defaultYpos + Mathf.Sin(timer) * currentBobAmplitude, 
+            virtualCamera.transform.localPosition.x,
+            defaultYpos + Mathf.Sin(timer) * currentBobAmplitude,
             virtualCamera.transform.localPosition.z);
         }
     }
@@ -280,11 +285,17 @@ public class PlayerController : MonoBehaviour
                     case "DynamiteInteract":
                         stepSource.PlayOneShot(steps[Random.Range(0, steps.Length - 1)]);
                         break;
+                    case "UV Num":
+                        stepSource.PlayOneShot(steps[Random.Range(0, steps.Length - 1)]);
+                        break;
+                    case "NoDeath":
+                        stepSource.PlayOneShot(steps[Random.Range(0, steps.Length - 1)]);
+                        break;
                 }
             footstepTimer = GetCurrentOffset;
         }
     }
-    
+
     void Move()
     {
         currInput = new Vector2(currentSpeed * Input.GetAxis("Vertical"), currentSpeed * Input.GetAxis("Horizontal"));

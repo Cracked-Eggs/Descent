@@ -5,13 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
-  - Obstacle
   - GameEnd
   - DynamitePiece
   - Safe
   - Rune
-  - InteractableRune
-  - Pedestal
   - Plate
   - PlayerTrigger
   - UV
@@ -19,6 +16,7 @@ TagManager:
   - DynamiteInteract
   - climable wall
   - UV Num
+  - NoDeath
   layers:
   - Default
   - TransparentFX
