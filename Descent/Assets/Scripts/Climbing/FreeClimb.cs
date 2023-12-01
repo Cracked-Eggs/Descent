@@ -138,7 +138,7 @@ namespace SA
         
        bool CanMove(Vector3 moveDir)
         {
-            Vector3 origin = transform.position;
+            Vector3 origin = transform.position + transform.up * 1.0f ;
             float dis = rayTowardsMoveDir;
             Vector3 dir = moveDir;
 

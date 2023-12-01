@@ -1,33 +1,39 @@
-using SA;
+    using SA;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class PlayerStateManager : MonoBehaviour
 {
     public PlayerController playerMovement;
+    public Vaulting vaultingScript;
     public FreeClimb climbingScript;
     public LedgeChecker checker;
 
-    private Rigidbody rb;
-    private Quaternion initialRotation; // Store the initial rotation of the player mesh
+    private CharacterController characterController; 
+    private Quaternion initialRotation;
 
-    private GameObject climbHelperObject; // Store a reference to the climb helper GameObject.
+    private GameObject climbHelperObject;
 
+    private bool validWall;
 
+    public GameObject climbableWall;
     private void Start()
     {
-        // Get references to the PlayerMovement and FreeClimb scripts
+        init();
+
+    }
+
+    void init()
+    {
+        SetWalkingState();
+        vaultingScript = GetComponent<Vaulting>();
         playerMovement = GetComponent<PlayerController>();
         climbingScript = GetComponent<FreeClimb>();
-        rb = GetComponent<Rigidbody>();
+        characterController = GetComponent<CharacterController>();
 
-        // Store the initial rotation
-        initialRotation = rb.rotation;
-
-
-        // Initialize the player in the walking state
-        SetWalkingState();
+        initialRotation = transform.rotation; // Use transform.rotation instead of rb.rotation
     }
 
     public void SetWalkingState()
@@ -36,19 +42,19 @@ public class PlayerStateManager : MonoBehaviour
         playerMovement.freeze = false;
         climbingScript.enabled = false;
         climbingScript.isClimbing = false;
+        isClimbing = false;
 
-        // Reset the Rigidbody's rotation to the initial rotation
-        rb.rotation = initialRotation;
-        rb.useGravity = false;
-        isClimbing = false ;
+        transform.rotation = initialRotation; // Use transform.rotation instead of rb.rotation
+        characterController.detectCollisions = true; // Enable collisions for CharacterController
+        isClimbing = false;
+        Destroy(climbHelperObject);
 
-        // Destroy the climb helper GameObject if it exists.
         if (climbHelperObject != null)
         {
             Destroy(climbHelperObject);
         }
     }
-    private bool CheckForValidWall()
+    public bool CheckForValidWall()
     {
         Vector3 origin = transform.position;
         origin.y += 1.4f;
@@ -58,13 +64,20 @@ public class PlayerStateManager : MonoBehaviour
         // Perform a raycast to check for a wall in front of the player
         if (Physics.Raycast(origin, dir, out hit, 5))
         {
-            // If a wall is detected, it's considered a valid wall
-            return true;
+            // Check if the hit object has the "climbable wall" tag
+            if (hit.collider.gameObject == climbableWall)
+            {
+                validWall = true;
+
+                return true;
+            }
         }
 
-        // If no wall is detected, it's not a valid wall
+        // If no wall is detected or the detected wall doesn't have the specified tag, it's not a valid wall
         return false;
+
     }
+
 
     public void SetClimbingState()
     {
@@ -83,7 +96,7 @@ public class PlayerStateManager : MonoBehaviour
 
             climbingScript.helper = climbHelperObject.transform; // Assign the helper Transform to the climbing script's helper field.
             climbingScript.CheckForClimb();
-            rb.useGravity = false;
+
             isClimbing = true;
             // Reset the position of the climb helper GameObject
             climbHelperObject.transform.position = transform.position;
@@ -93,63 +106,37 @@ public class PlayerStateManager : MonoBehaviour
             Debug.Log("No valid wall to climb. Cannot switch to climbing state.");
             SetWalkingState(); // Reset the state to walking
             isClimbing = false;
-            rb.useGravity = true;
+
         }
     }
 
     private bool isClimbing = false;
     private Vector3 jumpVelocity;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Z) && !isClimbing)
-        {
-            SetClimbingState();
-         ;
-        }
+   
 
+private void Update()
+    {
+        
+        CheckForValidWall();
         if (checker.isLedgeDetected == true)
         {
-            ClimbLedge(); // Check for climbing over the ledge
-        }
-
-        if (Input.GetKeyDown(KeyCode.X))
-        {
+            vaultingScript.PerformAutoVault();
             SetWalkingState();
+            isClimbing = false;// Call the vaulting method when a ledge is detected
             
         }
 
-        
-       
-
-    }
-
-    public void ClimbLedge()
-    {
-        if (climbingScript.isClimbing && checker.isLedgeDetected)
+        if (Input.GetKeyDown(KeyCode.Z) && !isClimbing && CheckForValidWall() == true)
         {
-            if (CanClimbLedge())
-            {
-                Vector3 climbOffset = Vector3.up * 5f; // Adjust the height as needed
-                Vector3 newPosition = climbingScript.helper.position + climbOffset;
-                rb.MovePosition(newPosition);
-
-                SetWalkingState();
-                rb.useGravity = true;
-            }
-        }
-    }
-
-    private bool CanClimbLedge()
-    {
-        float distanceToLedge = Vector3.Distance(transform.position, climbingScript.helper.position);
-        if (distanceToLedge < 1.0f)
-        {
-            return true;
+            SetClimbingState();
         }
 
-        return false;
+        if (Input.GetKeyDown(KeyCode.X) && isClimbing)
+        {
+            SetWalkingState();
+            
+            validWall = false;
+        }
     }
-
-    
 }

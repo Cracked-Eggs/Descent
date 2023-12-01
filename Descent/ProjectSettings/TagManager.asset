@@ -17,6 +17,7 @@ TagManager:
   - UV
   - PPlates
   - DynamiteInteract
+  - climable wall
   layers:
   - Default
   - TransparentFX
@@ -28,7 +29,7 @@ TagManager:
   - Wall
   - Player
   - Rope
-  - 
+  - VaultLayer
   - 
   - 
   - 
