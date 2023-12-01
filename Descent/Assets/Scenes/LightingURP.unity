@@ -701,7 +701,7 @@ RectTransform:
   m_GameObject: {fileID: 182502558}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1595013240}
@@ -731,7 +731,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3217,6 +3217,14 @@ PrefabInstance:
     - target: {fileID: 1848442974612733500, guid: 97d07913fd6b4b94b8383c05f20a2188, type: 3}
       propertyPath: m_TagString
       value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869840554519008607, guid: 97d07913fd6b4b94b8383c05f20a2188, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869840554519008607, guid: 97d07913fd6b4b94b8383c05f20a2188, type: 3}
+      propertyPath: m_ProvidesContacts
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1875154783828567338, guid: 97d07913fd6b4b94b8383c05f20a2188, type: 3}
       propertyPath: m_TagString
@@ -5831,7 +5839,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 21cc8d85b93545546a06298e68d137ca, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.785
+  m_Volume: 0.161
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -6188,7 +6196,7 @@ Transform:
   m_GameObject: {fileID: 1049916249}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.289, y: -0.228, z: 0.717}
   m_LocalScale: {x: 0.74368334, y: 0.7937332, z: 0.74368334}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6346,7 +6354,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 145.3
+  m_fontSize: 138.25
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -13494,7 +13502,7 @@ MonoBehaviour:
   Sprinting: 1
   Jumping: 1
   canUseHeadbob: 1
-  canUseFootsteps: 1
+  canUseFootsteps: 0
   sprintKey: 304
   jumpKey: 32
   crouchKey: 99
@@ -13513,15 +13521,7 @@ MonoBehaviour:
   baseStepSpeed: 0.5
   sprintStepMultiplier: 0.6
   stepSource: {fileID: 3045507711373704290}
-  steps:
-  - {fileID: 8300000, guid: bf8aeced697099f46871622777ae405a, type: 3}
-  - {fileID: 8300000, guid: d49fde2e71ded88429af6eb00e7b31de, type: 3}
-  - {fileID: 8300000, guid: 1ddeef10c74205f4c8ac32d5291ee668, type: 3}
-  - {fileID: 8300000, guid: 4e0afd86dbca5f8438c90aaf62db0d4b, type: 3}
-  - {fileID: 8300000, guid: 5d3254e9fbfdfd44eae6264c67e5c29a, type: 3}
-  - {fileID: 8300000, guid: 1ee54447e5b463c41b314581e48446bb, type: 3}
-  - {fileID: 8300000, guid: 6603e38a8a2d7f2438fee75fd84bf6e8, type: 3}
-  - {fileID: 8300000, guid: 4cd49b10158ef0d44aa8944e62a4a2e0, type: 3}
+  steps: []
   defaultFOV: 60
   sprintingFOV: 65
   fovLerpSpeed: 5
@@ -14522,8 +14522,9 @@ MonoBehaviour:
   ropeSystemPrefab: {fileID: 3595193682850572482, guid: c44995480059bd14ab61654137a23927, type: 3}
   ropeEndHolder: {fileID: 1049916250}
   ropeRange: 3
-  ropeCount: 1
+  ropeCount: 4
   ropeClimbRange: 7
+  ropeSamePlaneThreshold: 4
   player: {fileID: 8017818922603631906}
   playerMovement: {fileID: 6658111419078935029}
   climbSpeed: 1
@@ -14533,7 +14534,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 192
-  ropeOffset: -0.5
+  ropeOffset: 5
 --- !u!114 &8017818922603631911
 MonoBehaviour:
   m_ObjectHideFlags: 0

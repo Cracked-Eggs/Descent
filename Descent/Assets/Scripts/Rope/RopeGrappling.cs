@@ -12,6 +12,7 @@ public class RopeGrappling : MonoBehaviour
     [SerializeField] private float ropeRange;
     [SerializeField] private int ropeCount;
     [SerializeField] private float ropeClimbRange;
+    [SerializeField] private float ropeSamePlaneThreshold;
 
     [SerializeField] private Transform player;
     [SerializeField] private PlayerController playerMovement;
@@ -46,6 +47,7 @@ public class RopeGrappling : MonoBehaviour
                 return;
 
             currentRopeEnd.GetComponent<Rigidbody>().useGravity = true;
+            currentRopeEnd.GetComponent<Collider>().isTrigger = false;
             currentRopeEnd.GetComponent<Rigidbody>().AddForce(mainCamera.forward * throwForce, ForceMode.Impulse);
             currentRopeEnd.transform.parent = null;
             currentRopeEnd = null;
@@ -69,6 +71,9 @@ public class RopeGrappling : MonoBehaviour
             {
                 GameObject startSegment = ropes[i][0].gameObject;
                 GameObject endSegment = ropes[i][^1].gameObject;
+
+                if (Mathf.Abs(Mathf.Abs(startSegment.transform.position.y) - Mathf.Abs(endSegment.transform.position.y)) < ropeSamePlaneThreshold)
+                    continue;
 
                 float distaceToStartSegment = (startSegment.transform.position - ropeEndHolder.position).magnitude;
                 float distanceToEndSegment = (endSegment.transform.position - ropeEndHolder.position).magnitude;
@@ -148,12 +153,14 @@ public class RopeGrappling : MonoBehaviour
                     hasRope = true;
                     RopeGenerator ropeGenerator = Instantiate(ropeSystemPrefab);
 
-                    List<RopeSegment> rope = ropeGenerator.Initialize(hit.point + hit.normal * 0.5f);
+                    List<RopeSegment> rope = ropeGenerator.Initialize(hit.point + hit.normal * 0.1f);
 
                     rope[^1].gameObject.transform.position = ropeEndHolder.position;
                     rope[^1].gameObject.transform.parent = ropeEndHolder;
                     rope[^1].gameObject.GetComponent<Rigidbody>().useGravity = false;
                     currentRopeEnd = rope[^1].gameObject;
+
+                    currentRopeEnd.GetComponent<Collider>().isTrigger = true;
 
                     ropes.Add(rope);
 
