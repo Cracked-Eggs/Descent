@@ -8,8 +8,10 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] TMP_Text _runesText;
     [SerializeField] TMP_Text _openText;
     [SerializeField] TMP_Text _dynamiteText;
+    [SerializeField] TMP_Text _UVText;
 
     [SerializeField] UnityEvent _dynamitePickup;
+    [SerializeField] UnityEvent _runesStart;
     Player _player;
 
     public void Bind(Player player)
@@ -18,12 +20,20 @@ public class PlayerUI : MonoBehaviour
         _player.SafeText += UpdateSafeText;
         _player.RunesChanged += UpdateRunesText;
         _player.DynamitesChanged += UpdateDynamite;
+        _player.SafeComplete += UpdateOpenText;
     }
 
     void UpdateSafeText()
     {
         _safeText.fontStyle = FontStyles.Strikethrough;
         _runesText.gameObject.SetActive(true);
+        _runesStart.Invoke();
+    }
+
+    void UpdateOpenText()
+    {
+        _openText.fontStyle = FontStyles.Strikethrough;
+        _UVText.gameObject.SetActive(true);
     }
 
     void UpdateRunesText()

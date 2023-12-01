@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: UV Light Reveal Transparent
-  m_Shader: {fileID: 4800000, guid: a10106f848d442ccb275805c46abc035, type: 3}
+  m_Shader: {fileID: 4800000, guid: 2a75acfff7144799ab6a6ef23313b612, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []

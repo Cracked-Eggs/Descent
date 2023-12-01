@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -14,6 +15,7 @@ public class Player : MonoBehaviour
     [SerializeField] UnityEvent _pedestalSound;
     [SerializeField] GameObject _UVFlash;
     [SerializeField] GameObject _flash;
+    [SerializeField] Camera _cam;
 
 
     public int _dynamites { get; private set; }
@@ -21,15 +23,18 @@ public class Player : MonoBehaviour
     public event Action SafeText;
     public event Action RunesChanged;
     public event Action DynamitesChanged;
+    public event Action SafeComplete;
     public float interactRange = 5f;
 
     private bool canInteract = true;
     AudioManager _audioManager;
+    RuneManager _runeMangaer;
 
     void Awake()
     {
         FindObjectOfType<PlayerUI>().Bind(this);
         _audioManager = FindObjectOfType<AudioManager>();
+        _runeMangaer = FindObjectOfType<RuneManager>();
     }
 
 
@@ -37,12 +42,18 @@ public class Player : MonoBehaviour
     {
         BlowupDynamite();
 
+        if (Input.GetMouseButtonDown(0))
+            TryInteractWithRune();
+
         if (Input.GetKey(KeyCode.Tab))
             _canvas.gameObject.SetActive(true);
         else
             _canvas.gameObject.SetActive(false);
 
-        if (Input.GetKey(KeyCode.F))
+        if (_runeMangaer._completed == true)
+            SafeComplete.Invoke();
+
+        /*if (Input.GetKey(KeyCode.F))
         {
             _UVFlash.gameObject.SetActive(true);
             _flash.gameObject.SetActive(false);
@@ -53,7 +64,7 @@ public class Player : MonoBehaviour
             _UVFlash.gameObject.SetActive(false);
             _flash.gameObject.SetActive(true);
             _audioManager.Play("FlashlightOff");
-        }
+        }*/
     }
 
     void BlowupDynamite()
@@ -111,5 +122,21 @@ public class Player : MonoBehaviour
         canInteract = false;
         yield return new WaitForSeconds(2f);
         canInteract = true;
+    }
+
+    void TryInteractWithRune()
+    {
+        Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, interactRange))
+        {
+            RuneController rune = hit.collider.GetComponent<RuneController>();
+
+            if (rune != null)
+            {
+                rune.Interact();
+            }
+        }
     }
 }
