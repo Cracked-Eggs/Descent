@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField] UnityEvent _startTimerandSound;
     [SerializeField] PedestalManager _pedestalManager;
     [SerializeField] UnityEvent _pedestalSound;
-    [SerializeField] GameObject _UVFlash;
+    //[SerializeField] GameObject _UVFlash;
     [SerializeField] GameObject _flash;
 
 
@@ -44,13 +44,13 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.F))
         {
-            _UVFlash.gameObject.SetActive(true);
+            //_UVFlash.gameObject.SetActive(true);
             _flash.gameObject.SetActive(false);
             _audioManager.Play("FlashlightOn");
         }
         else
         {
-            _UVFlash.gameObject.SetActive(false);
+           // _UVFlash.gameObject.SetActive(false);
             _flash.gameObject.SetActive(true);
             _audioManager.Play("FlashlightOff");
         }
