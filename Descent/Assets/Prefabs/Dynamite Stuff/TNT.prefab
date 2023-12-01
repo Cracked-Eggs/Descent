@@ -124,9 +124,6 @@ MonoBehaviour:
   _explosionForce: 5
   _explosionSpeed: 10
   _rb: {fileID: 0}
-  _explosionSound:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!54 &4696423430702133561
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -14,8 +14,8 @@ TagManager:
   - InteractableRune
   - Pedestal
   - Plate
-  - MusicPlayer
   - PlayerTrigger
+  - UV
   layers:
   - Default
   - TransparentFX

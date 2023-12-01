@@ -13,7 +13,7 @@ public class Explosive : MonoBehaviour
     void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        _rb.velocity = Vector3.left * _explosionSpeed;
+        _rb.velocity = Vector3.forward * _explosionSpeed;
         _audioManager = FindObjectOfType<AudioManager>();
     }
 
@@ -32,6 +32,7 @@ public class Explosive : MonoBehaviour
             }
             _audioManager.Play("Explosion");
             Destroy(gameObject);
+            _audioManager.Play("Goal");
         }
     }
 }

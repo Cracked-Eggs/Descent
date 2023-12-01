@@ -20,13 +20,16 @@ public class Player : MonoBehaviour
 
     public int _dynamites { get; private set; }
     public int _runes { get; private set; }
+    public int _UV {  get; private set; }
     public event Action SafeText;
     public event Action RunesChanged;
     public event Action DynamitesChanged;
     public event Action SafeComplete;
+    public event Action UVComplete;
     public float interactRange = 5f;
 
     private bool canInteract = true;
+    bool _safeEventTriggered = false;
     AudioManager _audioManager;
     RuneManager _runeMangaer;
 
@@ -86,15 +89,26 @@ public class Player : MonoBehaviour
         if (hit.collider.CompareTag("GameEnd"))
             _gameEnd.Invoke();
 
-        if (hit.collider.CompareTag("Safe"))
+        if (hit.collider.CompareTag("Safe") && _safeEventTriggered == false)
+        {
+            _safeEventTriggered = true;
             SafeText.Invoke();
+        }
 
         if (hit.collider.CompareTag("Rune"))
         {
             Debug.Log("Hit Rune");
             _runes++;
-            RunesChanged.Invoke();
             Destroy(hit.gameObject);
+            RunesChanged.Invoke();
+        }
+
+        if (hit.collider.CompareTag("UV"))
+        {
+            Debug.Log("Hit UV");
+            _UV++;
+            Destroy(hit.gameObject);
+            UVComplete.Invoke();
         }
 
         if (hit.collider.CompareTag("Plate"))
