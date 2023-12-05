@@ -19,6 +19,7 @@ public class PlayerStateManager : MonoBehaviour
     private Quaternion prevRotation;
 
     private GameObject climbHelperObject;
+    public GameObject picks;
     private bool isClimbing = false;
     private Vector3 jumpVelocity;
 
@@ -41,6 +42,7 @@ public class PlayerStateManager : MonoBehaviour
 
     void init()
     {
+        
         SetWalkingState();
         vaultingScript = GetComponent<Vaulting>();
         playerMovement = GetComponent<PlayerController>();
@@ -169,10 +171,16 @@ public class PlayerStateManager : MonoBehaviour
             
         }
 
-        if (Input.GetKeyDown(KeyCode.Z) && !isClimbing && CheckForValidWall() == true)
+        if (Input.GetKeyDown(KeyCode.Space) && !isClimbing && CheckForValidWall() == true)
         {
-            SetClimbingState();
-           
+            if(picks.activeSelf)
+            {
+                SetClimbingState();
+            }
+           else
+            {
+                Debug.Log("Equip picks");
+            }
         }
 
         if (!isClimbing && climbingScript.enabled == true)
@@ -186,5 +194,6 @@ public class PlayerStateManager : MonoBehaviour
             
             
         }
+       
     }
 }

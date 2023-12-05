@@ -86,7 +86,9 @@ public class PlayerController : MonoBehaviour
     float jumpInput;
     private float targetHeight;
     FreeClimb cb;
+    PlayerStateManager ps;
     bool wasClimbing;
+    public bool canJump;
 
     public MovementState state;
     public enum MovementState
@@ -119,6 +121,7 @@ public class PlayerController : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        cb = GetComponent<FreeClimb>();
     }
 
     void Update()
@@ -139,9 +142,9 @@ public class PlayerController : MonoBehaviour
             Move();
             HandleCrouch();
 
-            bool canJump = !isCrouching && characterController.isGrounded;
+            canJump = !isCrouching && characterController.isGrounded;
 
-            if (Jumping && canJump)
+            if (canJump && Jumping)
             {
                 if (Input.GetKeyDown(jumpKey))
                     Jump();
