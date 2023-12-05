@@ -1,4 +1,4 @@
-    using SA;
+ using SA;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Burst.CompilerServices;
@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class PlayerStateManager : MonoBehaviour
 {
+    [SerializeField, Range(0, 360)] float upperlookLimit = 270f;
+    [SerializeField, Range(0, 360)] float lowerlookLimit = 90f;
     public PlayerController playerMovement;
     public Vaulting vaultingScript;
     public FreeClimb climbingScript;
@@ -13,16 +15,28 @@ public class PlayerStateManager : MonoBehaviour
 
     private CharacterController characterController; 
     private Quaternion initialRotation;
+    private Quaternion currRotation;
+    private Quaternion prevRotation;
 
     private GameObject climbHelperObject;
+    private bool isClimbing = false;
+    private Vector3 jumpVelocity;
 
     private bool validWall;
 
     public GameObject climbableWall;
+
+    private Quaternion previousRotation;
+    private Vector3 previousEulerAngles;
+
+    public MouseLook ml;
+
+
     private void Start()
     {
         init();
-
+        previousRotation = transform.rotation;
+        previousEulerAngles = transform.eulerAngles;
     }
 
     void init()
@@ -43,8 +57,10 @@ public class PlayerStateManager : MonoBehaviour
         climbingScript.enabled = false;
         climbingScript.isClimbing = false;
         isClimbing = false;
+        isClimbing = false;
+        isClimbing = false;
 
-        transform.rotation = initialRotation; // Use transform.rotation instead of rb.rotation
+        //transform.rotation = initialRotation; // Use transform.rotation instead of rb.rotation
         //characterController.detectCollisions = true; // Enable collisions for CharacterController
         isClimbing = false;
         Destroy(climbHelperObject);
@@ -110,13 +126,39 @@ public class PlayerStateManager : MonoBehaviour
         }
     }
 
-    private bool isClimbing = false;
-    private Vector3 jumpVelocity;
-
-   
-
-private void Update()
+    private void Update()
     {
+        Vector3 currentEulerAngles = transform.eulerAngles;
+       
+
+        if (isClimbing)
+        {
+
+           
+            currentEulerAngles.y = Mathf.Clamp(currentEulerAngles.y, climbingScript.helper.eulerAngles.y - 45f, climbingScript.helper.eulerAngles.y + 45f);
+
+            transform.eulerAngles = currentEulerAngles;
+
+        }
+        if (isClimbing)
+        {
+            if (currentEulerAngles.y > previousEulerAngles.y)
+
+            {
+                Debug.Log("Looking Right and value: currentEulerAngles.y" + currentEulerAngles.y);
+
+            }
+            else if (currentEulerAngles.y < previousEulerAngles.y)
+            {
+                Debug.Log("Looking Left and value: currentEulerAngles.y" + currentEulerAngles.y);
+            }
+            else if (currentEulerAngles == transform.eulerAngles)
+            {
+                Debug.Log("Not Moving");
+            }
+            previousEulerAngles = currentEulerAngles;
+        }
+
         
         CheckForValidWall();
         if (checker.isLedgeDetected == true)
@@ -130,13 +172,19 @@ private void Update()
         if (Input.GetKeyDown(KeyCode.Z) && !isClimbing && CheckForValidWall() == true)
         {
             SetClimbingState();
+           
+        }
+
+        if (!isClimbing && climbingScript.enabled == true)
+        {
+            isClimbing = true;
         }
 
         if (Input.GetKeyDown(KeyCode.X) && isClimbing)
         {
             SetWalkingState();
             
-            validWall = false;
+            
         }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 namespace SA
@@ -17,7 +18,7 @@ namespace SA
         Quaternion startRot;
         Quaternion targetRot;
         public float possitionOffset;
-       
+
         public float offsetFromWall = 0.3f;
         public float speed_multiplier = 0.2f;
         public float climbSpeed = 3.0f;
@@ -31,27 +32,36 @@ namespace SA
         public float vertical;
         public bool isMid;
         public Transform helper;
+
+
+
+        public PlayerStateManager ps;
+
+
         float delta;
 
-        
+        public IKSnapshot baseIKsnapshot;
+        public FreeClimbAnimHook a_hook;
         void Start()
         {
             Init();
         }
         void Init()
         {
-            
+
             CheckForClimb();
+            a_hook.Init(this, helper);
 
         }
         public void CheckForClimb()
         {
             Vector3 origin = transform.position;
-            origin.y += 1.4f;
+            origin.y += 1.0f;
             Vector3 dir = transform.forward;
             RaycastHit hit;
             if (Physics.Raycast(origin, dir, out hit, 5))
             {
+                
                 helper.position = PosWithOffset(origin, hit.point);
                 InitForClimb(hit);
             }
@@ -59,6 +69,11 @@ namespace SA
             {
                 isClimbing = false;
             }
+            //Debug.Log("Ray Origin: " + origin);
+            //Debug.Log("Ray Direction: " + dir);
+            //Debug.Log("Hit Point: " + hit.point);
+            //Debug.Log("Hit Normal: " + hit.normal);
+
         }
 
         void InitForClimb(RaycastHit hit)
@@ -67,15 +82,22 @@ namespace SA
 
             helper.transform.rotation = Quaternion.LookRotation(-hit.normal);
             startPos = transform.position;
+
+
             targetPos = hit.point + (hit.normal * offsetFromWall);
             t = 0;
             inPosition = false;
-            //anim.CrossFade("climb_ilde", 2);
+            anim.CrossFade("climb_ilde", 2);
         }
         void Update()
         {
             delta = Time.deltaTime;
             Tick(delta);
+            //Debug.Log("Horizontal:" + horizontal);
+            //Debug.Log("startPos: " + startPos);
+            
+
+
         }
         public void Tick(float delta)
         {
@@ -89,11 +111,22 @@ namespace SA
             {
                 horizontal = Input.GetAxis("Horizontal");
                 vertical = Input.GetAxis("Vertical");
+
+                if (vertical < 0)
+                {
+                    vertical = 0;
+                }
+
                 float m = Mathf.Abs(horizontal) + Mathf.Abs(vertical);
 
                 Vector3 h = helper.right * horizontal;
+
                 Vector3 v = helper.up * vertical;
+
                 Vector3 moveDir = (h + v).normalized;
+                // Debug.Log("Move Direciton:" + moveDir);
+                // Debug.Log("Vertical:" + vertical);
+
 
                 if (isMid)
                 {
@@ -105,19 +138,58 @@ namespace SA
                     bool canMove = CanMove(moveDir);
                     if (!canMove || moveDir == Vector3.zero) return;
                 }
+                
 
-                isMid = !isMid;
+               
 
 
                 t = 0;
                 isLerping = true;
                 startPos = transform.position;
+                startRot = transform.rotation;
                 Vector3 tp = helper.position - transform.position;
-                float d = Vector3.Distance(helper.position, startPos) /2;
+
+                float d = Vector3.Distance(helper.position, startPos) / 2;
                 tp *= possitionOffset;
                 tp += transform.position;
+
                 targetPos = (isMid) ? tp : helper.position;
-                
+                if (vertical > 0 && horizontal == 0)
+                {
+
+                    // Move Up animation
+                    Debug.Log("Moving Up animation");
+                    anim.SetTrigger("MoveUp");
+                }
+                else if (vertical > 0 && horizontal < 0)
+                {
+                    // Move Up + Left animation
+                    Debug.Log("Moving up and left animation");
+                    anim.SetTrigger("MoveUpLeft");
+                }
+                else if (vertical > 0 && horizontal > 0)
+                {
+                    // Move Up + Right animation
+                    Debug.Log("Moving up and right animation");
+                    anim.SetTrigger("MoveUpRight");
+                }
+                else if (horizontal < 0)
+                {
+                    // Move Left animation
+                    Debug.Log("Moving left animation");
+                    anim.SetTrigger("MoveLeft");
+                }
+                else if (horizontal > 0)
+                {
+                    Debug.Log("Moving right animation");
+                    // Move Right animation
+                    anim.SetTrigger("MoveRight");
+                }
+
+
+                //a_hook.CreatePositions(targetPos);
+
+
             }
             else
             {
@@ -135,31 +207,33 @@ namespace SA
             }
         }
 
-        
-       bool CanMove(Vector3 moveDir)
+
+        bool CanMove(Vector3 moveDir)
         {
-            Vector3 origin = transform.position + transform.up * 1.0f ;
+            Vector3 origin = transform.position;
             float dis = rayTowardsMoveDir;
+            if (moveDir.y > 0  || (moveDir.y > 0 && (Mathf.Abs(moveDir.x) >0.1f)))
+            {
+                origin = transform.position + transform.up * 0.50f;
+            }
             Vector3 dir = moveDir;
 
-            //DebugLine.singleton.SetLine(origin, origin + (dir * dis), 0);
+            // DebugLine.singleton.SetLine(origin, origin + (dir * dis), 0);
 
-            //Raycast towards the direction you want to move
+            // Raycast towards the direction you want to move
             RaycastHit hit;
 
             if (Physics.Raycast(origin, dir, out hit, dis))
             {
-                //Check if it's a corner
+                // Check if it's a corner or an obstacle that should prevent movement
                 return false;
             }
-
 
             origin += moveDir * dis;
             dir = helper.forward;
             float dis2 = rayForwardTowardsWall;
-            //Raycast forwards towards the wall
-            //DebugLine.singleton.SetLine(origin, origin + (dir * dis2), 1);
-            
+            // DebugLine.singleton.SetLine(origin, origin + (dir * dis2), 1);
+
             if (Physics.Raycast(origin, dir, out hit, dis))
             {
                 helper.position = PosWithOffset(origin, hit.point);
@@ -169,20 +243,21 @@ namespace SA
 
             origin = origin + (dir * dis2);
             dir = -moveDir;
-            //DebugLine.singleton.SetLine(origin, origin + dir, 1);
-            if (Physics.Raycast(origin,dir,out hit, rayForwardTowardsWall))
+            // DebugLine.singleton.SetLine(origin, origin + dir, 1);
+            if (Physics.Raycast(origin, dir, out hit, rayForwardTowardsWall))
             {
                 helper.position = PosWithOffset(origin, hit.point);
                 helper.rotation = Quaternion.LookRotation(-hit.normal);
                 return true;
             }
-            //return false;
+
+            // return false;
 
             origin += dir * dis2;
             dir = -Vector3.up;
 
-            //Debug.DrawRay(origin, dir * dis2, Color.yellow);
-            //DebugLine.singleton.SetLine(origin, origin + dir, 2);
+            // Debug.DrawRay(origin, dir * dis2, Color.yellow);
+            // DebugLine.singleton.SetLine(origin, origin + dir, 2);
             if (Physics.Raycast(origin, dir, out hit, dis2))
             {
                 float angle = Vector3.Angle(-helper.forward, hit.normal);
@@ -193,11 +268,12 @@ namespace SA
                     return true;
                 }
             }
+
+
             return false;
         }
-        
 
-        void GetInPosition()
+        public void GetInPosition()
         {
             t += delta;
 
@@ -205,6 +281,8 @@ namespace SA
             {
                 t = 1;
                 inPosition = true;
+
+                a_hook.CreatePositions(targetPos);
             }
 
             Vector3 tp = Vector3.Lerp(startPos, targetPos, t);
@@ -220,4 +298,11 @@ namespace SA
             return target + offset;
         }
     }
+
+    [System.Serializable]
+    public class IKSnapshot
+    {
+        public Vector3 rh, lh;
+    }
+
 }
