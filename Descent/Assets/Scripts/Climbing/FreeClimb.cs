@@ -69,10 +69,7 @@ namespace SA
             {
                 isClimbing = false;
             }
-            //Debug.Log("Ray Origin: " + origin);
-            //Debug.Log("Ray Direction: " + dir);
-            //Debug.Log("Hit Point: " + hit.point);
-            //Debug.Log("Hit Normal: " + hit.normal);
+            
 
         }
 
@@ -87,17 +84,13 @@ namespace SA
             targetPos = hit.point + (hit.normal * offsetFromWall);
             t = 0;
             inPosition = false;
-            anim.CrossFade("climb_ilde", 2);
+            anim.SetTrigger("climb_ilde");
         }
         void Update()
         {
             delta = Time.deltaTime;
             Tick(delta);
-            //Debug.Log("Horizontal:" + horizontal);
-            //Debug.Log("startPos: " + startPos);
             
-
-
         }
         public void Tick(float delta)
         {
@@ -124,8 +117,7 @@ namespace SA
                 Vector3 v = helper.up * vertical;
 
                 Vector3 moveDir = (h + v).normalized;
-                // Debug.Log("Move Direciton:" + moveDir);
-                // Debug.Log("Vertical:" + vertical);
+              
 
 
                 if (isMid)

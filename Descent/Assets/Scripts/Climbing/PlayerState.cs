@@ -12,6 +12,7 @@ public class PlayerStateManager : MonoBehaviour
     public Vaulting vaultingScript;
     public FreeClimb climbingScript;
     public LedgeChecker checker;
+    Animator anim;
 
     private CharacterController characterController; 
     private Quaternion initialRotation;
@@ -48,6 +49,7 @@ public class PlayerStateManager : MonoBehaviour
         playerMovement = GetComponent<PlayerController>();
         climbingScript = GetComponent<FreeClimb>();
         characterController = GetComponent<CharacterController>();
+        anim = GetComponent<Animator>();
 
         initialRotation = transform.rotation; // Use transform.rotation instead of rb.rotation
     }
@@ -142,24 +144,7 @@ public class PlayerStateManager : MonoBehaviour
             transform.eulerAngles = currentEulerAngles;
 
         }
-        if (isClimbing)
-        {
-            if (currentEulerAngles.y > previousEulerAngles.y)
-
-            {
-                Debug.Log("Looking Right and value: currentEulerAngles.y" + currentEulerAngles.y);
-
-            }
-            else if (currentEulerAngles.y < previousEulerAngles.y)
-            {
-                Debug.Log("Looking Left and value: currentEulerAngles.y" + currentEulerAngles.y);
-            }
-            else if (currentEulerAngles == transform.eulerAngles)
-            {
-                Debug.Log("Not Moving");
-            }
-            previousEulerAngles = currentEulerAngles;
-        }
+        
 
         
         CheckForValidWall();
@@ -167,6 +152,7 @@ public class PlayerStateManager : MonoBehaviour
         {
             vaultingScript.PerformAutoVault();
             SetWalkingState();
+            anim.SetTrigger("ExitClimbTrigger");
             isClimbing = false;// Call the vaulting method when a ledge is detected
             
         }

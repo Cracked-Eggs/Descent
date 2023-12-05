@@ -11,9 +11,6 @@ public class scrollTest : MonoBehaviour
     float decrease;
     
 
-
-    
-
     void Start()
     {
         SetCurrentObjectActive();

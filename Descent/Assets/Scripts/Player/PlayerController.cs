@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour
 
     float defaultYpos = 0;
     float timer;
-
+    
 
     [Header("Footsteps")]
     [SerializeField] float baseStepSpeed = 0.5f;
@@ -89,6 +89,9 @@ public class PlayerController : MonoBehaviour
     PlayerStateManager ps;
     bool wasClimbing;
     public bool canJump;
+    [SerializeField]Transform groundCheck;
+    [SerializeField]LayerMask ground;
+
 
     public MovementState state;
     public enum MovementState
@@ -101,11 +104,12 @@ public class PlayerController : MonoBehaviour
     public bool climbing;
     public float climbSpeed;
     public bool freeze;
-    public bool IsGrounded;
+    
     public bool _canRestart;
 
     void Awake()
     {
+        groundCheck = GetComponent<Transform>();
         characterController = GetComponent<CharacterController>();
         defaultYpos = virtualCamera.transform.localPosition.y;
         currentFOV = defaultFOV;
@@ -114,7 +118,7 @@ public class PlayerController : MonoBehaviour
         currentBobAmplitude = walkBobAmplitude;
         targetHeight = standingHeight;
         cb = GetComponent<FreeClimb>();
-        IsGrounded = characterController.isGrounded;
+        
     }
 
     void Start()
@@ -126,6 +130,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        
         if (_canRestart)
             if (Input.GetKeyDown(KeyCode.R)) SceneManager.LoadScene(0);
 
@@ -142,7 +147,7 @@ public class PlayerController : MonoBehaviour
             Move();
             HandleCrouch();
 
-            canJump = !isCrouching && characterController.isGrounded;
+            canJump = !isCrouching;
 
             if (canJump && Jumping)
             {
@@ -188,7 +193,7 @@ public class PlayerController : MonoBehaviour
 
         virtualCamera.m_Lens.FieldOfView = currentFOV;
 
-        if (characterController.isGrounded)
+        if (IsGrounded())
         {
             if (!jumpedOffLedge)
                 return;
@@ -201,7 +206,7 @@ public class PlayerController : MonoBehaviour
 
             Debug.Log("You're dead");
         }
-        else if (!characterController.isGrounded)
+        else if (!IsGrounded())
         {
             if (jumpedOffLedge)
                 return;
@@ -245,14 +250,12 @@ public class PlayerController : MonoBehaviour
     }
     void Jump()
     {
-        if (characterController.isGrounded)
-        {
-            jumpInput = jumpForce;
-        }
+        jumpInput = jumpForce;
     }
+
     void HeadBob()
     {
-        if (!characterController.isGrounded) return;
+        if (!IsGrounded()) return;
 
         if (Mathf.Abs(moveDir.x) > 0.1f || Mathf.Abs(moveDir.z) > 0.1f)
         {
@@ -267,7 +270,7 @@ public class PlayerController : MonoBehaviour
 
     void Footsteps()
     {
-        if (!characterController.isGrounded) return;
+        if (!IsGrounded()) return;
         if (currInput == Vector2.zero) return;
         footstepTimer -= Time.deltaTime;
 
@@ -299,6 +302,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    bool IsGrounded()
+    {
+        return Physics.CheckSphere(groundCheck.position, .1f, ground);
+        
+    }
+
     void Move()
     {
         currInput = new Vector2(currentSpeed * Input.GetAxis("Vertical"), currentSpeed * Input.GetAxis("Horizontal"));
@@ -318,14 +327,16 @@ public class PlayerController : MonoBehaviour
         moveDir = (transform.TransformDirection(Vector3.forward) * currInput.x) + (transform.TransformDirection(Vector3.right) * currInput.y);
         moveDir.y = moveDirectionY;
 
-        if (!characterController.isGrounded)
+        if (!IsGrounded())
             moveDir.y -= gravity * Time.deltaTime;
-        else if (characterController.isGrounded)
+        else if (IsGrounded())
             moveDir.y = 0;
 
-        moveDir.y += jumpInput;
 
+        moveDir.y += jumpInput;
         characterController.Move(moveDir * Time.deltaTime);
         jumpInput = 0;
+        
+       
     }
 }

@@ -41,7 +41,7 @@ public class MouseLook : MonoBehaviour
     void MouseLooks()
     {
         _mouseMovementX -= Input.GetAxis("Mouse Y") * lookSpeedY;
-        Debug.Log(Input.GetAxis("Mouse Y"));
+        
         _mouseMovementX = Mathf.Clamp(_mouseMovementX, -upperlookLimit, lowerlookLimit);
         virtualCamera.transform.localRotation = Quaternion.Euler(_mouseMovementX, 0, 0);
         transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeedX, 0);

@@ -1492,20 +1492,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &383885490
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6856489194723037970}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e90c9459da6dd744bce7056dc224a12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  w_rh: 0
-  w_lh: 0
 --- !u!1 &394908470
 GameObject:
   m_ObjectHideFlags: 0
@@ -3749,6 +3735,10 @@ PrefabInstance:
     - target: {fileID: 4132486683384690056, guid: 97d07913fd6b4b94b8383c05f20a2188, type: 3}
       propertyPath: m_TagString
       value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 4134878227652612585, guid: 97d07913fd6b4b94b8383c05f20a2188, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4134878227652612585, guid: 97d07913fd6b4b94b8383c05f20a2188, type: 3}
       propertyPath: m_TagString
@@ -8489,6 +8479,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1665766780}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1712730407
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1712730408}
+  m_Layer: 8
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1712730408
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1712730407}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.987, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 160446944275839616}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1722795783
 GameObject:
   m_ObjectHideFlags: 0
@@ -9013,7 +9034,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 2089595620}
+  m_TargetTexture: {fileID: 2033818892}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -10019,7 +10040,7 @@ Transform:
   - {fileID: 1839146938}
   m_Father: {fileID: 685009434}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!84 &2089595620
+--- !u!84 &2033818892
 RenderTexture:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10033,8 +10054,8 @@ RenderTexture:
   m_DownscaleFallback: 0
   m_IsAlphaChannelOptional: 0
   serializedVersion: 5
-  m_Width: 1920
-  m_Height: 1080
+  m_Width: 1222
+  m_Height: 582
   m_AntiAliasing: 1
   m_MipCount: -1
   m_DepthStencilFormat: 90
@@ -10524,6 +10545,7 @@ Transform:
   - {fileID: 7501908510318934769}
   - {fileID: 2079749952148091200}
   - {fileID: 6336064530324838133}
+  - {fileID: 1712730408}
   m_Father: {fileID: 2911259239242117917}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &168981256819253291
@@ -11104,7 +11126,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!135 &727318668119740269
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -12037,7 +12059,7 @@ Transform:
   m_GameObject: {fileID: 702536982391882793}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.626, y: 0, z: 0.521}
+  m_LocalPosition: {x: 0.553, y: 0.048, z: 0.513}
   m_LocalScale: {x: 0.3044966, y: 0.28509, z: 0.23427212}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -12221,7 +12243,7 @@ MonoBehaviour:
   baseIKsnapshot:
     rh: {x: 2, y: 5, z: 0}
     lh: {x: 0, y: 0, z: 0}
-  a_hook: {fileID: 383885490}
+  a_hook: {fileID: 0}
 --- !u!4 &2911259239242117917
 Transform:
   m_ObjectHideFlags: 0
@@ -12620,8 +12642,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectArray:
-  - {fileID: 1976961428}
   - {fileID: 702536982391882793}
+  - {fileID: 1976961428}
   - {fileID: 1999485532}
 --- !u!114 &3440803606348038729
 MonoBehaviour:
@@ -12916,12 +12938,15 @@ MonoBehaviour:
   sprintingFOV: 65
   fovLerpSpeed: 5
   canJump: 0
+  groundCheck: {fileID: 1712730408}
+  ground:
+    serializedVersion: 2
+    m_Bits: 128
   state: 0
   ropeClimbing: 0
   climbing: 0
   climbSpeed: 0
   freeze: 0
-  IsGrounded: 0
   _canRestart: 0
 --- !u!1 &3818508481196733174
 GameObject:
@@ -15281,7 +15306,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2911259239242117917}
-  - component: {fileID: 383885490}
   - component: {fileID: 1471234721989691223}
   - component: {fileID: 2446215889039950143}
   - component: {fileID: 383885489}
