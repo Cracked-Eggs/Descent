@@ -17,6 +17,7 @@ public class MonsterIKController : MonoBehaviour
     [SerializeField] private float planeMarchStepAmount;
     [SerializeField] private float legReachedTargetThreshold;
     [SerializeField] private float raycastRange;
+    [SerializeField] private float wallClimbRaycastRange;
     [Range(0, 1)] [SerializeField] private float climbingAggressiveness;
 
     [Header("Rotation")]
@@ -57,7 +58,7 @@ public class MonsterIKController : MonoBehaviour
                 RaycastHit secondWallHit;
                 if(Physics.Raycast(nextStepPosition + currentLeg.currentPlane.normal * 0.5f, -currentLeg.currentPlane.normal, out secondWallHit))
                 {
-                    if (!isMoving)
+                    if (!isMoving && currentLeg.currentPlane.transform != null)
                     {
                         if (secondWallHit.transform.gameObject != currentLeg.currentPlane.transform.gameObject)
                         {
@@ -92,7 +93,7 @@ public class MonsterIKController : MonoBehaviour
                 {
                     if (wallHit.transform.gameObject != hit.transform.gameObject)
                     {
-                        if (Physics.Raycast(spider.position, (currentLeg.raycastPosition.position - spider.position).normalized, out wallHit, raycastRange))
+                        if (Physics.Raycast(spider.position, (currentLeg.raycastPosition.position - spider.position).normalized, out wallHit, wallClimbRaycastRange))
                         {
                            if(wallHit.transform.gameObject != hit.transform.gameObject)
                                 hit = wallHit;
@@ -193,7 +194,9 @@ public class MonsterIKController : MonoBehaviour
         if (toRunner.magnitude < stopRotationDistance)
             return;
 
-        spider.up = Vector3.Lerp(spider.up, newUp, Time.deltaTime * rotationSpeed);
+        spider.rotation = Quaternion.Lerp(spider.rotation, 
+            Quaternion.LookRotation(Vector3.ProjectOnPlane(toRunner.normalized, newUp), newUp), Time.deltaTime * rotationSpeed);
+        //spider.up = Vector3.Lerp(spider.up, newUp, Time.deltaTime * rotationSpeed);
     }
 
     private void OnDrawGizmos()
