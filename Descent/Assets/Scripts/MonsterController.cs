@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MonsterController : MonoBehaviour
@@ -12,12 +13,14 @@ public class MonsterController : MonoBehaviour
     [SerializeField] private Transform player;
     [Range(0, 1)] [SerializeField] private float playerVisionCone;
     [SerializeField] private MonsterState state;
+    [SerializeField] private Animator animator;
 
     [SerializeField] private MonsterIKController controller;
     [SerializeField] private SkinnedMeshRenderer meshRenderer;
     [SerializeField] private float fleeDistance;
 
     [SerializeField] private float stopChaseDistance;
+    [SerializeField] private float stopRunningDistance;
 
     [SerializeField] private bool isRunning;
 
@@ -40,6 +43,10 @@ public class MonsterController : MonoBehaviour
         controller.stepSpeed = isRunning ? runStepSpeed : walkStepSpeed;
         controller.stepTreshold = isRunning ? runStepThreshold : walkStepThreshold;
         runnerController.runnerSpeed = isRunning ? runnerRunSpeed : runnerWalkSpeed;
+
+        animator.SetBool("isRunning", isRunning);
+        if (toPlayer.magnitude < stopRunningDistance)
+            animator.SetBool("isRunning", false);
 
         if(state == MonsterState.CHASE)
         {

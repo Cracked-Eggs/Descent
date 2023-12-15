@@ -43,7 +43,7 @@ public class RotateBodySegments : MonoBehaviour
 
         foreach (BodySegment currentSegment in bodySegments)
         {
-            currentSegment.segment.transform.localEulerAngles = new Vector3(-currentSegment.localXRotation, 0, currentSegment.localZRotation);
+            currentSegment.segment.transform.localEulerAngles = new Vector3(-currentSegment.localXRotation, 0, 0);
         }
     }
 }
@@ -53,5 +53,4 @@ public struct BodySegment
 {
     public Transform segment;
     [HideInInspector] public float localXRotation;
-    [HideInInspector] public float localZRotation;
 }
