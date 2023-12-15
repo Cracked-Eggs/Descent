@@ -49,6 +49,7 @@ public class MonsterIKController : MonoBehaviour
             Leg currentLeg = legs[i];
 
             Vector3 toIkTarget = currentLeg.Iktarget.position - spider.position;
+            Transform currentBodySegment = currentLeg.bodySegment;
 
             if (toIkTarget.magnitude < minDistanceFromBody)
             {
@@ -80,10 +81,10 @@ public class MonsterIKController : MonoBehaviour
             if (currentLeg.currentPlane.normal == null || currentLeg.currentPlane.normal == Vector3.zero)
             {
                 if(!isMoving)
-                    currentLeg.currentPlane.normal = spider.up;
+                    currentLeg.currentPlane.normal = currentBodySegment.up;
             }
 
-            if (Physics.Raycast(currentLeg.raycastPosition.position, -spider.up, out hit, raycastRange))
+            if (Physics.Raycast(currentLeg.raycastPosition.position, -currentBodySegment.up, out hit, raycastRange))
             {
                 Vector3 currentPosition = currentLeg.Iktarget.position;
                 legs[i].raycastHit = hit.point;
@@ -112,7 +113,7 @@ public class MonsterIKController : MonoBehaviour
                         currentLeg.nextPosition = nextMovePosition + (spider.position - spiderPosLastFrame).normalized * velocityPrediction;
                         currentLeg.previousPosition = currentPosition;
                         currentLeg.bezierTopPosition = currentPosition + (toTarget.normalized *
-                            toTarget.magnitude / 2 + spider.up * stepHeight);
+                            toTarget.magnitude / 2 + currentBodySegment.up * stepHeight);
                         currentLeg.currentPlane = hit;
                     }
 
@@ -189,14 +190,12 @@ public class MonsterIKController : MonoBehaviour
             (legs[2].Iktarget.position + legs[1].Iktarget.position) / 2).normalized;
 
         Vector3 legsUp = Vector3.Cross(rightToLeft, backToFront).normalized;
-        Vector3 newUp = Vector3.Lerp(legsUp, runner.up, climbingAggressiveness);
 
         if (toRunner.magnitude < stopRotationDistance)
             return;
 
         spider.rotation = Quaternion.Lerp(spider.rotation, 
-            Quaternion.LookRotation(Vector3.ProjectOnPlane(toRunner.normalized, newUp), newUp), Time.deltaTime * rotationSpeed);
-        //spider.up = Vector3.Lerp(spider.up, newUp, Time.deltaTime * rotationSpeed);
+            Quaternion.LookRotation(toRunner.normalized, legsUp), Time.deltaTime * rotationSpeed);
     }
 
     private void OnDrawGizmos()
@@ -218,6 +217,7 @@ public class Leg
     public Transform Iktarget;
     public Transform raycastPosition;
     public float movePriority;
+    public Transform bodySegment;
 
     [HideInInspector] public Vector3 nextPosition;
     [HideInInspector] public Vector3 bezierTopPosition;
