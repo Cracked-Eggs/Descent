@@ -10,6 +10,7 @@ public class MonsterIKController : MonoBehaviour
 
     [HideInInspector] public float stepTreshold;
     [HideInInspector] public float stepSpeed;
+    [SerializeField] private float sphereCastRadius;
 
     [SerializeField] private float legBuryAmount;
     [SerializeField] private float stepHeight;
@@ -58,7 +59,7 @@ public class MonsterIKController : MonoBehaviour
                     Vector3.ProjectOnPlane(toIkTarget.normalized * planeMarchStepAmount, currentLeg.currentPlane.normal);
 
                 RaycastHit secondWallHit;
-                if(Physics.Raycast(nextStepPosition + currentLeg.currentPlane.normal * 0.5f, -currentLeg.currentPlane.normal, out secondWallHit))
+                if(Physics.SphereCast(nextStepPosition + currentLeg.currentPlane.normal * 0.5f, sphereCastRadius ,-currentLeg.currentPlane.normal, out secondWallHit))
                 {
                     if (!isMoving && currentLeg.currentPlane.transform != null)
                     {
@@ -85,13 +86,13 @@ public class MonsterIKController : MonoBehaviour
                     currentLeg.currentPlane.normal = currentBodySegment.up;
             }
 
-            if (Physics.Raycast(currentLeg.raycastPosition.position, -currentBodySegment.up, out hit, raycastRange))
+            if (Physics.SphereCast(currentLeg.raycastPosition.position, sphereCastRadius ,-currentBodySegment.up, out hit, raycastRange))
             {
                 Vector3 currentPosition = currentLeg.Iktarget.position;
                 legs[i].raycastHit = hit.point;
 
                 RaycastHit wallHit;
-                if(Physics.Raycast(spider.position, (hit.point - spider.position).normalized, out wallHit, raycastRange))
+                if(Physics.SphereCast(spider.position, sphereCastRadius, (hit.point - spider.position).normalized, out wallHit, raycastRange))
                 {
                     if (wallHit.transform.gameObject != hit.transform.gameObject)
                     {
