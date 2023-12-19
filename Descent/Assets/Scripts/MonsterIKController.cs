@@ -11,6 +11,7 @@ public class MonsterIKController : MonoBehaviour
     [HideInInspector] public float stepTreshold;
     [HideInInspector] public float stepSpeed;
 
+    [SerializeField] private float legBuryAmount;
     [SerializeField] private float stepHeight;
     [SerializeField] private float minDistanceFromBody;
     [SerializeField] private float velocityPrediction;
@@ -102,7 +103,7 @@ public class MonsterIKController : MonoBehaviour
                     }
                 }
 
-                Vector3 nextMovePosition = hit.point;
+                Vector3 nextMovePosition = hit.point + -hit.normal * legBuryAmount;
 
                 if ((nextMovePosition - currentLeg.Iktarget.position).magnitude > stepTreshold)
                 {
