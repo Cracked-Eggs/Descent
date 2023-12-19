@@ -121,9 +121,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.2254549
+  m_TransitionDuration: 0.32181746
   m_TransitionOffset: 0
-  m_ExitTime: 0.49052268
+  m_ExitTime: 0.0000000060348797
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -171,12 +171,6 @@ AnimatorController:
     m_Controller: {fileID: 0}
   - m_Name: isRunning
     m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
-  - m_Name: Roar
-    m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
@@ -302,9 +296,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 3.5035233
+  m_TransitionDuration: 0.50578874
   m_TransitionOffset: 0
-  m_ExitTime: 0.24899733
+  m_ExitTime: 0.0017608501
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
