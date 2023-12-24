@@ -82,7 +82,7 @@ public class PlayerStateManager : MonoBehaviour
         RaycastHit hit;
 
         // Perform a raycast to check for a wall in front of the player
-        if (Physics.Raycast(origin, dir, out hit, 5))
+        if (Physics.Raycast(origin, dir, out hit, 1 ))
         {
             // Check if the hit object has the "climbable wall" tag
             if (hit.collider.gameObject == climbableWall)

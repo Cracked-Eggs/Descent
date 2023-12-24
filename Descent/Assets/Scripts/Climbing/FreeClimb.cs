@@ -50,7 +50,7 @@ namespace SA
         {
 
             CheckForClimb();
-            a_hook.Init(this, helper);
+            
 
         }
         public void CheckForClimb()
@@ -131,10 +131,6 @@ namespace SA
                     if (!canMove || moveDir == Vector3.zero) return;
                 }
                 
-
-               
-
-
                 t = 0;
                 isLerping = true;
                 startPos = transform.position;
@@ -207,7 +203,9 @@ namespace SA
             if (moveDir.y > 0  || (moveDir.y > 0 && (Mathf.Abs(moveDir.x) >0.1f)))
             {
                 origin = transform.position + transform.up * 0.50f;
+                
             }
+            
             Vector3 dir = moveDir;
 
             // DebugLine.singleton.SetLine(origin, origin + (dir * dis), 0);

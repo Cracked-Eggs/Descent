@@ -21,8 +21,10 @@ public class PlayerController : MonoBehaviour
     [Header("Movement Settings")]
     [SerializeField] float moveSpeed = 3f;
     [SerializeField] float sprintSpeed = 6.0f;
-    [SerializeField] float gravity = 9.8f;
-    [SerializeField] float jumpForce = 4.0f;
+    [SerializeField] float gravity = -9.8f;
+    [SerializeField] float gravityMultiplier = 3f;
+    [SerializeField] float velocity;
+    [SerializeField] float jumpForce = 3.4f;
     [SerializeField] bool Sprinting = true;
     [SerializeField] bool Jumping = true;
     [SerializeField] bool canUseHeadbob = true;
@@ -40,7 +42,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float crouchSpeed = 1.0f;
     [SerializeField] float standingHeight = 2.0f;
     [SerializeField] float crouchingHeight = 1.0f;
+    [SerializeField] float crouchingSpeedSwitching = 1.0f;
     [SerializeField] float crouchingSpeed = 2.0f;
+    [SerializeField] float targetHeight;
     bool isCrouching = false;
 
     [Header("Headbob")]
@@ -58,7 +62,7 @@ public class PlayerController : MonoBehaviour
 
     float defaultYpos = 0;
     float timer;
-    
+    bool isJumping;
 
     [Header("Footsteps")]
     [SerializeField] float baseStepSpeed = 0.5f;
@@ -84,7 +88,7 @@ public class PlayerController : MonoBehaviour
     Vector3 moveDir;
     Vector2 currInput;
     float jumpInput;
-    private float targetHeight;
+    
     FreeClimb cb;
     PlayerStateManager ps;
     bool wasClimbing;
@@ -130,6 +134,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+       
+        Checker();
         
         if (_canRestart)
             if (Input.GetKeyDown(KeyCode.R)) SceneManager.LoadScene(0);
@@ -137,63 +143,54 @@ public class PlayerController : MonoBehaviour
         wasClimbing = climbing;
         climbing = false;
 
-        MouseLook();
+       
 
         if (ropeClimbing)
             return;
+        Move();
+        
+        ApplyGravity();
+        Jump();
+        HandleCrouch();
 
-        if (isMove)
+        if (canUseHeadbob)
+            HeadBob();
+        if (canUseFootsteps)
+            Footsteps();
+
+        bool isSprintKeyPressed = Input.GetKey(sprintKey) && Input.GetAxisRaw("Vertical") > 0;
+        bool isCrouchKeyPressed = Input.GetKey(crouchKey);
+
+        if (isCrouchKeyPressed && !isSprintKeyPressed)
+             curry = true;
+        else if (!isCrouchKeyPressed)
+             curry = false;
+
+        if (isSprintKeyPressed && !curry) // Check if sprint key is pressed
         {
-            Move();
-            HandleCrouch();
-
-            canJump = !isCrouching;
-
-            if (canJump && Jumping)
-            {
-                if (Input.GetKeyDown(jumpKey))
-                    Jump();
-            }
-
-            if (canUseHeadbob)
-                HeadBob();
-
-            if (canUseFootsteps)
-                Footsteps();
-
-            bool isSprintKeyPressed = Input.GetKey(sprintKey) && Input.GetAxisRaw("Vertical") > 0;
-            bool isCrouchKeyPressed = Input.GetKey(crouchKey);
-
-            if (isCrouchKeyPressed && !isSprintKeyPressed)
-                curry = true;
-            else if (!isCrouchKeyPressed)
-                curry = false;
-
-            if (isSprintKeyPressed && !curry) // Check if sprint key is pressed
-            {
-                currentSpeed = Mathf.Lerp(currentSpeed, sprintSpeed, Time.deltaTime * sprintAcceleration);
-                currentBobSpeed = sprintBobSpeed;
-                targetFOV = sprintingFOV;
-                currentBobAmplitude = sprintBobAmplitude;
-                Sprinting = true;
-            }
-            else if (!isSprintKeyPressed && !curry)
-            {
-                currentSpeed = Mathf.Lerp(currentSpeed, moveSpeed, Time.deltaTime * sprintDeceleration);
-                currentBobSpeed = walkBobSpeed;
-                targetFOV = defaultFOV;
-                currentBobAmplitude = walkBobAmplitude;
-                Sprinting = false;
-            }
-            currentFOV = Mathf.Lerp(currentFOV, targetFOV, fovLerpSpeed * Time.deltaTime);
+            currentSpeed = Mathf.Lerp(currentSpeed, sprintSpeed, Time.deltaTime * sprintAcceleration);
+            currentBobSpeed = sprintBobSpeed;
+            targetFOV = sprintingFOV;
+            currentBobAmplitude = sprintBobAmplitude;
+            Sprinting = true;
         }
+        else if (!isSprintKeyPressed && !curry)
+        {
+            currentSpeed = Mathf.Lerp(currentSpeed, moveSpeed, Time.deltaTime * sprintDeceleration);
+            currentBobSpeed = walkBobSpeed;
+            targetFOV = defaultFOV;
+            currentBobAmplitude = walkBobAmplitude;
+            Sprinting = false;
+        }
+            currentFOV = Mathf.Lerp(currentFOV, targetFOV, fovLerpSpeed * Time.deltaTime);
+        
 
         characterController.height = Mathf.Lerp(characterController.height, targetHeight,
             Time.deltaTime * crouchingSpeed);
 
         virtualCamera.m_Lens.FieldOfView = currentFOV;
 
-        if (IsGrounded())
+        if (characterController.isGrounded)
         {
             if (!jumpedOffLedge)
                 return;
@@ -206,7 +203,7 @@ public class PlayerController : MonoBehaviour
 
             Debug.Log("You're dead");
         }
-        else if (!IsGrounded())
+        else if (!characterController.isGrounded)
         {
             if (jumpedOffLedge)
                 return;
@@ -217,16 +214,20 @@ public class PlayerController : MonoBehaviour
     }
     void HandleCrouch()
     {
-        if (Input.GetKeyDown(crouchKey) && !isCrouching && !isSprinting)
-            StartCrouch();
-        else if (Input.GetKeyUp(crouchKey) && isCrouching)
-            StopCrouch();
+        if (!isJumping)
+        {
+            if (Input.GetKeyDown(crouchKey) && !isCrouching && !isSprinting)
+                StartCrouch();
+            else if (Input.GetKeyUp(crouchKey) && isCrouching)
+                StopCrouch();
+        }
+        
     }
 
     void StartCrouch()
     {
         isCrouching = true;
-        targetHeight = crouchingHeight;
+        targetHeight = Mathf.Lerp(standingHeight,crouchingHeight,crouchingSpeedSwitching);
         currentSpeed = crouchSpeed;
         currentBobSpeed = crouchBobSpeed;
         currentBobAmplitude = crouchBobAmplitude;
@@ -235,27 +236,18 @@ public class PlayerController : MonoBehaviour
     void StopCrouch()
     {
         isCrouching = false;
-        targetHeight = standingHeight;
+        targetHeight = Mathf.Lerp(crouchingHeight, standingHeight, crouchingSpeedSwitching);
         currentBobSpeed = walkBobSpeed;
         currentBobAmplitude = walkBobAmplitude;
         currentSpeed = moveSpeed;
     }
 
-    void MouseLook()
-    {
-        _mouseMovementX -= Input.GetAxis("Mouse Y") * lookSpeedY;
-        _mouseMovementX = Mathf.Clamp(_mouseMovementX, -upperlookLimit, lowerlookLimit);
-        virtualCamera.transform.localRotation = Quaternion.Euler(_mouseMovementX, 0, 0);
-        transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeedX, 0);
-    }
-    void Jump()
-    {
-        jumpInput = jumpForce;
-    }
+   
+   
 
     void HeadBob()
     {
-        if (!IsGrounded()) return;
+        if (!characterController.isGrounded) return;
 
         if (Mathf.Abs(moveDir.x) > 0.1f || Mathf.Abs(moveDir.z) > 0.1f)
         {
@@ -267,10 +259,17 @@ public class PlayerController : MonoBehaviour
             virtualCamera.transform.localPosition.z);
         }
     }
-
+    void Checker()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            Debug.Log("isgrounded is:" + characterController.isGrounded);
+        }
+            
+    }
     void Footsteps()
     {
-        if (!IsGrounded()) return;
+        if (!characterController) return;
         if (currInput == Vector2.zero) return;
         footstepTimer -= Time.deltaTime;
 
@@ -302,15 +301,50 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    bool IsGrounded()
+
+    
+    void ApplyGravity()
     {
-        return Physics.CheckSphere(groundCheck.position, .1f, ground);
+        if (!characterController.isGrounded)
+        {
+            velocity += gravity * gravityMultiplier * Time.deltaTime;
+            //Debug.Log("velocity" + velocity);
+        }
+
+        if (characterController.isGrounded && velocity < 0)
+        {
+            velocity = 0;
+        }
+
         
+       
+        
+        moveDir.y = velocity;
+        characterController.Move(moveDir * Time.deltaTime);
+
+
     }
 
+    void Jump()
+    {
+        if (Input.GetKeyDown(jumpKey))
+        {
+            if (characterController.isGrounded)
+            {
+                velocity  = 0;
+                isJumping = true;
+                velocity += jumpForce;
+                Debug.Log("jumping");
+            }
+        }
+        moveDir.y = velocity;
+        characterController.Move(moveDir * Time.deltaTime);
+        isJumping = false;
+    }
     void Move()
     {
-        currInput = new Vector2(currentSpeed * Input.GetAxis("Vertical"), currentSpeed * Input.GetAxis("Horizontal"));
+        
+        
         if (ropeClimbing) return;
 
         if (freeze)
@@ -321,22 +355,14 @@ public class PlayerController : MonoBehaviour
         }
 
         currInput = new Vector2((isSprinting ? sprintSpeed : moveSpeed) * Input.GetAxis("Vertical"), (isSprinting ? sprintSpeed : moveSpeed) * Input.GetAxis("Horizontal"));
-
-        float moveDirectionY = moveDir.y;
-
+        
         moveDir = (transform.TransformDirection(Vector3.forward) * currInput.x) + (transform.TransformDirection(Vector3.right) * currInput.y);
-        moveDir.y = moveDirectionY;
-
-        if (!IsGrounded())
-            moveDir.y -= gravity * Time.deltaTime;
-        else if (IsGrounded())
-            moveDir.y = 0;
-
-
-        moveDir.y += jumpInput;
-        characterController.Move(moveDir * Time.deltaTime);
-        jumpInput = 0;
+        
         
        
+        characterController.Move(moveDir * Time.deltaTime);
+        jumpInput = 0;
+       
+
     }
 }

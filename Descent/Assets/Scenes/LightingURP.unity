@@ -4352,6 +4352,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Ground
       objectReference: {fileID: 0}
+    - target: {fileID: 6586777335243897836, guid: 97d07913fd6b4b94b8383c05f20a2188, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 22e1c285c8acf3b4980caf1fb9362ce3, type: 2}
     - target: {fileID: 6602455067396455025, guid: 97d07913fd6b4b94b8383c05f20a2188, type: 3}
       propertyPath: m_TagString
       value: UV Num
@@ -8479,37 +8483,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1665766780}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1712730407
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1712730408}
-  m_Layer: 8
-  m_Name: GroundCheck
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1712730408
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1712730407}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.987, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 160446944275839616}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1722795783
 GameObject:
   m_ObjectHideFlags: 0
@@ -8708,6 +8681,44 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2135782277}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!84 &1742928344
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 5
+  m_Width: 562
+  m_Height: 581
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 90
+  m_ColorFormat: 48
+  m_MipMap: 1
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1 &1754443206
 GameObject:
   m_ObjectHideFlags: 0
@@ -9034,7 +9045,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 2033818892}
+  m_TargetTexture: {fileID: 1742928344}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -9814,7 +9825,7 @@ GameObject:
   - component: {fileID: 1976961429}
   m_Layer: 8
   m_Name: other
-  m_TagString: Pick Holder
+  m_TagString: pickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9983,7 +9994,7 @@ GameObject:
   - component: {fileID: 1999485533}
   m_Layer: 8
   m_Name: other 1
-  m_TagString: Pick Holder
+  m_TagString: pickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10040,44 +10051,6 @@ Transform:
   - {fileID: 1839146938}
   m_Father: {fileID: 685009434}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!84 &2033818892
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 5
-  m_Width: 1222
-  m_Height: 582
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 90
-  m_ColorFormat: 48
-  m_MipMap: 1
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1 &2096420867
 GameObject:
   m_ObjectHideFlags: 0
@@ -10545,7 +10518,6 @@ Transform:
   - {fileID: 7501908510318934769}
   - {fileID: 2079749952148091200}
   - {fileID: 6336064530324838133}
-  - {fileID: 1712730408}
   m_Father: {fileID: 2911259239242117917}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &168981256819253291
@@ -11122,7 +11094,7 @@ GameObject:
   - component: {fileID: 2513800731114953209}
   m_Layer: 8
   m_Name: Pick Holder
-  m_TagString: Pick Holder
+  m_TagString: pickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12629,22 +12601,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7780262777606888989}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3439946349637127429
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6372428297839794623}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11693a482c73bf2448c41c93d089d6c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectArray:
-  - {fileID: 702536982391882793}
-  - {fileID: 1976961428}
-  - {fileID: 1999485532}
 --- !u!114 &3440803606348038729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12899,10 +12855,12 @@ MonoBehaviour:
   lowerlookLimit: 80
   virtualCamera: {fileID: 7897746681735118399}
   position: {fileID: 5725757786418780308}
-  moveSpeed: 2.67
-  sprintSpeed: 4.53
-  gravity: 9.8
-  jumpForce: 3.46
+  moveSpeed: 0.82
+  sprintSpeed: 1.16
+  gravity: -8.75
+  gravityMultiplier: 1.36
+  velocity: 0
+  jumpForce: 2.86
   Sprinting: 1
   Jumping: 1
   canUseHeadbob: 1
@@ -12915,7 +12873,9 @@ MonoBehaviour:
   crouchSpeed: 1
   standingHeight: 2
   crouchingHeight: 1
+  crouchingSpeedSwitching: 1
   crouchingSpeed: 12
+  targetHeight: 0
   walkBobSpeed: 14
   walkBobAmplitude: 0.05
   sprintBobSpeed: 18
@@ -12938,7 +12898,7 @@ MonoBehaviour:
   sprintingFOV: 65
   fovLerpSpeed: 5
   canJump: 0
-  groundCheck: {fileID: 1712730408}
+  groundCheck: {fileID: 0}
   ground:
     serializedVersion: 2
     m_Bits: 128
@@ -15054,7 +15014,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5725757786418780308}
   - component: {fileID: 360251599222487630}
-  - component: {fileID: 3439946349637127429}
   - component: {fileID: 3810591423982074121}
   - component: {fileID: 4815242562995930631}
   - component: {fileID: 576275422930361362}
