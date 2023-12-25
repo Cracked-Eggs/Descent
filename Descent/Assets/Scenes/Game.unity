@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0, g: 0, b: 0, a: 1}
+  m_AmbientSkyColor: {r: 0.7433963, g: 0.7433963, b: 0.7433963, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -13052,6 +13052,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7338579767848567146, guid: 7449e64013d7d6a418c864200efaf04b, type: 3}
   m_PrefabInstance: {fileID: 355652365}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &356308039
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 356308040}
+  m_Layer: 0
+  m_Name: Eyes
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &356308040
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 356308039}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.000000011110614, y: -0.9987226, z: -0.050529994, w: -0.00000019455426}
+  m_LocalPosition: {x: 0.0016510371, y: 0.0072239856, z: -0.006550811}
+  m_LocalScale: {x: 0.009999996, y: 0.009999999, z: 0.01}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8481345150065440851}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &357801801
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17219,7 +17250,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 483083404}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 39e6924f0d083ee48a01a27f2aa33846, type: 3}
   m_Name: 
@@ -24896,7 +24927,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &705507994
 Light:
   m_ObjectHideFlags: 0
@@ -39190,7 +39221,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1123099136}
-  - component: {fileID: 1123099137}
+  - component: {fileID: 1123099138}
   m_Layer: 0
   m_Name: Senses
   m_TagString: Untagged
@@ -39213,7 +39244,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 483083405}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1123099137
+--- !u!114 &1123099138
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -39222,13 +39253,43 @@ MonoBehaviour:
   m_GameObject: {fileID: 1123099135}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a0ebcacb399aa84db1d3b0122a34fb5, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f13d0d5578bdf848af402c7f9d603a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rangeEvent: {fileID: 11400000, guid: 2397e8ccc5f97d541845e922f7e19ca2, type: 2}
-  player: {fileID: 7282274435613205684}
-  monster: {fileID: 1441681556617444290}
-  detectionRange: 20
+  onSpotted: {fileID: 11400000, guid: 2397e8ccc5f97d541845e922f7e19ca2, type: 2}
+  onPartiallySpotted: {fileID: 11400000, guid: 154cd948461e8a7408973f7d98360560, type: 2}
+  eyes: {fileID: 356308040}
+  spider: {fileID: 1441681556617444290}
+  headLook: {fileID: 369874693}
+  playerName: '[PLAYER]'
+  headRotateSpeed: 3
+  headRotateOffset: 20
+  visions:
+  - coneFOVXZ: 0.05
+    coneFOVYZ: 0.59
+    sideDistance: 2.46
+    frontDistance: 7.59
+    strength: 10
+    debugColour: {r: 1, g: 0.044138942, b: 0, a: 1}
+    name: InstaKill Vision
+  - coneFOVXZ: 0.04
+    coneFOVYZ: 1
+    sideDistance: 18.02
+    frontDistance: 1.58
+    strength: 0.1
+    debugColour: {r: 1, g: 0.68964195, b: 0, a: 0.10980392}
+    name: Peripheral Vision
+  - coneFOVXZ: 0.9
+    coneFOVYZ: 0.9
+    sideDistance: 1.19
+    frontDistance: 79.1
+    strength: 0.3
+    debugColour: {r: 0.7486697, g: 0, b: 0.79622644, a: 0.15686275}
+    name: Main Vision
+  alertnessDecreaseRate: 0.05
+  visualize: 1
+  numLines: 414
+  step: 2.59
 --- !u!1 &1127274588
 GameObject:
   m_ObjectHideFlags: 0
@@ -73850,7 +73911,6 @@ GameObject:
   - component: {fileID: 2254668509849739644}
   - component: {fileID: 2254668509849739643}
   - component: {fileID: 2254668509849739645}
-  - component: {fileID: 2254668509849739646}
   m_Layer: 0
   m_Name: SpiderMonsterRiggedUVUnwrappedNoMultires
   m_TagString: Untagged
@@ -73935,7 +73995,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2254668509849739640}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e5f5da62c79d5f4dafacd043dd08406, type: 3}
   m_Name: 
@@ -74027,23 +74087,6 @@ MonoBehaviour:
   lerpIncrement: 20
   lerpSpeed: 15
   runner: {fileID: 830435223}
---- !u!114 &2254668509849739646
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2254668509849739640}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77b42832eb64b9c4b926622e5c0c85b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lookAtTarget: {fileID: 7282274435613205684}
-  lookAtObj: {fileID: 369874693}
-  lookAtSpeed: 4
-  pitchDownAmount: 0
-  spider: {fileID: 1441681556617444290}
 --- !u!4 &2306682817045045835
 Transform:
   m_ObjectHideFlags: 0
@@ -75048,7 +75091,7 @@ CharacterController:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Height: 2.5
   m_Radius: 0.5
@@ -75550,7 +75593,7 @@ Transform:
   m_GameObject: {fileID: 5842458674498995421}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.78446376, z: -0, w: 0.62017465}
-  m_LocalPosition: {x: -27.16, y: 5.63, z: -86.27}
+  m_LocalPosition: {x: -33.72, y: 5.63, z: -97.78}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -75921,6 +75964,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5706666319766641945}
+  - {fileID: 356308040}
   m_Father: {fileID: 2743568108344369447}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8516170970767094418
@@ -76035,7 +76079,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
