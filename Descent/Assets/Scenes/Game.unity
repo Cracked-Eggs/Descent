@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.7433963, g: 0.7433963, b: 0.7433963, a: 1}
+  m_AmbientSkyColor: {r: 0, g: 0, b: 0, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -17219,6 +17219,7 @@ GameObject:
   m_Component:
   - component: {fileID: 483083405}
   - component: {fileID: 483083406}
+  - component: {fileID: 483083407}
   m_Layer: 0
   m_Name: Brain
   m_TagString: Untagged
@@ -17256,6 +17257,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentNode: {fileID: 0}
+--- !u!114 &483083407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483083404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35fb84e9bfa67bf40b769b3602f17f24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alertness: 0
+  playerLastKnownPos: {x: 0, y: 0, z: 0}
+  alertnessDecreaseRate: 0.05
 --- !u!1001 &483463024
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39262,31 +39278,37 @@ MonoBehaviour:
   spider: {fileID: 1441681556617444290}
   headLook: {fileID: 369874693}
   playerName: '[PLAYER]'
+  variables: {fileID: 483083407}
   headRotateSpeed: 3
   headRotateOffset: 20
   visions:
   - coneFOVXZ: 0.05
-    coneFOVYZ: 0.59
+    coneFOVYZ: 0.73
     sideDistance: 2.46
+    YZFrontDistance: 7.59
+    upDistance: 2.46
     frontDistance: 7.59
     strength: 10
-    debugColour: {r: 1, g: 0.044138942, b: 0, a: 1}
+    debugColour: {r: 1, g: 0.044138942, b: 0, a: 0.2}
     name: InstaKill Vision
   - coneFOVXZ: 0.04
-    coneFOVYZ: 1
+    coneFOVYZ: 0.86
     sideDistance: 18.02
+    YZFrontDistance: 7.5
+    upDistance: 0
     frontDistance: 1.58
-    strength: 0.1
-    debugColour: {r: 1, g: 0.68964195, b: 0, a: 0.10980392}
+    strength: 0.15
+    debugColour: {r: 1, g: 0.68964195, b: 0, a: 1}
     name: Peripheral Vision
   - coneFOVXZ: 0.9
     coneFOVYZ: 0.9
     sideDistance: 1.19
+    YZFrontDistance: 79.1
+    upDistance: 1.19
     frontDistance: 79.1
     strength: 0.3
-    debugColour: {r: 0.7486697, g: 0, b: 0.79622644, a: 0.15686275}
+    debugColour: {r: 0.7486697, g: 0, b: 0.79622644, a: 0.3137255}
     name: Main Vision
-  alertnessDecreaseRate: 0.05
   visualize: 1
   numLines: 414
   step: 2.59
@@ -74312,7 +74334,7 @@ Transform:
   m_GameObject: {fileID: 9041636205960159562}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.78446376, z: -0, w: 0.62017465}
-  m_LocalPosition: {x: 30.9, y: 3.32, z: -85.270004}
+  m_LocalPosition: {x: 23.17, y: 3.32, z: -88.09}
   m_LocalScale: {x: 0.7436833, y: 0.7937332, z: 0.7436833}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -74342,7 +74364,7 @@ Transform:
   m_GameObject: {fileID: 405104035468508599}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.000048942347, y: 0.4399975, z: -0.000007995011}
+  m_LocalPosition: {x: 0.000048942347, y: 0.43999597, z: -0.000007995011}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -75593,7 +75615,7 @@ Transform:
   m_GameObject: {fileID: 5842458674498995421}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.78446376, z: -0, w: 0.62017465}
-  m_LocalPosition: {x: -33.72, y: 5.63, z: -97.78}
+  m_LocalPosition: {x: 26.16, y: 6.47, z: -93.74}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -75711,7 +75733,7 @@ Transform:
   m_GameObject: {fileID: 4203337064987453150}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.000048942347, y: 0.4399975, z: -0.000007995011}
+  m_LocalPosition: {x: 0.000048942347, y: 0.43999597, z: -0.000007995011}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -76079,7 +76101,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

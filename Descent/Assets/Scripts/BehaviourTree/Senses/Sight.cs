@@ -10,29 +10,27 @@ public class Sight : MonoBehaviour
     public Transform spider;
     public Transform headLook;
     public string playerName;
+    public MonsterVariables variables;
 
     public float headRotateSpeed;
     public float headRotateOffset;
 
     public List<Vision> visions;
-    public float alertnessDecreaseRate;
 
     private Transform m_player;
-    private float m_alertness;
-    private Vector3 m_playerLastKnownPos;
 
     void Start()
     {
         m_player = GameObject.Find(playerName).transform;
-        m_playerLastKnownPos = eyes.position + eyes.forward * headRotateOffset;
     }
 
     void Update()
     {
-        if (m_alertness > 0.0f)
+        if (variables.alertness > 0.0f)
         {
             headLook.transform.position =
-                Vector3.Lerp(headLook.transform.position, m_playerLastKnownPos, Time.deltaTime * headRotateSpeed * m_alertness);
+                Vector3.Lerp(headLook.transform.position, variables.playerLastKnownPos, 
+                Time.deltaTime * headRotateSpeed * variables.alertness);
         }
         else
         {
@@ -57,7 +55,7 @@ public class Sight : MonoBehaviour
             float dpForwardYZ = Mathf.Abs(Vector3.Dot(toPlayerYZ.normalized, eyes.forward));
 
             float distanceXZ = dpForwardXZ * vision.frontDistance + dpRightXZ * vision.sideDistance;
-            float distanceYZ = dpForwardYZ * vision.frontDistance + dpUpYZ * vision.sideDistance;
+            float distanceYZ = dpForwardYZ * vision.YZFrontDistance + dpUpYZ * vision.upDistance;
 
             if (toPlayerXZ.magnitude > distanceXZ || toPlayerYZ.magnitude > distanceYZ)
                 continue;
@@ -75,20 +73,19 @@ public class Sight : MonoBehaviour
             if (hit.collider.name != playerName)
                 continue;
 
-            m_alertness += vision.strength * Time.deltaTime;
-            m_playerLastKnownPos = hit.point;
+            variables.alertness += vision.strength * Time.deltaTime;
+            variables.playerLastKnownPos = hit.point;
         }
 
-        m_alertness -= Time.deltaTime * alertnessDecreaseRate;
-        m_alertness = Mathf.Clamp(m_alertness, 0.0f, 1.0f);
-
-        if(m_alertness == 1.0f)
+        if(variables.alertness == 1.0f)
         {
             onSpotted.Invoke(true);
+            onPartiallySpotted.Invoke(false);
         }
-        else if(m_alertness < 1.0f && m_alertness > 0.5f)
+        else if(variables.alertness < 1.0f && variables.alertness > 0.5f)
         {
             onPartiallySpotted.Invoke(true);
+            onSpotted.Invoke(false);
         }
         else
         {
@@ -126,10 +123,10 @@ public class Sight : MonoBehaviour
                 }
 
                 Vector3 rotatedYZ = (Quaternion.AngleAxis(step * i, eyes.right) * original).normalized;
-                float dpRight2 = Mathf.Abs(Vector3.Dot(rotatedYZ, eyes.up));
+                float dpUp = Mathf.Abs(Vector3.Dot(rotatedYZ, eyes.up));
                 float dpForward2 = Mathf.Abs(Vector3.Dot(rotatedYZ, eyes.forward));
 
-                float finalDistance2 = vision.frontDistance * dpForward2 + vision.sideDistance * dpRight2;
+                float finalDistance2 = vision.YZFrontDistance * dpForward2 + vision.upDistance * dpUp;
                 if (Vector3.Dot(original, rotatedYZ) >= vision.coneFOVYZ)
                 {
                     Debug.DrawLine(eyes.position, eyes.position + rotatedYZ * finalDistance2, vision.debugColour);
@@ -147,6 +144,8 @@ public struct Vision
     [Range(-1.0f, 1.0f)] public float coneFOVXZ;
     [Range(-1.0f, 1.0f)] public float coneFOVYZ;
     public float sideDistance;
+    public float YZFrontDistance;
+    public float upDistance;
     public float frontDistance;
     public float strength;
 
