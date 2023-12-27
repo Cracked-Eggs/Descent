@@ -73603,62 +73603,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &760158812231745538
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5842458674498995421}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f314be06c308c6a44ba44f880f09a4db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxFallHeight: 10
-  lookSpeedX: 1
-  lookSpeedY: 1
-  upperlookLimit: 80
-  lowerlookLimit: 80
-  virtualCamera: {fileID: 5494977430024097809}
-  position: {fileID: 7282274435613205684}
-  moveSpeed: 2.67
-  sprintSpeed: 5
-  gravity: 9.8
-  jumpForce: 3.46
-  Sprinting: 0
-  Jumping: 1
-  canUseHeadbob: 1
-  canUseFootsteps: 0
-  sprintKey: 304
-  jumpKey: 32
-  crouchKey: 99
-  sprintAcceleration: 2
-  sprintDeceleration: 1
-  crouchSpeed: 1
-  standingHeight: 2
-  crouchingHeight: 1
-  crouchingSpeed: 12
-  walkBobSpeed: 14
-  walkBobAmplitude: 0.05
-  sprintBobSpeed: 18
-  sprintBobAmplitude: 0.06
-  crouchBobSpeed: 10
-  crouchBobAmplitude: 0.03
-  baseStepSpeed: 0.5
-  sprintStepMultiplier: 0.6
-  stepSource: {fileID: 4273477398365565469}
-  steps: []
-  defaultFOV: 60
-  sprintingFOV: 70
-  fovLerpSpeed: 5
-  state: 0
-  ropeClimbing: 0
-  climbing: 0
-  climbSpeed: 0
-  freeze: 0
-  IsGrounded: 0
-  _canRestart: 0
 --- !u!1 &1109150107732127283
 GameObject:
   m_ObjectHideFlags: 0
@@ -75227,7 +75171,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7282274435613205684}
   - component: {fileID: 5636898760819216882}
-  - component: {fileID: 760158812231745538}
   - component: {fileID: 4273477398365565469}
   m_Layer: 8
   m_Name: '[PLAYER]'
@@ -75615,7 +75558,7 @@ Transform:
   m_GameObject: {fileID: 5842458674498995421}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.78446376, z: -0, w: 0.62017465}
-  m_LocalPosition: {x: 26.16, y: 6.47, z: -93.74}
+  m_LocalPosition: {x: -33.42, y: 3.6, z: -90.46}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
