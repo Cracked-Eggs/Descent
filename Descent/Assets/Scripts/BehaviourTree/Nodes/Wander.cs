@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Rendering;
 
 public class Wander : NodeBase
@@ -40,6 +41,8 @@ public class Wander : NodeBase
         {
             controller.Move(hit.point);
             m_wanderPoint = hit.point;
+
+            
         }
     }
 
