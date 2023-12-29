@@ -47,17 +47,7 @@ public class Sight : MonoBehaviour
             Vector3 toPlayerYZ = Vector3.ProjectOnPlane(toPlayer, eyes.right);
             Vector3 forward = (headLook.position - eyes.position).normalized;
 
-
-            float dpRightXZ = Mathf.Abs(Vector3.Dot(toPlayerXZ.normalized, eyes.right));
-            float dpForwardXZ = Mathf.Abs(Vector3.Dot(toPlayerXZ.normalized, eyes.forward));
-
-            float dpUpYZ = Mathf.Abs(Vector3.Dot(toPlayerYZ.normalized, eyes.up));
-            float dpForwardYZ = Mathf.Abs(Vector3.Dot(toPlayerYZ.normalized, eyes.forward));
-
-            float distanceXZ = dpForwardXZ * vision.frontDistance + dpRightXZ * vision.sideDistance;
-            float distanceYZ = dpForwardYZ * vision.YZFrontDistance + dpUpYZ * vision.upDistance;
-
-            if (toPlayerXZ.magnitude > distanceXZ || toPlayerYZ.magnitude > distanceYZ)
+            if (toPlayerXZ.magnitude > vision.distance)
                 continue;
 
             float dotProductXZ = Vector3.Dot(toPlayerXZ.normalized, Vector3.ProjectOnPlane(forward, eyes.up));
@@ -77,7 +67,7 @@ public class Sight : MonoBehaviour
             variables.playerLastKnownPos = hit.point;
         }
 
-        if(variables.alertness == 1.0f)
+        if(variables.alertness >= 1.0f)
         {
             onSpotted.Invoke(true);
             onPartiallySpotted.Invoke(false);
@@ -112,24 +102,17 @@ public class Sight : MonoBehaviour
             {
                 Vector3 original = eyes.forward;
                 Vector3 rotatedXZ = (Quaternion.AngleAxis(step * i, eyes.up) * original).normalized;
-                float dpRight = Mathf.Abs(Vector3.Dot(rotatedXZ, eyes.right));
-                float dpForward = Mathf.Abs(Vector3.Dot(rotatedXZ, eyes.forward));
-
-                float finalDistance = vision.frontDistance * dpForward + vision.sideDistance * dpRight;
 
                 if (Vector3.Dot(original, rotatedXZ) >= vision.coneFOVXZ)
                 {
-                    Debug.DrawLine(eyes.position, eyes.position + rotatedXZ * finalDistance, vision.debugColour);
+                    Debug.DrawLine(eyes.position, eyes.position + rotatedXZ * vision.distance, vision.debugColour);
                 }
 
                 Vector3 rotatedYZ = (Quaternion.AngleAxis(step * i, eyes.right) * original).normalized;
-                float dpUp = Mathf.Abs(Vector3.Dot(rotatedYZ, eyes.up));
-                float dpForward2 = Mathf.Abs(Vector3.Dot(rotatedYZ, eyes.forward));
 
-                float finalDistance2 = vision.YZFrontDistance * dpForward2 + vision.upDistance * dpUp;
                 if (Vector3.Dot(original, rotatedYZ) >= vision.coneFOVYZ)
                 {
-                    Debug.DrawLine(eyes.position, eyes.position + rotatedYZ * finalDistance2, vision.debugColour);
+                    Debug.DrawLine(eyes.position, eyes.position + rotatedYZ * vision.distance, vision.debugColour);
                 }
             }
 
@@ -143,10 +126,7 @@ public struct Vision
 {
     [Range(-1.0f, 1.0f)] public float coneFOVXZ;
     [Range(-1.0f, 1.0f)] public float coneFOVYZ;
-    public float sideDistance;
-    public float YZFrontDistance;
-    public float upDistance;
-    public float frontDistance;
+    public float distance;
     public float strength;
 
     [Header("Debug")]

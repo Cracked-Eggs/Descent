@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class NodeBase : MonoBehaviour
 {
-    public int tickDelay;
+    public float tickDelay;
     public List<NodeBase> children;
     public NodeBase parent;
     [SerializeField] public List<Conditional> conditions;
@@ -49,7 +49,7 @@ public class NodeBase : MonoBehaviour
 public class Conditional
 {
     public EventObject condition;
-    public bool isSatisfied;
+    [HideInInspector] public bool isSatisfied;
 
     public void SetSatisfied(bool isTrue)
     {
