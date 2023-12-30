@@ -17897,9 +17897,10 @@ MonoBehaviour:
   alertness: 0
   playerName: '[PLAYER]'
   player: {fileID: 0}
-  spider: {fileID: 37224331}
+  spider: {fileID: 1441681556617444290}
+  lookAtPos: {x: 0, y: 0, z: 0}
   playerLastKnownPos: {x: 0, y: 0, z: 0}
-  alertnessDecreaseRate: 0.05
+  alertnessDecreaseRate: 0.01
 --- !u!1001 &483463024
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40489,8 +40490,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onSpotted: {fileID: 11400000, guid: 2397e8ccc5f97d541845e922f7e19ca2, type: 2}
   onPartiallySpotted: {fileID: 11400000, guid: 154cd948461e8a7408973f7d98360560, type: 2}
+  onEnteredKillRange: {fileID: 11400000, guid: 588e4145291a5d347b13e6e34900e89a, type: 2}
+  killRange: 5
   eyes: {fileID: 356308040}
-  spider: {fileID: 1441681556617444290}
   headLook: {fileID: 369874693}
   playerName: '[PLAYER]'
   variables: {fileID: 483083407}
@@ -40505,7 +40507,7 @@ MonoBehaviour:
     name: InstaKill Vision
   - coneFOVXZ: 0.01
     coneFOVYZ: 0.06
-    distance: 22.05
+    distance: 31.2
     strength: 0.15
     debugColour: {r: 1, g: 0.68964195, b: 0, a: 0.54509807}
     name: Peripheral Vision
@@ -40515,7 +40517,7 @@ MonoBehaviour:
     strength: 0.3
     debugColour: {r: 0.7486697, g: 0, b: 0.79622644, a: 0.5803922}
     name: Main Vision
-  visualize: 0
+  visualize: 1
   numLines: 56
   step: 2
 --- !u!1 &1127274588
@@ -63337,6 +63339,9 @@ GameObject:
   - component: {fileID: 1808216552}
   - component: {fileID: 1808216554}
   - component: {fileID: 1808216553}
+  - component: {fileID: 1808216555}
+  - component: {fileID: 1808216556}
+  - component: {fileID: 1808216557}
   m_Layer: 0
   m_Name: Nodes
   m_TagString: Untagged
@@ -63371,8 +63376,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c57c326dd396d94286a436f9b0c9bee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tickDelay: 5
-  children: []
+  tickDelay: 15
+  children:
+  - {fileID: 1808216555}
   parent: {fileID: 1808216554}
   conditions: []
   controller: {fileID: 2254668509849739643}
@@ -63404,6 +63410,69 @@ MonoBehaviour:
   - {fileID: 1808216553}
   parent: {fileID: 0}
   conditions: []
+--- !u!114 &1808216555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808216551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87313ca9c3e5cfa429986a34eac5ca84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tickDelay: 10
+  children:
+  - {fileID: 1808216556}
+  parent: {fileID: 1808216553}
+  conditions:
+  - condition: {fileID: 11400000, guid: 154cd948461e8a7408973f7d98360560, type: 2}
+    isSatisfied: 0
+  variables: {fileID: 483083407}
+  controller: {fileID: 2254668509849739643}
+  investigateRadius: 20
+  debugColour: {r: 1, g: 0, b: 0.7409797, a: 1}
+  debugRadius: 0.5
+--- !u!114 &1808216556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808216551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d334fd87d9edef45bface435b455e3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tickDelay: 0.1
+  children:
+  - {fileID: 1808216557}
+  parent: {fileID: 1808216555}
+  conditions:
+  - condition: {fileID: 11400000, guid: 2397e8ccc5f97d541845e922f7e19ca2, type: 2}
+    isSatisfied: 0
+  controller: {fileID: 2254668509849739643}
+  variables: {fileID: 483083407}
+--- !u!114 &1808216557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808216551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7a3e50352a070841a0f9e137bb85c11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tickDelay: 0.1
+  children: []
+  parent: {fileID: 1808216556}
+  conditions:
+  - condition: {fileID: 11400000, guid: 588e4145291a5d347b13e6e34900e89a, type: 2}
+    isSatisfied: 0
 --- !u!1001 &1808295329
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -68277,7 +68346,7 @@ Transform:
   m_GameObject: {fileID: 1964708471}
   serializedVersion: 2
   m_LocalRotation: {x: -0.061768666, y: -0.50335664, z: -0.86100405, w: 0.03858552}
-  m_LocalPosition: {x: -6.25, y: 1.9500012, z: -7.880001}
+  m_LocalPosition: {x: -5.75, y: 1.36, z: -7.880001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -76675,10 +76744,10 @@ MonoBehaviour:
   runnerWalkSpeed: 3
   walkStepThreshold: 1
   walkStepSpeed: 12
-  runSpeed: 6
-  runnerRunSpeed: 6
-  runStepThreshold: 0.5
-  runStepSpeed: 20
+  runSpeed: 12
+  runnerRunSpeed: 12
+  runStepThreshold: 0.1
+  runStepSpeed: 40
 --- !u!114 &2254668509849739644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77033,7 +77102,7 @@ Transform:
   m_GameObject: {fileID: 405104035468508599}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.00004982265, y: 0.4399994, z: -0.000011706747}
+  m_LocalPosition: {x: 0.00004982265, y: 0.43999597, z: -0.000011706747}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -78283,7 +78352,7 @@ Transform:
   m_GameObject: {fileID: 5842458674498995421}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.78446376, z: -0, w: 0.62017465}
-  m_LocalPosition: {x: -36.46, y: 8.22, z: -5.08}
+  m_LocalPosition: {x: -26.73, y: 6.48, z: -82.42}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -78401,7 +78470,7 @@ Transform:
   m_GameObject: {fileID: 4203337064987453150}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.00004982265, y: 0.4399994, z: -0.000011706747}
+  m_LocalPosition: {x: 0.00004982265, y: 0.43999597, z: -0.000011706747}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

@@ -9,6 +9,7 @@ public class MonsterVariables : MonoBehaviour
     public Transform player;
     public Transform spider;
 
+    public Vector3 lookAtPos;
     public Vector3 playerLastKnownPos;
     public float alertnessDecreaseRate;
 
@@ -16,8 +17,8 @@ public class MonsterVariables : MonoBehaviour
 
     private void Update()
     {
-        alertness = Mathf.Clamp01(alertness);
         alertness -= alertnessDecreaseRate * Time.deltaTime;
+        alertness = Mathf.Clamp(alertness, 0.0f, 1.0f);
     }
 
 }

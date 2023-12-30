@@ -6,8 +6,9 @@ public class Sight : MonoBehaviour
 {
     public EventObject onSpotted;
     public EventObject onPartiallySpotted;
+    public EventObject onEnteredKillRange;
+    public float killRange;
     public Transform eyes;
-    public Transform spider;
     public Transform headLook;
     public string playerName;
     public MonsterVariables variables;
@@ -26,16 +27,16 @@ public class Sight : MonoBehaviour
 
     void Update()
     {
-        if (variables.alertness > 0.0f)
+        if (variables.alertness > 0.6f)
         {
             headLook.transform.position =
-                Vector3.Lerp(headLook.transform.position, variables.playerLastKnownPos, 
+                Vector3.Lerp(headLook.transform.position, variables.lookAtPos, 
                 Time.deltaTime * headRotateSpeed * variables.alertness);
         }
         else
         {
             headLook.transform.position =
-                Vector3.Lerp(headLook.transform.position, eyes.position + spider.forward * headRotateOffset, 
+                Vector3.Lerp(headLook.transform.position, eyes.position + variables.spider.forward * headRotateOffset, 
                 Time.deltaTime * headRotateSpeed);
         }
 
@@ -67,12 +68,21 @@ public class Sight : MonoBehaviour
             variables.playerLastKnownPos = hit.point;
         }
 
-        if(variables.alertness >= 1.0f)
+        if((variables.spider.position - variables.player.position).magnitude <= killRange)
+        {
+            onEnteredKillRange.Invoke(true);
+        }
+        else
+        {
+            onEnteredKillRange.Invoke(false);
+        }
+
+        if(variables.alertness >= 0.96f)
         {
             onSpotted.Invoke(true);
             onPartiallySpotted.Invoke(false);
         }
-        else if(variables.alertness < 1.0f && variables.alertness > 0.5f)
+        else if(variables.alertness < 0.96f && variables.alertness > 0.5f)
         {
             onPartiallySpotted.Invoke(true);
             onSpotted.Invoke(false);

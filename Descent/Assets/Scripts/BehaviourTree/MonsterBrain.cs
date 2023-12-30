@@ -10,11 +10,7 @@ public class MonsterBrain : MonoBehaviour
 
     void RegisterTreeConditionals(NodeBase node)
     {
-        if (node.children.Count == 0 || node.children == null)
-        {
-            node.RegisterConditionals();
-            return;
-        }
+        node.RegisterConditionals();
 
         for (int i = 0; i < node.children.Count; i++)
         {
@@ -37,6 +33,8 @@ public class MonsterBrain : MonoBehaviour
         {
             if (currentNode.children[i].CanEnter()) 
             {
+                StopAllCoroutines();
+                isTicking = false;
                 currentNode.OnExit();
                 currentNode = currentNode.children[i];
                 currentNode.OnTransition();
@@ -46,6 +44,8 @@ public class MonsterBrain : MonoBehaviour
 
         if (!currentNode.CanEnter())
         {
+            StopAllCoroutines();
+            isTicking = false;
             currentNode.OnExit();
             currentNode = currentNode.parent;
             currentNode.OnTransition();
@@ -55,8 +55,8 @@ public class MonsterBrain : MonoBehaviour
     IEnumerator TickNode()
     {
         isTicking = true;
-        yield return new WaitForSeconds(currentNode.tickDelay);
         currentNode.Tick();
+        yield return new WaitForSeconds(currentNode.tickDelay);
         isTicking = false;
     }
 }

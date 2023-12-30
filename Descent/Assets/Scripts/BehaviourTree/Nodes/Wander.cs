@@ -15,19 +15,12 @@ public class Wander : NodeBase
     public float debugSphereRadius;
     public Color debugColor;
     private Transform m_currentWaypoint;
-    private int m_currentWaypointIndex = -1;
+    private int m_currentWaypointIndex = 0;
 
     private Vector3 m_wanderPoint;
 
     public override void Tick()
     {
-        if (controller.ReachedTarget())
-        {
-            m_currentWaypointIndex++;
-            if (m_currentWaypointIndex >= waypoints.Count)
-                m_currentWaypointIndex = 0;
-        }
-
         m_currentWaypoint = waypoints[m_currentWaypointIndex];
 
         RaycastHit hit;
@@ -41,9 +34,11 @@ public class Wander : NodeBase
         {
             controller.Move(hit.point);
             m_wanderPoint = hit.point;
-
-            
         }
+
+        m_currentWaypointIndex++;
+        if (m_currentWaypointIndex >= waypoints.Count)
+            m_currentWaypointIndex = 0;
     }
 
     private void OnDrawGizmos()
