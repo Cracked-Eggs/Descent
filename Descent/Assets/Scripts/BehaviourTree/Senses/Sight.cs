@@ -80,9 +80,9 @@ public class Sight : MonoBehaviour
         if(variables.alertness >= 0.96f)
         {
             onSpotted.Invoke(true);
-            onPartiallySpotted.Invoke(false);
+            onPartiallySpotted.Invoke(true);
         }
-        else if(variables.alertness < 0.96f && variables.alertness > 0.5f)
+        else if(variables.alertness < 0.96f && variables.alertness > 0.4f)
         {
             onPartiallySpotted.Invoke(true);
             onSpotted.Invoke(false);

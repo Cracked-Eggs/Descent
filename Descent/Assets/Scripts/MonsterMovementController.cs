@@ -9,9 +9,10 @@ public class MonsterMovementController : MonoBehaviour
     public Transform spider;
     public Animator animator;
     public MonsterIKController controller;
+    public MonsterVariables variables;
+    public SkinnedMeshRenderer spiderMesh;
 
     public float stopChaseDistance;
-    public float stopRunningDistance;
 
     public float walkSpeed;
     public float runnerWalkSpeed;
@@ -29,6 +30,22 @@ public class MonsterMovementController : MonoBehaviour
     public void Run() => SetRunning(true);
     public void Walk() => SetRunning(false);
     public bool ReachedTarget() => runner.ReachedTarget();
+
+    public void Manifest()
+    {
+        spiderMesh.enabled = true;
+        controller.enabled = true;
+        spiderMesh.enabled = true;
+        variables.enabled = true;
+    }
+
+    public void DeManifest()
+    {
+        spiderMesh.enabled = false;
+        controller.enabled = false;
+        spiderMesh.enabled = false;
+        variables.enabled = false;
+    }
 
     private void SetRunning(bool isRunning)
     {

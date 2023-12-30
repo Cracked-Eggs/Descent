@@ -19,6 +19,11 @@ public class Wander : NodeBase
 
     private Vector3 m_wanderPoint;
 
+    public override void OnExit()
+    {
+        controller.Move(variables.spider.position);
+    }
+
     public override void Tick()
     {
         m_currentWaypoint = waypoints[m_currentWaypointIndex];

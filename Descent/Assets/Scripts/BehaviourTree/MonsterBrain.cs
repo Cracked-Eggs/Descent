@@ -10,6 +10,9 @@ public class MonsterBrain : MonoBehaviour
 
     void RegisterTreeConditionals(NodeBase node)
     {
+        if(node.parent != null)
+            node.conditions.AddRange(node.parent.conditions);
+
         node.RegisterConditionals();
 
         for (int i = 0; i < node.children.Count; i++)
