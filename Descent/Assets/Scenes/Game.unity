@@ -26019,7 +26019,7 @@ MonoBehaviour:
   tickDelay: 0
   children:
   - {fileID: 1808216558}
-  - {fileID: 888991464}
+  - {fileID: 888991465}
   parent: {fileID: 0}
   conditions: []
 --- !u!1 &712194977
@@ -32450,6 +32450,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 888991463}
+  - component: {fileID: 888991465}
   - component: {fileID: 888991464}
   m_Layer: 0
   m_Name: InactiveTree
@@ -32487,11 +32488,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tickDelay: 0
   children: []
+  parent: {fileID: 888991465}
+  conditions:
+  - condition: {fileID: 11400000, guid: 1d55552d4669f6e44be729694d8be9f6, type: 2}
+    isSatisfied: 0
+  controller: {fileID: 2254668509849739643}
+--- !u!114 &888991465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 888991462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 009d6fe735be4184dacbb90450993ced, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tickDelay: 0.1
+  children:
+  - {fileID: 888991464}
   parent: {fileID: 710890170}
   conditions:
   - condition: {fileID: 11400000, guid: 1ec5d95a802c9c047b8659972ed1fa47, type: 2}
     isSatisfied: 0
+  fleePoints:
+  - {fileID: 13851094}
+  - {fileID: 401204389}
   controller: {fileID: 2254668509849739643}
+  variables: {fileID: 483083407}
 --- !u!1001 &889272718
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40558,6 +40583,7 @@ GameObject:
   - component: {fileID: 1123099136}
   - component: {fileID: 1123099138}
   - component: {fileID: 1123099139}
+  - component: {fileID: 1123099140}
   m_Layer: 0
   m_Name: Senses
   m_TagString: Untagged
@@ -40644,6 +40670,22 @@ MonoBehaviour:
     probability: 0
     alwaysTrigger: 1
   rollDelay: 15
+--- !u!114 &1123099140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123099135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579f13db864f9a248acb0b155d2aeede, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  variables: {fileID: 483083407}
+  playerFOV: -0.7
+  playerVisionRange: 100
+  playerCantSeeEvent: {fileID: 11400000, guid: 1d55552d4669f6e44be729694d8be9f6, type: 2}
 --- !u!1 &1127274588
 GameObject:
   m_ObjectHideFlags: 0
@@ -77233,7 +77275,7 @@ Transform:
   m_GameObject: {fileID: 405104035468508599}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.00004982265, y: 0.43999597, z: -0.000011706747}
+  m_LocalPosition: {x: 0.00004982265, y: 0.43999633, z: -0.000011706747}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -78483,7 +78525,7 @@ Transform:
   m_GameObject: {fileID: 5842458674498995421}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.78446376, z: -0, w: 0.62017465}
-  m_LocalPosition: {x: -26.73, y: 6.48, z: -82.42}
+  m_LocalPosition: {x: -28.99, y: 5, z: -86.85}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -78601,7 +78643,7 @@ Transform:
   m_GameObject: {fileID: 4203337064987453150}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.00004982265, y: 0.43999597, z: -0.000011706747}
+  m_LocalPosition: {x: 0.00004982265, y: 0.43999633, z: -0.000011706747}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
