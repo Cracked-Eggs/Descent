@@ -27,7 +27,7 @@ public class Sight : MonoBehaviour
 
     void Update()
     {
-        if (variables.alertness > 0.6f)
+        if (variables.alertness > 0.3f)
         {
             headLook.transform.position =
                 Vector3.Lerp(headLook.transform.position, variables.lookAtPos, 

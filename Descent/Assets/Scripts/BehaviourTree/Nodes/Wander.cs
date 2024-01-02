@@ -41,6 +41,8 @@ public class Wander : NodeBase
             m_wanderPoint = hit.point;
         }
 
+        variables.lookAtPos = variables.playerLastKnownPos;
+
         m_currentWaypointIndex++;
         if (m_currentWaypointIndex >= waypoints.Count)
             m_currentWaypointIndex = 0;

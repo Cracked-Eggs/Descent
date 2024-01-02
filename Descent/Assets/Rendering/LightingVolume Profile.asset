@@ -20,7 +20,7 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: {x: 1, y: 0.94894123, z: 0.80684924, w: -0.09250054}
   highlights:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: {x: 0.993281, y: 1, z: 0.99933416, w: -0.016616104}
   shadowsStart:
     m_OverrideState: 0

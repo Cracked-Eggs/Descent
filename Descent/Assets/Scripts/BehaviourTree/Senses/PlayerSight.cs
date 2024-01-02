@@ -12,6 +12,7 @@ public class PlayerSight : MonoBehaviour
     void Update()
     {
         Vector3 toPlayer = (variables.player.position - variables.spider.position);
+
         if (toPlayer.magnitude >= playerVisionRange)
         {
             playerCantSeeEvent.Invoke(true);
