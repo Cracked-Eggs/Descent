@@ -7,6 +7,7 @@ public class MonsterIKController : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private Leg[] legs;
     [SerializeField] private Transform spider;
+    [SerializeField] private LayerMask nonSpiderLayer;
 
     [HideInInspector] public float stepTreshold;
     [HideInInspector] public float stepSpeed;
@@ -59,7 +60,7 @@ public class MonsterIKController : MonoBehaviour
                     Vector3.ProjectOnPlane(toIkTarget.normalized * planeMarchStepAmount, currentLeg.currentPlane.normal);
 
                 RaycastHit secondWallHit;
-                if(Physics.SphereCast(nextStepPosition + currentLeg.currentPlane.normal * 0.5f, sphereCastRadius ,-currentLeg.currentPlane.normal, out secondWallHit))
+                if(Physics.SphereCast(nextStepPosition + currentLeg.currentPlane.normal * 0.5f, sphereCastRadius ,-currentLeg.currentPlane.normal, out secondWallHit, nonSpiderLayer))
                 {
                     if (!isMoving && currentLeg.currentPlane.transform != null)
                     {
@@ -86,17 +87,17 @@ public class MonsterIKController : MonoBehaviour
                     currentLeg.currentPlane.normal = currentBodySegment.up;
             }
 
-            if (Physics.SphereCast(currentLeg.raycastPosition.position, sphereCastRadius ,-currentBodySegment.up, out hit, raycastRange))
+            if (Physics.SphereCast(currentLeg.raycastPosition.position, sphereCastRadius ,-currentBodySegment.up, out hit, raycastRange, nonSpiderLayer))
             {
                 Vector3 currentPosition = currentLeg.Iktarget.position;
                 legs[i].raycastHit = hit.point;
 
                 RaycastHit wallHit;
-                if(Physics.SphereCast(spider.position, sphereCastRadius, (hit.point - spider.position).normalized, out wallHit, raycastRange))
+                if(Physics.SphereCast(spider.position, sphereCastRadius, (hit.point - spider.position).normalized, out wallHit, raycastRange, nonSpiderLayer))
                 {
                     if (wallHit.transform.gameObject != hit.transform.gameObject)
                     {
-                        if (Physics.Raycast(spider.position, (currentLeg.raycastPosition.position - spider.position).normalized, out wallHit, wallClimbRaycastRange))
+                        if (Physics.Raycast(spider.position, (currentLeg.raycastPosition.position - spider.position).normalized, out wallHit, wallClimbRaycastRange, nonSpiderLayer))
                         {
                            if(wallHit.transform.gameObject != hit.transform.gameObject)
                                 hit = wallHit;

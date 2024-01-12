@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     public float gravity;
     public InputActions actions;
     public float jumpForce;
-    public float coyoteTime;
+    public float jumpBuffering;
 
     private Vector2 m_movementDirection;
     private Vector2 m_mouseDelta;
@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour
         if (controller.isGrounded)
         {
             m_gravityForce = 0.0f;
-            if (Time.time - m_lastJumpTime > coyoteTime)
+            if (Time.time - m_lastJumpTime > jumpBuffering)
                 m_lastJumpInput = 0.0f;
             else
                 m_gravityForce += m_lastJumpInput;
