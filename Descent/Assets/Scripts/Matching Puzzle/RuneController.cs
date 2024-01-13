@@ -16,17 +16,11 @@ public class RuneController : MonoBehaviour
         if (_runeManager != null && !IsMatched)
         {
             _runeManager.OnRuneClicked(this);
+            transform.Rotate(Vector3.up, 180f, Space.World);
             IsMatched = true;
             _runeTurnSound.Invoke();
         }
 
         if (_runeManager._incorrectGuess == true) IsMatched = false;
-    }
-
-    public void SwapPosition(RuneController otherRune)
-    {
-        Vector3 tempPosition = transform.position;
-        transform.position = otherRune.transform.position;
-        otherRune.transform.position = tempPosition;
     }
 } 

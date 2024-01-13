@@ -59,8 +59,8 @@ public class Player : MonoBehaviour
         else
             _canvas.gameObject.SetActive(false);
 
-        if (_runeMangaer._completed == true)
-            SafeComplete.Invoke();
+        //if (_runeMangaer._completed == true)
+           // SafeComplete.Invoke();
 
         if (_UVObtained == true)
         {
