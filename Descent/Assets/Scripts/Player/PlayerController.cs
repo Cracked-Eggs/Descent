@@ -16,6 +16,9 @@ public class PlayerController : MonoBehaviour
     public float jumpForce;
     public float jumpBuffering;
 
+    public EventObject madeQuietNoise;
+    public EventObject madeMediumNoise;
+
     private Vector2 m_movementDirection;
     private Vector2 m_mouseDelta;
     private float m_gravityForce;
@@ -30,7 +33,18 @@ public class PlayerController : MonoBehaviour
         actions = new InputActions();
         actions.Enable();
 
-        actions.Default.Movement.performed += ctx => m_movementDirection = ctx.ReadValue<Vector2>().normalized;
+        actions.Default.Movement.performed += ctx => 
+        {
+            m_movementDirection = ctx.ReadValue<Vector2>().normalized;
+            if (m_running)
+            {
+                madeMediumNoise.Invoke(true);
+            }
+            else
+            {
+                madeQuietNoise.Invoke(true);
+            }
+        };
         actions.Default.Look.performed += ctx => m_mouseDelta = ctx.ReadValue<Vector2>();
         actions.Default.Jump.performed += ctx =>
         {
@@ -45,6 +59,7 @@ public class PlayerController : MonoBehaviour
             }
 
             m_lastJumpTime = Time.time;
+            madeMediumNoise.Invoke(true);
         };
         actions.Default.Run.performed += ctx => m_running = true;
         actions.Default.Run.canceled += ctx => m_running = false;

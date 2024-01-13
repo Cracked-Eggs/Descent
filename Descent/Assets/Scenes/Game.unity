@@ -40587,6 +40587,7 @@ GameObject:
   - component: {fileID: 1123099139}
   - component: {fileID: 1123099140}
   - component: {fileID: 1123099142}
+  - component: {fileID: 1123099143}
   m_Layer: 3
   m_Name: Senses
   m_TagString: Untagged
@@ -40723,6 +40724,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bcebcdb77a41dd4ab1b8931e77b58b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  variables: {fileID: 483083407}
+--- !u!114 &1123099143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123099135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db50ee252e79cd04cbbb2a0cc3bb952a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  madeQuietSound: {fileID: 11400000, guid: 6455985be25e2144892b8b352b86cb77, type: 2}
+  madeMediumSound: {fileID: 11400000, guid: 9340b44764e74d7468637fc077d6282a, type: 2}
+  madeLoudSound: {fileID: 11400000, guid: 7b2e0e75af06d07498be05cb10929c11, type: 2}
+  playerSpotted: {fileID: 11400000, guid: 2397e8ccc5f97d541845e922f7e19ca2, type: 2}
+  quietNoiseAlertness: 1.5
+  mediumNoiseAlertness: 3
+  loudNoiseAlertness: 20
+  noiseFalloff: 0.1
   variables: {fileID: 483083407}
 --- !u!1 &1127274588
 GameObject:
@@ -78879,6 +78901,8 @@ MonoBehaviour:
   gravity: 9.8
   jumpForce: 4
   jumpBuffering: 0.2
+  madeQuietNoise: {fileID: 11400000, guid: 6455985be25e2144892b8b352b86cb77, type: 2}
+  madeMediumNoise: {fileID: 11400000, guid: 9340b44764e74d7468637fc077d6282a, type: 2}
 --- !u!114 &7348282395018487995
 MonoBehaviour:
   m_ObjectHideFlags: 0
