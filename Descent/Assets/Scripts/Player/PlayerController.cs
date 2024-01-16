@@ -64,6 +64,7 @@ public class PlayerController : MonoBehaviour
         actions.Default.Run.performed += ctx => m_running = true;
         actions.Default.Run.canceled += ctx => m_running = false;
     }
+    private void OnDisable() => actions.Disable();
 
     void Update()
     {
