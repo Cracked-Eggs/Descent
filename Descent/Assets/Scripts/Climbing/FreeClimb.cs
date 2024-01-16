@@ -102,6 +102,7 @@ namespace SA
 
             if (!isLerping)
             {
+
                 horizontal = Input.GetAxis("Horizontal");
                 vertical = Input.GetAxis("Vertical");
 

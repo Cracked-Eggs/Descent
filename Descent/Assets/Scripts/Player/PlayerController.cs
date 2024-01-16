@@ -135,7 +135,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
        
-        Checker();
+       
         
         if (_canRestart)
             if (Input.GetKeyDown(KeyCode.R)) SceneManager.LoadScene(0);
@@ -258,14 +258,6 @@ public class PlayerController : MonoBehaviour
             defaultYpos + Mathf.Sin(timer) * currentBobAmplitude,
             virtualCamera.transform.localPosition.z);
         }
-    }
-    void Checker()
-    {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            Debug.Log("isgrounded is:" + characterController.isGrounded);
-        }
-            
     }
     void Footsteps()
     {

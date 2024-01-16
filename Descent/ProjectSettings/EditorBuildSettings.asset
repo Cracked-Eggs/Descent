@@ -8,4 +8,5 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LightingURP.unity
     guid: 355acf5c20074eb46b31c89e6ef99427
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: f1c07abed1e112849b64a5b16a178fc1, type: 2}
