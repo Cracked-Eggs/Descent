@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
+using UnityEngine.SceneManagement;
 
 public class Kill : NodeBase
 {
@@ -13,6 +14,7 @@ public class Kill : NodeBase
     public float lerpSpeed;
     public float newFlashlightIntensity;
     public string killTrigger;
+    public string deathSceneName;
 
     private Transform m_player;
     private Transform m_playerCamera;
@@ -24,16 +26,13 @@ public class Kill : NodeBase
     private bool m_setCameraTrigger;
     private float m_lerp;
 
-    private void Start()
+    public override void OnTransition()
     {
         m_player = variables.player;
         m_playerCamera = m_player.GetChild(0).Find(playerCameraName);
         m_playerFlashlight = GameObject.Find(flashlightName).GetComponent<Light>();
         m_cameraAnimator = m_playerCamera.GetComponent<Animator>();
-    }
 
-    public override void OnTransition()
-    {
         m_player.GetComponent<PlayerController>().enabled = false;
         m_isPlaying = true;
     }
@@ -55,16 +54,23 @@ public class Kill : NodeBase
         variables.lookAtPos = newPlayerCamPos.position;
         m_lerp += Time.deltaTime * lerpSpeed;
 
+        m_player.transform.forward = -variables.spider.forward;
+
         if (!m_setTrigger)
         {
             m_setTrigger = true;
             monsterAnimator.SetTrigger(killTrigger);
         }
 
-        if(m_lerp >= 1.0f && !m_setCameraTrigger) 
+        if (m_lerp >= 1.0f && !m_setCameraTrigger) 
         {
             m_setCameraTrigger = true;
             m_cameraAnimator.enabled = true;
         }
+    }
+
+    public void CutToDeathScreen() 
+    {
+        SceneManager.LoadScene(deathSceneName);
     }
 }

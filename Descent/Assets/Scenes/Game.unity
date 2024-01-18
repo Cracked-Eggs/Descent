@@ -63910,7 +63910,6 @@ GameObject:
   - component: {fileID: 1808216553}
   - component: {fileID: 1808216555}
   - component: {fileID: 1808216556}
-  - component: {fileID: 1808216557}
   m_Layer: 3
   m_Name: KillChaseTree
   m_TagString: Untagged
@@ -63977,7 +63976,7 @@ MonoBehaviour:
   tickDelay: 10
   children:
   - {fileID: 1808216556}
-  - {fileID: 1808216557}
+  - {fileID: 2254668509849739646}
   parent: {fileID: 1808216553}
   conditions:
   - condition: {fileID: 11400000, guid: 154cd948461e8a7408973f7d98360560, type: 2}
@@ -64001,41 +64000,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tickDelay: 0.1
   children:
-  - {fileID: 1808216557}
+  - {fileID: 2254668509849739646}
   parent: {fileID: 1808216555}
   conditions:
   - condition: {fileID: 11400000, guid: 2397e8ccc5f97d541845e922f7e19ca2, type: 2}
     isSatisfied: 0
   controller: {fileID: 2254668509849739643}
   variables: {fileID: 483083407}
---- !u!114 &1808216557
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1808216551}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7a3e50352a070841a0f9e137bb85c11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tickDelay: 0.1
-  children: []
-  parent: {fileID: 1808216555}
-  conditions:
-  - condition: {fileID: 11400000, guid: 2397e8ccc5f97d541845e922f7e19ca2, type: 2}
-    isSatisfied: 0
-  - condition: {fileID: 11400000, guid: 588e4145291a5d347b13e6e34900e89a, type: 2}
-    isSatisfied: 0
-  variables: {fileID: 483083407}
-  newPlayerCamPos: {fileID: 1111590798}
-  monsterAnimator: {fileID: 2254668509849739641}
-  playerCameraName: Virtual Camera
-  flashlightName: Flashlight
-  lerpSpeed: 5
-  newFlashlightIntensity: 3
-  killTrigger: Kill
 --- !u!114 &1808216558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77492,6 +77463,7 @@ GameObject:
   - component: {fileID: 2254668509849739644}
   - component: {fileID: 2254668509849739643}
   - component: {fileID: 2254668509849739645}
+  - component: {fileID: 2254668509849739646}
   m_Layer: 3
   m_Name: Body
   m_TagString: Untagged
@@ -77665,6 +77637,35 @@ MonoBehaviour:
   lerpIncrement: 20
   lerpSpeed: 15
   runner: {fileID: 830435223}
+--- !u!114 &2254668509849739646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2254668509849739640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7a3e50352a070841a0f9e137bb85c11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tickDelay: 0.1
+  children: []
+  parent: {fileID: 1808216555}
+  conditions:
+  - condition: {fileID: 11400000, guid: 2397e8ccc5f97d541845e922f7e19ca2, type: 2}
+    isSatisfied: 0
+  - condition: {fileID: 11400000, guid: 588e4145291a5d347b13e6e34900e89a, type: 2}
+    isSatisfied: 0
+  variables: {fileID: 483083407}
+  newPlayerCamPos: {fileID: 1111590798}
+  monsterAnimator: {fileID: 2254668509849739641}
+  playerCameraName: Virtual Camera
+  flashlightName: Flashlight
+  lerpSpeed: 5
+  newFlashlightIntensity: 3
+  killTrigger: Kill
+  deathSceneName: Death
 --- !u!4 &2306682817045045835
 Transform:
   m_ObjectHideFlags: 0
