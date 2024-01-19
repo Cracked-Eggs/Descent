@@ -17,6 +17,7 @@ TagManager:
   - climable wall
   - UV Num
   - NoDeath
+  - Rope
   layers:
   - Default
   - TransparentFX

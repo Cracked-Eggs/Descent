@@ -24,9 +24,12 @@ public class RuneManager : MonoBehaviour
 
     public void OnRuneClicked(RuneController clickedRune)
     {
-        if (clickedRune.IsMatched || _setsMatched >= _totalSetsRequired) return;
+        if (clickedRune.IsMatched || _setsMatched >= _totalSetsRequired || _selectedRune == clickedRune) return;
 
-        if (_selectedRune == null) _selectedRune = clickedRune;
+        if (_selectedRune == null) 
+        {
+            _selectedRune = clickedRune;
+        }
         else
         {
             if (CheckMatch(_selectedRune, clickedRune))
