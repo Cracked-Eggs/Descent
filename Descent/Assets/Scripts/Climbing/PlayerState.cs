@@ -14,6 +14,8 @@ public class PlayerStateManager : MonoBehaviour
     public LedgeChecker checker;
     Animator anim;
 
+    InputActions actions;
+
     private CharacterController characterController; 
     private Quaternion initialRotation;
     private Quaternion currRotation;
@@ -21,7 +23,7 @@ public class PlayerStateManager : MonoBehaviour
 
     private GameObject climbHelperObject;
     public GameObject picks;
-    private bool isClimbing = false;
+    public bool isClimbing = false;
     private Vector3 jumpVelocity;
 
     private bool validWall;
@@ -31,8 +33,7 @@ public class PlayerStateManager : MonoBehaviour
     private Quaternion previousRotation;
     private Vector3 previousEulerAngles;
 
-    public MouseLook ml;
-
+   
 
     private void Start()
     {
@@ -54,19 +55,23 @@ public class PlayerStateManager : MonoBehaviour
         initialRotation = transform.rotation; // Use transform.rotation instead of rb.rotation
     }
 
+    private void Awake()
+    {
+        actions =  new InputActions();
+        actions.Enable();
+
+        actions.Default.Jump.performed += e => Climbing();
+    }
+
     public void SetWalkingState()
     {
-        playerMovement.enabled = true;
-        playerMovement.freeze = false;
         climbingScript.enabled = false;
         climbingScript.isClimbing = false;
         isClimbing = false;
-        isClimbing = false;
-        isClimbing = false;
-
+  
         //transform.rotation = initialRotation; // Use transform.rotation instead of rb.rotation
         //characterController.detectCollisions = true; // Enable collisions for CharacterController
-        isClimbing = false;
+
         Destroy(climbHelperObject);
 
         if (climbHelperObject != null)
@@ -101,8 +106,7 @@ public class PlayerStateManager : MonoBehaviour
 
     public void SetClimbingState()
     {
-        playerMovement.enabled = false;
-        playerMovement.freeze = true;
+        
         climbingScript.enabled = true;
 
         // Check for a valid wall before creating the climb helper GameObject
@@ -157,29 +161,32 @@ public class PlayerStateManager : MonoBehaviour
             
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && !isClimbing && CheckForValidWall() == true)
+
+       
+
+
+    }
+
+    void Climbing()
+    {
+        if (isClimbing)
         {
-            if(picks.activeSelf)
+            // If the player is already climbing, initiate the exit from climbing state
+            SetWalkingState();
+            isClimbing = false;
+        }
+        else if (CheckForValidWall())
+        {
+            // If the player is not climbing and there is a valid wall, check for picks and initiate climbing
+            if (picks.activeSelf)
             {
                 SetClimbingState();
             }
-           else
+            else
             {
                 Debug.Log("Equip picks");
             }
         }
 
-        if (!isClimbing && climbingScript.enabled == true)
-        {
-            isClimbing = true;
-        }
-
-        if (Input.GetKeyDown(KeyCode.X) && isClimbing)
-        {
-            SetWalkingState();
-            
-            
-        }
-       
     }
 }

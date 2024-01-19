@@ -8,6 +8,8 @@ namespace SA
     public class FreeClimb : MonoBehaviour
     {
         public Animator anim;
+        public InputActions actions;
+        private Vector2 iM;
         public bool isClimbing;
 
         bool inPosition;
@@ -45,6 +47,14 @@ namespace SA
         void Start()
         {
             Init();
+            
+        }
+
+        private void Awake()
+        {
+            actions = new InputActions();
+            actions.Enable();
+            actions.Default.Movement.performed += e => iM = e.ReadValue<Vector2>();
         }
         void Init()
         {
@@ -103,8 +113,8 @@ namespace SA
             if (!isLerping)
             {
 
-                horizontal = Input.GetAxis("Horizontal");
-                vertical = Input.GetAxis("Vertical");
+                horizontal = iM.x;
+                vertical = iM.y;
 
                 if (vertical < 0)
                 {

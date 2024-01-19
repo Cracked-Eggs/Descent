@@ -2,6 +2,8 @@ using Cinemachine;
 using UnityEngine;
 using SA;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -96,6 +98,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]Transform groundCheck;
     [SerializeField]LayerMask ground;
 
+    InputActions inputActions;
+
 
     public MovementState state;
     public enum MovementState
@@ -122,7 +126,28 @@ public class PlayerController : MonoBehaviour
         currentBobAmplitude = walkBobAmplitude;
         targetHeight = standingHeight;
         cb = GetComponent<FreeClimb>();
+
+        inputActions = new InputActions();
+        inputActions.Enable();
+
+        inputActions.Default.Movement.performed += OnMovement;
+        inputActions.Default.Movement.canceled += OnMovement;
+        inputActions.Default.Look.performed += OnLook;
+        inputActions.Default.Jump.performed += OnJump;
+        inputActions.Default.Run.performed += OnRun;
+        inputActions.Default.Crouch.performed += OnCrouch;
+
+    }
+
+    void OnDestroy()
+    {
         
+        inputActions.Default.Movement.performed -= OnMovement;
+        inputActions.Default.Movement.canceled -= OnMovement;
+        inputActions.Default.Look.performed -= OnLook;
+        inputActions.Default.Jump.performed -= OnJump;
+        inputActions.Default.Run.performed -= OnRun;
+        inputActions.Default.Crouch.performed -= OnCrouch;
     }
 
     void Start()
@@ -134,16 +159,12 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+     
        
-       
-        
-        if (_canRestart)
-            if (Input.GetKeyDown(KeyCode.R)) SceneManager.LoadScene(0);
 
         wasClimbing = climbing;
         climbing = false;
 
-       
 
         if (ropeClimbing)
             return;
@@ -158,8 +179,9 @@ public class PlayerController : MonoBehaviour
         if (canUseFootsteps)
             Footsteps();
 
-        bool isSprintKeyPressed = Input.GetKey(sprintKey) && Input.GetAxisRaw("Vertical") > 0;
-        bool isCrouchKeyPressed = Input.GetKey(crouchKey);
+        bool isSprintKeyPressed = inputActions.Default.Run.ReadValue<float>() > 0 && inputActions.Default.Movement.ReadValue<Vector2>().y > 0;
+        bool isCrouchKeyPressed = inputActions.Default.Crouch.ReadValue<float>() > 0;
+
 
         if (isCrouchKeyPressed && !isSprintKeyPressed)
              curry = true;
@@ -211,6 +233,38 @@ public class PlayerController : MonoBehaviour
             jumpedOffLedge = true;
             YPosBeforeJump = characterController.transform.position.y;
         }
+    }
+
+    void OnMovement(InputAction.CallbackContext context)
+    {
+        Vector2 movementInput = context.ReadValue<Vector2>();
+        // Process the movement input
+        // ...
+    }
+
+    void OnLook(InputAction.CallbackContext context)
+    {
+        Vector2 lookInput = context.ReadValue<Vector2>();
+        // Process the look input
+        // ...
+    }
+
+    void OnJump(InputAction.CallbackContext context)
+    {
+        // Process the jump input
+        // ...
+    }
+
+    void OnRun(InputAction.CallbackContext context)
+    {
+        // Process the run input
+        // ...
+    }
+
+    void OnCrouch(InputAction.CallbackContext context)
+    {
+        // Process the crouch input
+        // ...
     }
     void HandleCrouch()
     {
@@ -308,12 +362,8 @@ public class PlayerController : MonoBehaviour
             velocity = 0;
         }
 
-        
-       
-        
         moveDir.y = velocity;
         characterController.Move(moveDir * Time.deltaTime);
-
 
     }
 
@@ -335,8 +385,7 @@ public class PlayerController : MonoBehaviour
     }
     void Move()
     {
-        
-        
+
         if (ropeClimbing) return;
 
         if (freeze)
@@ -346,15 +395,11 @@ public class PlayerController : MonoBehaviour
             characterController.SimpleMove(Vector3.zero);
         }
 
-        currInput = new Vector2((isSprinting ? sprintSpeed : moveSpeed) * Input.GetAxis("Vertical"), (isSprinting ? sprintSpeed : moveSpeed) * Input.GetAxis("Horizontal"));
-        
-        moveDir = (transform.TransformDirection(Vector3.forward) * currInput.x) + (transform.TransformDirection(Vector3.right) * currInput.y);
-        
-        
-       
+        Vector2 currInput = inputActions.Default.Movement.ReadValue<Vector2>();
+        Vector3 moveDir = (transform.TransformDirection(Vector3.forward) * currInput.x) + (transform.TransformDirection(Vector3.right) * currInput.y);
+
         characterController.Move(moveDir * Time.deltaTime);
-        jumpInput = 0;
-       
+
 
     }
 }

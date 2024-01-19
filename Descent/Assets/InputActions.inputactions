@@ -40,6 +40,33 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Crouch",
+                    "type": "Button",
+                    "id": "19693888-1cbf-4acf-b1c4-d51701b3614e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Prone",
+                    "type": "Button",
+                    "id": "48fb7441-b814-40d1-bc5e-f2d7d175c45f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RunReleased",
+                    "type": "Button",
+                    "id": "492739ba-f31a-48ba-a023-02a248c75068",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -128,6 +155,39 @@
                     "processors": "",
                     "groups": "KeyboardAndMouse",
                     "action": "Run",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3edc1d7f-bd56-4c80-a786-1e102fd933e4",
+                    "path": "<Keyboard>/c",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Prone",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "781bfdb6-fbcb-448f-8acc-e5c8378eeea1",
+                    "path": "<Keyboard>/c",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "KeyboardAndMouse",
+                    "action": "Crouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ecf2ce6e-db26-4d40-add1-684698f308b2",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RunReleased",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

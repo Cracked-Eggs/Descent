@@ -4,25 +4,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using SA;
 using Unity.VisualScripting;
+using static playerPrefss;
 
 public class MouseLook : MonoBehaviour
 {
     [SerializeField] CinemachineVirtualCamera virtualCamera;
-    [SerializeField] PlayerController pm;
-    [Header("Look Settings")]
-    [SerializeField, Range(0, 1)] float lookSpeedX = 2.0f;
-    [SerializeField, Range(0, 1)] float lookSpeedY = 2.0f;
-    [SerializeField, Range(1, 180)] float upperlookLimit = 80.0f;
-    [SerializeField, Range(1, 180)] float lowerlookLimit = 80.0f;
-    float _mouseMovementX = 0;
-    float _mouseMovementY = 0;
+    [SerializeField] _CharacterController pm;
+    private CharacterController controller;
+
+    private InputActions actions;
+
+    private Vector2 inputView;
+    Vector3 movementSpeed;
+
+    private Vector3 CameraRot;
+    private Vector3 CharacterRot;
+
+    public Transform cameraHolder;
+
+    public float defaultFOV = 60f;
+    public float sprintingFOV = 70f;
+
+    public PlayerSettings playerSettings;
+    public float viewClampYMin = -70;
+    public float viewClampYMax = 80;
 
     public FreeClimb c;
     public PlayerStateManager p;
     // Start is called before the first frame update
     void Start()
     {
-        
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void Init()
@@ -30,26 +43,34 @@ public class MouseLook : MonoBehaviour
          c = GetComponent<FreeClimb>();
     }
 
+    void Awake()
+    {
+        actions = new InputActions();
+        actions.Enable();
+
+        actions.Default.Look.performed += e => inputView = e.ReadValue<Vector2>();
+
+        controller = GetComponent<CharacterController>();
+    }
     // Update is called once per frame
     void Update()
     {
         MouseLooks();
 
-      
-       
     }
     void MouseLooks()
     {
-        _mouseMovementX -= Input.GetAxis("Mouse Y") * lookSpeedY;
         
-        _mouseMovementX = Mathf.Clamp(_mouseMovementX, -upperlookLimit, lowerlookLimit);
-        virtualCamera.transform.localRotation = Quaternion.Euler(_mouseMovementX, 0, 0);
-        transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeedX, 0);
-        
-        
-        
-        
-       
+
+        CharacterRot.y += playerSettings.ViewXSensitivity * (playerSettings.ViewXInverted ? -inputView.x : inputView.x) * Time.deltaTime;
+        transform.rotation = Quaternion.Euler(CharacterRot);
+
+        CameraRot.x += playerSettings.ViewYSensitivity * (playerSettings.ViewYInverted ? inputView.y : -inputView.y) * Time.deltaTime;
+        CameraRot.x = Mathf.Clamp(CameraRot.x, viewClampYMin, viewClampYMax);
+
+        cameraHolder.localRotation = Quaternion.Euler(CameraRot);
+        Debug.Log("Input X: " + inputView.x + ", Input Y: " + inputView.y);
+        Debug.Log("CharacterRot: " + CharacterRot + ", CameraRot: " + CameraRot);
 
     }
 }
