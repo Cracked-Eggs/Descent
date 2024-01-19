@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: RockProc
-    second: {fileID: 2100000, guid: 71afd2dfcda2b1b4691e23e5b9952d7f, type: 2}
+    second: {fileID: 2100000, guid: 73622d01f5085914897fb2687ded35f1, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
