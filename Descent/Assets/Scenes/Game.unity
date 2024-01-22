@@ -15675,6 +15675,37 @@ MonoBehaviour:
   m_Bidirectional: 1
   m_AutoUpdatePosition: 1
   m_Area: 0
+--- !u!1 &421758057
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 421758058}
+  m_Layer: 0
+  m_Name: Details
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &421758058
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421758057}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1588256727}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &424551829
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40682,7 +40713,7 @@ MonoBehaviour:
     strength: 0.3
     debugColour: {r: 0.7486697, g: 0, b: 0.79622644, a: 0.5803922}
     name: Main Vision
-  visualize: 1
+  visualize: 0
   numLines: 56
   step: 2
 --- !u!114 &1123099139
@@ -55616,6 +55647,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1236747192}
+  - {fileID: 421758058}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1589165118
@@ -79216,8 +79248,8 @@ MonoBehaviour:
   camera: {fileID: 7574268317143250653}
   walkSpeed: 5
   runSpeed: 10
-  verticalMouseSensitivity: 25
-  horizontalMouseSensitivity: 25
+  verticalMouseSensitivity: 20
+  horizontalMouseSensitivity: 20
   gravity: 9.8
   jumpForce: 4
   jumpBuffering: 0.2
