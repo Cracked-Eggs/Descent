@@ -69019,7 +69019,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1618544889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94901,7 +94901,7 @@ Transform:
   m_GameObject: {fileID: 405104035468508599}
   serializedVersion: 2
   m_LocalRotation: {x: -0.029883869, y: -0.09313312, z: -0.0061346283, w: 0.9951862}
-  m_LocalPosition: {x: -0.014002938, y: 0.35100004, z: 0.20999908}
+  m_LocalPosition: {x: -0.013999712, y: 0.35100022, z: 0.20999888}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -96154,7 +96154,7 @@ Transform:
   m_GameObject: {fileID: 5842458674498995421}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.78446376, z: -0, w: 0.62017465}
-  m_LocalPosition: {x: 13.32, y: 1.7, z: -84.52}
+  m_LocalPosition: {x: -35.23, y: 8.52, z: 0.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -96194,8 +96194,8 @@ MonoBehaviour:
   camera: {fileID: 7574268317143250653}
   walkSpeed: 5
   runSpeed: 8
-  verticalMouseSensitivity: 4
-  horizontalMouseSensitivity: 4
+  verticalMouseSensitivity: 6
+  horizontalMouseSensitivity: 6
   gravity: 9.8
   jumpForce: 4
   jumpBuffering: 0.5
