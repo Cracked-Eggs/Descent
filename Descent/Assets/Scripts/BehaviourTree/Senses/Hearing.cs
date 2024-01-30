@@ -26,20 +26,17 @@ public class Hearing : MonoBehaviour
 
         madeQuietSound.Subscribe((bool _) =>
         {
-            Debug.Log("Made quiet sound");
             //Temporary, change it so the monster can hear sounds that do not originate from the player
             AlertMonster(quietNoiseAlertness, variables.player.position);
         });
 
         madeMediumSound.Subscribe((bool _) => 
         {
-            Debug.Log("Made medium sound");
             AlertMonster(mediumNoiseAlertness, variables.player.position);
         });
 
         madeLoudSound.Subscribe((bool _) => 
         {
-            Debug.Log("Made loud sound");
             AlertMonster(loudNoiseAlertness, variables.player.position);
         });
     }
@@ -56,6 +53,5 @@ public class Hearing : MonoBehaviour
 
         variables.alertness += attentuatedAlertness;
         variables.playerLastKnownPos = soundPosition;
-        Debug.Log(variables.alertness);
     }
 }

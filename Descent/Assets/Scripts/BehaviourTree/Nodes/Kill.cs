@@ -9,7 +9,6 @@ public class Kill : NodeBase
     public MonsterVariables variables;
     public Transform newPlayerCamPos;
     public Animator monsterAnimator;
-    public string playerCameraName;
     public string flashlightName;
     public float lerpSpeed;
     public float newFlashlightIntensity;
@@ -29,7 +28,7 @@ public class Kill : NodeBase
     public override void OnTransition()
     {
         m_player = variables.player;
-        m_playerCamera = m_player.GetChild(0).Find(playerCameraName);
+        m_playerCamera = variables.playerCamera;
         m_playerFlashlight = GameObject.Find(flashlightName).GetComponent<Light>();
         m_cameraAnimator = m_playerCamera.GetComponent<Animator>();
 

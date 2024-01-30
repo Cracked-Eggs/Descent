@@ -8,36 +8,34 @@ public class PlayerSight : MonoBehaviour
     public float playerFOV;
     public float playerVisionRange;
     public EventObject playerCantSeeEvent;
+    public SkinnedMeshRenderer spiderRenderer;
+    public LayerMask wallLayer;
+    public float missThreshold;
 
-    void Update()
+    void FixedUpdate()
     {
-        Vector3 toPlayer = (variables.player.position - variables.spider.position);
-
-        if (toPlayer.magnitude >= playerVisionRange)
-        {
-            playerCantSeeEvent.Invoke(true);
-            return;
-        }
+        Vector3 toPlayer = (variables.player.position - variables.spiderEyes.position);
 
         RaycastHit hit;
-        if(!Physics.Raycast(variables.spider.position, toPlayer.normalized, out hit))
+        if(!Physics.Raycast(variables.spiderEyes.position, toPlayer.normalized, out hit, Mathf.Infinity, wallLayer))
         {
             playerCantSeeEvent.Invoke(true);
             return;
         }
 
-        if (hit.collider.name != variables.playerName)
+        if (hit.collider.name != variables.playerName && (hit.point - variables.player.position).magnitude > missThreshold)
         {
             playerCantSeeEvent.Invoke(true);
             return;
         }
 
-        if(Vector3.Dot(variables.player.forward, -toPlayer.normalized) < playerFOV)
+        if (spiderRenderer.isVisible)
+        {
+            playerCantSeeEvent.Invoke(false);
+        }
+        else
         {
             playerCantSeeEvent.Invoke(true);
-            return;
         }
-
-        playerCantSeeEvent.Invoke(false);
     }
 }

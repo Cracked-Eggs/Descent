@@ -7,37 +7,46 @@ public class Flee : NodeBase
     public List<Transform> fleePoints;
     public MonsterMovementController controller;
     public MonsterVariables variables;
+    public float lowerDotProductBounds;
+    public float upperDotProductBounds;
+    public float minPlayerDistanceFromWaypoint;
 
-    public override void OnTransition()
-    {
-        controller.Run();
-        controller.Move(variables.spider.position);
-    }
-
-    public override void OnExit()
-    {
-        controller.Walk();
-    }
+    public EventObject deManifest;
+    public EventObject manifest;
 
     public override void Tick()
     {
-        if (!controller.ReachedTarget())
-            return;
-
-        int furthestTargetIndex = 0;
-        float furthestTargetDistance = 0.0f;
+        int bestWaypointIndex = -1;
 
         for (int i = 0; i < fleePoints.Count; i++)
         {
-            float distanceToWaypoint = (variables.spider.position - fleePoints[i].position).magnitude;
+            Vector3 toWaypoint = variables.spider.position - fleePoints[i].position;
+            Vector3 waypointToPlayer = variables.player.position - fleePoints[i].position;
 
-            if (distanceToWaypoint >= furthestTargetDistance)
+            float dotProduct = Mathf.Abs(Vector3.Dot(toWaypoint.normalized, variables.playerCamera.forward));
+
+            RaycastHit hit;
+            if (waypointToPlayer.magnitude < minPlayerDistanceFromWaypoint)
             {
-                furthestTargetIndex = i;
-                furthestTargetDistance = distanceToWaypoint;
+                continue;
+            }
+
+            if (dotProduct > lowerDotProductBounds && dotProduct < upperDotProductBounds)
+            {
+                bestWaypointIndex = i;
+                break;
             }
         }
 
-        controller.Move(fleePoints[furthestTargetIndex].position);
+        if (bestWaypointIndex == -1)
+        {
+            manifest.Invoke(true);
+            deManifest.Invoke(false);
+            Debug.Log("Could not find waypoint, killing instead");
+            return;
+        }
+
+        controller.Run();
+        controller.Move(fleePoints[bestWaypointIndex].position);
     }
 }

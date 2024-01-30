@@ -6,5 +6,9 @@ public class Manifest : NodeBase
 {
     public MonsterMovementController controller;
 
-    public override void OnTransition() => controller.Manifest();
+    public override void OnTransition()
+    {
+        controller.Manifest();
+        controller.Walk();
+    }
 }

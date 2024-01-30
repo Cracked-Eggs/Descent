@@ -45,6 +45,7 @@ public class MonsterMovementController : MonoBehaviour
         controller.enabled = false;
         spiderMesh.enabled = false;
         variables.enabled = false;
+        variables.alertness = 0.0f;
     }
 
     private void SetRunning(bool isRunning)
