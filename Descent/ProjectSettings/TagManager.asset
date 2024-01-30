@@ -19,6 +19,7 @@ TagManager:
   - NoDeath
   - Pick Holder
   - pickup
+  - PlayerCamera
   layers:
   - Default
   - TransparentFX

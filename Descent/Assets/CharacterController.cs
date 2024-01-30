@@ -8,6 +8,7 @@ using System.Dynamic;
 using Unity.VisualScripting;
 using JetBrains.Annotations;
 using SA;
+using System.Runtime.CompilerServices;
 
 public class _CharacterController : MonoBehaviour
 {
@@ -67,7 +68,15 @@ public class _CharacterController : MonoBehaviour
 
     bool canMove = true;
 
-    
+    public GroundCheck gc;
+
+    public float maxStamina = 100f;
+    public float currentStamina;
+    public float staminaConsumptionRate = 20f; 
+    public float staminaRegenerationRate = 10f;
+
+    private bool canSprint = true;
+
     void Awake()
     {
         actions = new InputActions();
@@ -93,6 +102,10 @@ public class _CharacterController : MonoBehaviour
         sm = GetComponent<PlayerStateManager>();
        
         virtualCamera = GameObject.FindWithTag("PlayerCamera").GetComponent<CinemachineVirtualCamera>();
+
+        currentStamina = maxStamina;
+
+
     }
 
     void Update()
@@ -101,19 +114,39 @@ public class _CharacterController : MonoBehaviour
         View();
         if (canMove)
         {
+            if (isSprinting)
+            {
+                currentStamina -= staminaConsumptionRate * Time.deltaTime;
+                currentStamina = Mathf.Clamp(currentStamina, 0f, maxStamina);
+
+                if (currentStamina <= 0)
+                {
+                    isSprinting = false;
+                }
+            }
+            else
+            {
+                // Regenerate stamina when not sprinting
+                currentStamina += staminaRegenerationRate * Time.deltaTime;
+                currentStamina = Mathf.Clamp(currentStamina, 0f, maxStamina);
+            }
+
+            View();
             Movement();
             ApplyGravity();
             CalculateStance();
         }
-        
-        
+       
     }
+
     private void Start()
     {
         cb = GetComponent<FreeClimb>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
+
+  
 
     void View()
     {
@@ -138,7 +171,11 @@ public class _CharacterController : MonoBehaviour
 
     void Jump()
     {
-        if (controller.isGrounded && playerStance == PlayerStance.Stand)
+        if (gc.isGrounded == false)
+        {
+            Debug.Log("Can't jump");
+        }
+        if (gc.isGrounded == true && playerStance == PlayerStance.Stand)
         {
             velocity = 0;
             isJumping = true;
@@ -160,17 +197,18 @@ public class _CharacterController : MonoBehaviour
         movementSpeed.y = velocity;
         controller.Move(movementSpeed * Time.deltaTime);
         isJumping = false;
+   
     }
 
     void ApplyGravity()
     {
-        if (!controller.isGrounded)
+        if (!gc.isGrounded)
         {
             velocity += gravity * gravityMultiplier * Time.deltaTime;
             //Debug.Log("velocity" + velocity);
         }
 
-        if (controller.isGrounded && velocity < 0)
+        if (gc.isGrounded && velocity < 0)
         {
             velocity = 0;
         }
@@ -223,22 +261,25 @@ public class _CharacterController : MonoBehaviour
 
     void Crouch()
     {
-        if (!isSprinting && (!CheckHeadCollision(PlayerStance.Crouch) || playerStance == PlayerStance.Stand))
+        if (!isSprinting && (!CheckHeadCollision(PlayerStance.Crouch) || playerStance == PlayerStance.Stand)&& canMove)
         {
             if (playerStance == PlayerStance.Crouch)
             {
                 playerStance = PlayerStance.Stand;
+                canSprint = true;
                 return;
             }
             playerStance = PlayerStance.Crouch;
+            canSprint = false;
         }
     }
     
     void Prone()
     {
-        if (!isSprinting && (!CheckHeadCollision(PlayerStance.Prone) || playerStance == PlayerStance.Crouch ))
+        if (!isSprinting && (!CheckHeadCollision(PlayerStance.Prone) || playerStance == PlayerStance.Crouch) && canMove)
         {
             playerStance = PlayerStance.Prone;
+            canSprint = false;
         }
     }
 
@@ -265,7 +306,7 @@ public class _CharacterController : MonoBehaviour
 
         if (Physics.Raycast(raycastOrigin, Vector3.up, out RaycastHit hit, raycastDistance, playerMask))
         {
-            // Adjust the distance based on the error margin
+            
             if (hit.distance < raycastDistance + stanceCheckErrorMargin)
             {
                 
@@ -274,12 +315,12 @@ public class _CharacterController : MonoBehaviour
             }
         }
 
-        return false; // No head collision detected, can change stance
+        return false; 
     }
 
     void ToggleSprint()
     {
-        if (playerStance == PlayerStance.Stand && inputMovement.y > 0.2f)
+        if (playerStance == PlayerStance.Stand && inputMovement.y > 0.2f && canSprint && currentStamina > 0)
         {
             isSprinting = !isSprinting;
         }

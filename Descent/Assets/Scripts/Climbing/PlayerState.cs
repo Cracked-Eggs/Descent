@@ -152,7 +152,7 @@ public class PlayerStateManager : MonoBehaviour
 
         
         CheckForValidWall();
-        if (checker.isLedgeDetected == true)
+        if (checker.isLedgeDetected == true && isClimbing == true)
         {
             vaultingScript.PerformAutoVault();
             SetWalkingState();
