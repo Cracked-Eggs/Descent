@@ -48,7 +48,6 @@ public class _CharacterController : MonoBehaviour
  
     public CharacterStance playerStand;
     public CharacterStance playerCrouch;
-    public CharacterStance playerProne;
 
     private float stanceCheckErrorMargin = 0.05f;
     private float cameraHeight;
@@ -88,7 +87,7 @@ public class _CharacterController : MonoBehaviour
         actions.Default.Jump.performed += e => Jump();
 
         actions.Default.Crouch.performed += e => Crouch();
-        actions.Default.Prone.performed += e => Prone();
+        
 
         actions.Default.Run.performed += e => ToggleSprint();
         actions.Default.RunReleased.performed += e => StopSprint();
@@ -226,10 +225,7 @@ public class _CharacterController : MonoBehaviour
         {
             currentStance = playerCrouch;
         }
-        else if (playerStance == PlayerStance.Prone)
-        {
-            currentStance = playerProne;
-        }
+        
         cameraHeight = Mathf.SmoothDamp(cameraHolder.localPosition.y, currentStance.CameraHeight,ref cameraHeightVelocity, playerStanceSmoothing);
         cameraHolder.localPosition = new Vector3(cameraHolder.localPosition.x,cameraHeight,cameraHolder.localPosition.z);
 
@@ -273,15 +269,7 @@ public class _CharacterController : MonoBehaviour
             canSprint = false;
         }
     }
-    
-    void Prone()
-    {
-        if (!isSprinting && (!CheckHeadCollision(PlayerStance.Prone) || playerStance == PlayerStance.Crouch) && canMove)
-        {
-            playerStance = PlayerStance.Prone;
-            canSprint = false;
-        }
-    }
+   
 
     bool CheckHeadCollision(PlayerStance newStance)
     {

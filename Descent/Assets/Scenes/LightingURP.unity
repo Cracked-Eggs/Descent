@@ -9462,7 +9462,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 102
+  m_fontSize: 55.05
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -10799,44 +10799,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a4ffd6cd55bbdd142a78bfd1371d9865, type: 3}
   m_PrefabInstance: {fileID: 1115280996}
   m_PrefabAsset: {fileID: 0}
---- !u!84 &1494004167
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 5
-  m_Width: 425
-  m_Height: 601
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 90
-  m_ColorFormat: 48
-  m_MipMap: 1
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1 &1503452678
 GameObject:
   m_ObjectHideFlags: 0
@@ -12286,7 +12248,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 1494004167}
+  m_TargetTexture: {fileID: 1929092517}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -12724,7 +12686,7 @@ Transform:
   m_GameObject: {fileID: 1866303980}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.031, z: 0}
+  m_LocalPosition: {x: 0, y: 0.094, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13072,6 +13034,44 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1907103579}
   m_Mesh: {fileID: -2477511411847689622, guid: bc4b1978c21069b43867b48d651ce46a, type: 3}
+--- !u!84 &1929092517
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 5
+  m_Width: 934
+  m_Height: 551
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 90
+  m_ColorFormat: 48
+  m_MipMap: 1
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1001 &1949444439
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13894,7 +13894,7 @@ Transform:
   m_GameObject: {fileID: 4835397607390532782}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.000036239624, y: 0.000017166138, z: -0.000030517578}
+  m_LocalPosition: {x: 0.000036239624, y: -1, z: -0.000030517578}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -18291,7 +18291,6 @@ GameObject:
   - component: {fileID: 6932190743281352769}
   - component: {fileID: 6932190743281352768}
   - component: {fileID: 6932190743281352767}
-  - component: {fileID: 6932190743281352766}
   m_Layer: 8
   m_Name: '[PLAYER]'
   m_TagString: Player
@@ -18308,7 +18307,7 @@ Transform:
   m_GameObject: {fileID: 6164847732299492607}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.000036239624, y: 0.000017166138, z: -0.000030517578}
+  m_LocalPosition: {x: 0.000036239624, y: -1, z: -0.000030517578}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -18693,40 +18692,14 @@ MonoBehaviour:
     CameraHeight: 0.65
     StanceCollider: {fileID: 6932190743281352768}
   playerCrouch:
-    CameraHeight: 0.4
-    StanceCollider: {fileID: 6932190743281352767}
-  playerProne:
     CameraHeight: 0.2
-    StanceCollider: {fileID: 6932190743281352766}
+    StanceCollider: {fileID: 6932190743281352767}
   test: 0
   gc: {fileID: 982872680}
   maxStamina: 100
   currentStamina: 0
   staminaConsumptionRate: 20
   staminaRegenerationRate: 10
---- !u!136 &6932190743281352766
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6372428297839794623}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 1.14
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.57, z: 0}
 --- !u!136 &6932190743281352767
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -18747,7 +18720,7 @@ CapsuleCollider:
   m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 1.5
+  m_Height: 1.2
   m_Direction: 1
   m_Center: {x: 0, y: 0.75, z: 0}
 --- !u!136 &6932190743281352768
