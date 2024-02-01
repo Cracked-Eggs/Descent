@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MonsterMovementController : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class MonsterMovementController : MonoBehaviour
     public MonsterIKController controller;
     public MonsterVariables variables;
     public SkinnedMeshRenderer spiderMesh;
+    public NavMeshAgent runnerAgent;
 
     public float stopChaseDistance;
 
@@ -33,19 +35,21 @@ public class MonsterMovementController : MonoBehaviour
 
     public void Manifest()
     {
+        runner.enabled = true;
         spiderMesh.enabled = true;
         controller.enabled = true;
-        spiderMesh.enabled = true;
         variables.enabled = true;
+        runnerAgent.enabled = true;
     }
 
     public void DeManifest()
     {
+        runner.enabled = false;
         spiderMesh.enabled = false;
         controller.enabled = false;
-        spiderMesh.enabled = false;
         variables.enabled = false;
         variables.alertness = 0.0f;
+        runnerAgent.enabled = false;
     }
 
     private void SetRunning(bool isRunning)
