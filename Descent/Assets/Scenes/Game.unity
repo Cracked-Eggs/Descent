@@ -51404,14 +51404,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   probabilityEvents:
   - eventObject: {fileID: 11400000, guid: 6fb9bdfa763198948846c9748dea4b59, type: 2}
-    probability: 0
+    probability: 0.7
     alwaysTrigger: 0
     rollDelay: 5
     invertBool: 0
     rollOn: {fileID: 11400000, guid: 2397e8ccc5f97d541845e922f7e19ca2, type: 2}
     m_canRoll: 0
   - eventObject: {fileID: 11400000, guid: 1ec5d95a802c9c047b8659972ed1fa47, type: 2}
-    probability: 1
+    probability: 0.3
     alwaysTrigger: 1
     rollDelay: 10
     invertBool: 1
