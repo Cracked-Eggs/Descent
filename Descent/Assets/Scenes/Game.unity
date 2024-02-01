@@ -40761,6 +40761,13 @@ MonoBehaviour:
   - condition: {fileID: 11400000, guid: 1d55552d4669f6e44be729694d8be9f6, type: 2}
     isSatisfied: 0
   controller: {fileID: 2254668509849739643}
+  monsterBody: {fileID: 2254668509849739640}
+  runner: {fileID: 830435223}
+  variables: {fileID: 483083407}
+  spawnPoints:
+  - {fileID: 160942320}
+  - {fileID: 1312838068}
+  monsterEmpty: {fileID: 37224331}
 --- !u!114 &888991465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40786,9 +40793,8 @@ MonoBehaviour:
   - {fileID: 401204389}
   controller: {fileID: 2254668509849739643}
   variables: {fileID: 483083407}
-  lowerDotProductBounds: 0
-  upperDotProductBounds: 0.6
   minPlayerDistanceFromWaypoint: 30
+  thresholdBeforeKill: 10
   deManifest: {fileID: 11400000, guid: 1ec5d95a802c9c047b8659972ed1fa47, type: 2}
   manifest: {fileID: 11400000, guid: 6fb9bdfa763198948846c9748dea4b59, type: 2}
 --- !u!1001 &889272718
@@ -51425,14 +51431,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   variables: {fileID: 483083407}
-  playerFOV: 0.7
-  playerVisionRange: 200
+  playerVisionRange: 50
   playerCantSeeEvent: {fileID: 11400000, guid: 1d55552d4669f6e44be729694d8be9f6, type: 2}
   spiderRenderer: {fileID: 372364604684206459}
-  wallLayer:
-    serializedVersion: 2
-    m_Bits: 384
-  missThreshold: 50
 --- !u!114 &1123099143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82001,13 +82002,7 @@ MonoBehaviour:
   - condition: {fileID: 11400000, guid: 6fb9bdfa763198948846c9748dea4b59, type: 2}
     isSatisfied: 0
   controller: {fileID: 2254668509849739643}
-  monsterEmpty: {fileID: 37224331}
   monsterBody: {fileID: 2254668509849739640}
-  runner: {fileID: 830435223}
-  variables: {fileID: 483083407}
-  spawnPoints:
-  - {fileID: 160942320}
-  - {fileID: 1312838068}
 --- !u!1001 &1808295329
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -99028,6 +99023,7 @@ MonoBehaviour:
   newFlashlightIntensity: 3
   killTrigger: Kill
   deathSceneName: Death
+  defaultNode: {fileID: 710890170}
 --- !u!4 &2306682817045045835
 Transform:
   m_ObjectHideFlags: 0

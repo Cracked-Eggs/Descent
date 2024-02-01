@@ -24,6 +24,7 @@ public class Kill : NodeBase
     private bool m_setTrigger;
     private bool m_setCameraTrigger;
     private float m_lerp;
+    public NodeBase defaultNode;
 
     public override void OnTransition()
     {
@@ -34,6 +35,8 @@ public class Kill : NodeBase
 
         m_player.GetComponent<PlayerController_>().enabled = false;
         m_isPlaying = true;
+
+        defaultNode.children.RemoveAt(1);
     }
 
     private void Update()

@@ -7,46 +7,39 @@ public class Flee : NodeBase
     public List<Transform> fleePoints;
     public MonsterMovementController controller;
     public MonsterVariables variables;
-    public float lowerDotProductBounds;
-    public float upperDotProductBounds;
     public float minPlayerDistanceFromWaypoint;
+    public float thresholdBeforeKill;
 
     public EventObject deManifest;
     public EventObject manifest;
 
-    public override void Tick()
+    public override void OnTransition()
     {
         int bestWaypointIndex = -1;
+        float furthestDistance = 0.0f;
 
         for (int i = 0; i < fleePoints.Count; i++)
         {
-            Vector3 toWaypoint = variables.spider.position - fleePoints[i].position;
-            Vector3 waypointToPlayer = variables.player.position - fleePoints[i].position;
+            Vector3 toWaypoint = variables.player.position - fleePoints[i].position;
 
-            float dotProduct = Mathf.Abs(Vector3.Dot(toWaypoint.normalized, variables.playerCamera.forward));
-
-            RaycastHit hit;
-            if (waypointToPlayer.magnitude < minPlayerDistanceFromWaypoint)
+            if (toWaypoint.magnitude > furthestDistance)
             {
-                continue;
-            }
-
-            if (dotProduct > lowerDotProductBounds && dotProduct < upperDotProductBounds)
-            {
+                furthestDistance = toWaypoint.magnitude;
                 bestWaypointIndex = i;
-                break;
             }
-        }
-
-        if (bestWaypointIndex == -1)
-        {
-            manifest.Invoke(true);
-            deManifest.Invoke(false);
-            Debug.Log("Could not find waypoint, killing instead");
-            return;
         }
 
         controller.Run();
         controller.Move(fleePoints[bestWaypointIndex].position);
+    }
+
+    public override void Tick()
+    {
+        if ((variables.player.position - variables.spider.position).magnitude <= thresholdBeforeKill)
+        {
+            deManifest.Invoke(false);
+            manifest.Invoke(true);
+            return;
+        }
     }
 }
