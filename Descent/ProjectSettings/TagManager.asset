@@ -18,6 +18,9 @@ TagManager:
   - UV Num
   - NoDeath
   - Rope
+  - PlayerCamera
+  - pickup
+  - Reach
   layers:
   - Default
   - TransparentFX
