@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class LevelChanger : MonoBehaviour
 {
     public Animator anim;
-    public PageManager pageManager;
+
     public string switchLevel;
 
     
