@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PageManager : MonoBehaviour
 {
@@ -9,6 +11,9 @@ public class PageManager : MonoBehaviour
     public List<Pages> pages = new List<Pages>();
 
     public int pageCount = 5;
+    public int pageCountUpdate = 0;
+
+    public TextMeshProUGUI pageCountText;
 
    
 
@@ -44,11 +49,13 @@ public class PageManager : MonoBehaviour
 
     void Update()
     {
+        pageCountText.text = "Collect Pages:" + pageCountUpdate + "/5";
+        
         if (pageCount == 0)
         {
             Debug.Log("all pages collected");
             
-            levelChanger.FadeToLevel();
+            levelChanger.FadeToLevel("Win");
         }
     }
 }

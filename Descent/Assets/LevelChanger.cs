@@ -7,26 +7,44 @@ public class LevelChanger : MonoBehaviour
 {
     public Animator anim;
     public PageManager pageManager;
-    
-    // Update is called once per frame
-   
+    public string switchLevel;
 
-    public void FadeToLevel()
+    
+    
+
+    public void FadeToLevel(string levelname)
     {
+        switchLevel = levelname;    
         anim.SetTrigger("FadeOut");
     }
 
     public void OnFadeComplete()
     {
-       
-        SceneManager.LoadScene("Win");
+      if (switchLevel == "Win") 
+        { 
+            SceneManager.LoadScene("Win"); 
+        }
+       if(switchLevel == "MainMenu")
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
+
     }
 
-    
-    public void OnFadeToMenuComplete()
+    public void FadeToMainMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        switchLevel = "MainMenu";
+        anim.SetTrigger("FadeOut");
     }
 
-    
+    void Update()
+    {
+        if (!SceneManager.GetSceneByName("Game").isLoaded)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+    }
+
+
 }

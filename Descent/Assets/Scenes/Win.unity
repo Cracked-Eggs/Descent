@@ -208,7 +208,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1870210132}
         m_TargetAssemblyTypeName: LevelChanger, Assembly-CSharp
-        m_MethodName: OnFadeToMenuComplete
+        m_MethodName: FadeToMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

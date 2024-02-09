@@ -68,6 +68,7 @@ public class Pages : MonoBehaviour
         Debug.Log($"Objective '{description}' is complete!");
 
         pageManager.pageCount--;
+        pageManager.pageCountUpdate++;
         madeLoudNoise.Invoke(true);
 
         // Optionally trigger additional events or actions upon completion
