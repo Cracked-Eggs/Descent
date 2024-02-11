@@ -68,7 +68,7 @@ public class Sight : MonoBehaviour
             variables.playerLastKnownPos = hit.point;
         }
 
-        if((variables.spider.position - variables.player.position).magnitude <= killRange)
+        if ((variables.spider.position - variables.player.position).magnitude <= killRange)
         {
             onEnteredKillRange.Invoke(true);
         }

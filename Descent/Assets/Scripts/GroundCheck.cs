@@ -11,7 +11,6 @@ public class GroundCheck : MonoBehaviour
     void Update()
     {
         isGrounded = CheckGround();
-        Debug.Log("Is Grounded: " + isGrounded);
     }
 
     bool CheckGround()

@@ -173,16 +173,11 @@ public class _CharacterController : MonoBehaviour
 
     void Jump()
     {
-        if (gc.isGrounded == false)
-        {
-            Debug.Log("Can't jump");
-        }
         if (gc.isGrounded == true && playerStance == PlayerStance.Stand)
         {
             velocity = 0;
             isJumping = true;
             velocity += jumpForce;
-            Debug.Log("jumping");
             madeMediumNoise.Invoke(true);
         }
          
@@ -238,7 +233,6 @@ public class _CharacterController : MonoBehaviour
     }
     void Movement()
     {
-        Debug.Log("Moving");
         if(inputMovement.y <= 0.2f)
         {
             isSprinting = false;
