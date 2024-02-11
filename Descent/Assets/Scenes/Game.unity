@@ -51747,14 +51747,14 @@ MonoBehaviour:
     name: InstaKill Vision
   - coneFOVXZ: 0.01
     coneFOVYZ: 0.06
-    distance: 31.2
-    strength: 0.15
+    distance: 43.5
+    strength: 0.3
     debugColour: {r: 1, g: 0.68964195, b: 0, a: 0.54509807}
     name: Peripheral Vision
-  - coneFOVXZ: 0.85
-    coneFOVYZ: 0.94
-    distance: 88
-    strength: 0.3
+  - coneFOVXZ: 0.81
+    coneFOVYZ: 0.56
+    distance: 107.5
+    strength: 1
     debugColour: {r: 0.7486697, g: 0, b: 0.79622644, a: 0.5803922}
     name: Main Vision
   visualize: 0
@@ -51820,8 +51820,8 @@ MonoBehaviour:
   madeMediumSound: {fileID: 11400000, guid: 9340b44764e74d7468637fc077d6282a, type: 2}
   madeLoudSound: {fileID: 11400000, guid: 7b2e0e75af06d07498be05cb10929c11, type: 2}
   playerSpotted: {fileID: 11400000, guid: 2397e8ccc5f97d541845e922f7e19ca2, type: 2}
-  quietNoiseAlertness: 1.5
-  mediumNoiseAlertness: 3
+  quietNoiseAlertness: 2
+  mediumNoiseAlertness: 6
   loudNoiseAlertness: 20
   noiseFalloff: 0.1
   variables: {fileID: 483083407}
@@ -98675,7 +98675,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 8793832855325305882}
-  pageManager: {fileID: 1717573330}
   switchLevel: 
 --- !u!1 &142936915471608107
 GameObject:
@@ -99750,7 +99749,6 @@ MonoBehaviour:
   newFlashlightIntensity: 3
   killTrigger: Kill
   deathSceneName: Death
-  defaultNode: {fileID: 710890170}
 --- !u!4 &2306682817045045835
 Transform:
   m_ObjectHideFlags: 0
@@ -100090,7 +100088,7 @@ Transform:
   m_GameObject: {fileID: 405104035468508599}
   serializedVersion: 2
   m_LocalRotation: {x: -0.029883869, y: -0.09313312, z: -0.0061346283, w: 0.9951862}
-  m_LocalPosition: {x: -0.013999712, y: 0.35100022, z: 0.20999888}
+  m_LocalPosition: {x: -0.014002938, y: 0.35100004, z: 0.20999908}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -101341,9 +101339,7 @@ GameObject:
   - component: {fileID: 5636898760819216882}
   - component: {fileID: 4273477398365565469}
   - component: {fileID: 7282274435613205685}
-  - component: {fileID: 7282274435613205686}
   - component: {fileID: 7282274435613205689}
-  - component: {fileID: 7282274435613205688}
   - component: {fileID: 7282274435613205687}
   m_Layer: 8
   m_Name: '[PLAYER]'
@@ -101826,7 +101822,7 @@ Transform:
   m_GameObject: {fileID: 5842458674498995421}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.78446376, z: -0, w: 0.62017465}
-  m_LocalPosition: {x: -35.23, y: 8.52, z: 0.61}
+  m_LocalPosition: {x: -12.3, y: 3.84, z: -87.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -101850,30 +101846,6 @@ MonoBehaviour:
   flashlight: {fileID: 3079296208585497775}
   lerpMovementSpeed: 10
   lerpRotationSpeed: 10
---- !u!114 &7282274435613205686
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5842458674498995421}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e014452ec9be4344eb2c44f3e9725e2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 5636898760819216882}
-  player: {fileID: 7282274435613205684}
-  camera: {fileID: 7574268317143250653}
-  walkSpeed: 5
-  runSpeed: 8
-  verticalMouseSensitivity: 6
-  horizontalMouseSensitivity: 6
-  gravity: 9.8
-  jumpForce: 4
-  jumpBuffering: 0.5
-  madeQuietNoise: {fileID: 11400000, guid: 6455985be25e2144892b8b352b86cb77, type: 2}
-  madeMediumNoise: {fileID: 11400000, guid: 9340b44764e74d7468637fc077d6282a, type: 2}
 --- !u!136 &7282274435613205687
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -101897,29 +101869,6 @@ CapsuleCollider:
   m_Height: 1.95
   m_Direction: 1
   m_Center: {x: 0, y: 0.75, z: 0}
---- !u!136 &7282274435613205688
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5842458674498995421}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2.5
-  m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &7282274435613205689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101932,6 +101881,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c99f58e58162ae4c8dba7c94f12f236, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controller: {fileID: 5636898760819216882}
   playerMask:
     serializedVersion: 2
     m_Bits: 3839
@@ -101965,7 +101915,7 @@ MonoBehaviour:
   playerStanceSmoothing: 0.09
   playerStand:
     CameraHeight: 0.65
-    StanceCollider: {fileID: 7282274435613205688}
+    StanceCollider: {fileID: 7282274435613205687}
   playerCrouch:
     CameraHeight: 0.2
     StanceCollider: {fileID: 7282274435613205687}

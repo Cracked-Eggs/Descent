@@ -24,7 +24,6 @@ public class Kill : NodeBase
     private bool m_setTrigger;
     private bool m_setCameraTrigger;
     private float m_lerp;
-    public NodeBase defaultNode;
 
     public override void OnTransition()
     {
@@ -33,10 +32,8 @@ public class Kill : NodeBase
         m_playerFlashlight = GameObject.Find(flashlightName).GetComponent<Light>();
         m_cameraAnimator = m_playerCamera.GetComponent<Animator>();
 
-        m_player.GetComponent<PlayerController_>().enabled = false;
+        m_player.GetComponent<_CharacterController>().enabled = false;
         m_isPlaying = true;
-
-        defaultNode.children.RemoveAt(1);
     }
 
     private void Update()

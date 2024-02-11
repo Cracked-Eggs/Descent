@@ -12,7 +12,7 @@ using System.Runtime.CompilerServices;
 
 public class _CharacterController : MonoBehaviour
 {
-    private CharacterController controller;
+    public CharacterController controller;
     private InputActions actions;
     CinemachineVirtualCamera virtualCamera;
 
@@ -96,8 +96,6 @@ public class _CharacterController : MonoBehaviour
 
         CameraRot = cameraHolder.localRotation.eulerAngles;
         CharacterRot = transform.localRotation.eulerAngles;
-
-        controller = GetComponent<CharacterController>();
 
         cameraHeight = cameraHolder.localPosition.y;
       
@@ -185,6 +183,7 @@ public class _CharacterController : MonoBehaviour
             isJumping = true;
             velocity += jumpForce;
             Debug.Log("jumping");
+            madeMediumNoise.Invoke(true);
         }
          
         if (playerStance == PlayerStance.Crouch || playerStance == PlayerStance.Prone)
