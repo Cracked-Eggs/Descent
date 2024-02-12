@@ -7107,7 +7107,7 @@ Transform:
   m_GameObject: {fileID: 160942319}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 30.77, y: 3.57, z: -82.05}
+  m_LocalPosition: {x: 30.77, y: 2.59, z: -82.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -51748,16 +51748,16 @@ MonoBehaviour:
   - coneFOVXZ: 0.01
     coneFOVYZ: 0.06
     distance: 43.5
-    strength: 0.3
+    strength: 0.7
     debugColour: {r: 1, g: 0.68964195, b: 0, a: 0.54509807}
     name: Peripheral Vision
-  - coneFOVXZ: 0.81
+  - coneFOVXZ: 0.53
     coneFOVYZ: 0.56
     distance: 107.5
-    strength: 1
+    strength: 2
     debugColour: {r: 0.7486697, g: 0, b: 0.79622644, a: 0.5803922}
     name: Main Vision
-  visualize: 0
+  visualize: 1
   numLines: 56
   step: 2
 --- !u!114 &1123099139
@@ -59352,7 +59352,7 @@ Transform:
   m_GameObject: {fileID: 1312838067}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -99.45, y: -7.52, z: -29.6}
+  m_LocalPosition: {x: -99.45, y: -8.795, z: -29.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
