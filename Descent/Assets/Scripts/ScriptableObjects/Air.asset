@@ -40,4 +40,33 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bbd5f883b35d3254799d4cc583fc80b7, type: 2}
   - {fileID: 11400000, guid: 2c24669b1fba70543812d6fd11ec7d29, type: 2}
   - {fileID: 11400000}
+  topLeftAdjacencies:
+  - {fileID: 11400000, guid: f534b2b263851394a88f1c96c05bd9d7, type: 2}
+  - {fileID: 11400000, guid: f11c5612a6eaf1841b814048bcb5ca56, type: 2}
+  - {fileID: 11400000, guid: 602dd1757d38e2e4496fdf0fe613378b, type: 2}
+  - {fileID: 11400000, guid: bbd5f883b35d3254799d4cc583fc80b7, type: 2}
+  - {fileID: 11400000, guid: 2c24669b1fba70543812d6fd11ec7d29, type: 2}
+  - {fileID: 11400000}
+  topRightAdjacencies:
+  - {fileID: 11400000, guid: f534b2b263851394a88f1c96c05bd9d7, type: 2}
+  - {fileID: 11400000, guid: f11c5612a6eaf1841b814048bcb5ca56, type: 2}
+  - {fileID: 11400000, guid: 602dd1757d38e2e4496fdf0fe613378b, type: 2}
+  - {fileID: 11400000, guid: bbd5f883b35d3254799d4cc583fc80b7, type: 2}
+  - {fileID: 11400000, guid: 2c24669b1fba70543812d6fd11ec7d29, type: 2}
+  - {fileID: 11400000}
+  bottomLeftAdjacencies:
+  - {fileID: 11400000, guid: f534b2b263851394a88f1c96c05bd9d7, type: 2}
+  - {fileID: 11400000, guid: f11c5612a6eaf1841b814048bcb5ca56, type: 2}
+  - {fileID: 11400000, guid: 602dd1757d38e2e4496fdf0fe613378b, type: 2}
+  - {fileID: 11400000, guid: bbd5f883b35d3254799d4cc583fc80b7, type: 2}
+  - {fileID: 11400000, guid: 2c24669b1fba70543812d6fd11ec7d29, type: 2}
+  - {fileID: 11400000}
+  bottomRightAdjacencies:
+  - {fileID: 11400000, guid: f534b2b263851394a88f1c96c05bd9d7, type: 2}
+  - {fileID: 11400000, guid: f11c5612a6eaf1841b814048bcb5ca56, type: 2}
+  - {fileID: 11400000, guid: 602dd1757d38e2e4496fdf0fe613378b, type: 2}
+  - {fileID: 11400000, guid: bbd5f883b35d3254799d4cc583fc80b7, type: 2}
+  - {fileID: 11400000, guid: 2c24669b1fba70543812d6fd11ec7d29, type: 2}
+  - {fileID: 11400000}
   prefab: {fileID: 1972625308132473721, guid: ff6626f343db50b49b5f0eb5c646484b, type: 3}
+  weight: 0.1

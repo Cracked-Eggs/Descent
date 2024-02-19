@@ -69,6 +69,7 @@ public class WaveFunctionCollapse : MonoBehaviour
             {
                 int currentIndex = i * mapSize + v;
 
+                //God help me when I make this 3D
                 List<int> indicies = new List<int>()
                 {
                     //Top/Bottom
@@ -78,17 +79,39 @@ public class WaveFunctionCollapse : MonoBehaviour
                     //Left/Right
                     (v - 1) >= 0 ? i * mapSize + (v - 1) : nullIndex,
                     (v + 1) < mapSize ? i * mapSize + (v + 1) : nullIndex,
+
+                    //TopLeft/TopRight
+                    (v - 1) >= 0 && (i - 1) >= 0 ? (i - 1) * mapSize + (v - 1) : nullIndex,
+                    (v + 1) < mapSize && (i - 1) >= 0 ? (i - 1) * mapSize + (v + 1) : nullIndex,
+                                        
+                    //BottomLeft/BottomRight
+                    (v - 1) >= 0 && (i + 1) < mapSize ? (i + 1) * mapSize + (v - 1) : nullIndex,
+                    (v + 1) < mapSize && (i + 1) < mapSize ? (i + 1) * mapSize + (v + 1) : nullIndex,
                 };
 
                 WFCCell currentCell = cells[currentIndex];
 
-                int randomIndex = Random.Range(0, currentCell.possiblePieces.Count);
+                int index = 0;
+                float randomValue = Random.value;
 
-                GameObject model = Instantiate(currentCell.possiblePieces[randomIndex].prefab, mapParent);
+                for (int j = 0; j < currentCell.possiblePieces.Count; j++)
+                {
+                    float weight = currentCell.possiblePieces[j].weight;
+
+                    if (randomValue <= weight)
+                    {
+                        index = j;
+                        break;
+                    }
+
+                    randomValue -= weight;
+                }
+
+                GameObject model = Instantiate(currentCell.possiblePieces[index].prefab, mapParent);
                 model.transform.position = new Vector3(i - mapSize / 2, 0, v - mapSize / 2) * mapSpacing;
                 instantiatedModels.Add(model);
 
-                WFCPieceObject piece = currentCell.possiblePieces[randomIndex];
+                WFCPieceObject piece = currentCell.possiblePieces[index];
                 currentCell.possiblePieces = new List<WFCPieceObject> { piece };
 
                 cells[currentIndex] = currentCell;
@@ -100,20 +123,28 @@ public class WaveFunctionCollapse : MonoBehaviour
                     switch (j)
                     {
                         case 0:
-                            Debug.Log("Removing top pieces");
                             adjacencies = piece.topAdjacencies; 
                             break;
                         case 1:
-                            Debug.Log("Removing bottom pieces");
                             adjacencies = piece.bottomAdjacencies;
                             break;
                         case 2:
-                            Debug.Log("Removing left pieces");
                             adjacencies = piece.leftAdjacencies;
                             break;
                         case 3:
-                            Debug.Log("Removing right pieces");
                             adjacencies = piece.rightAdjacencies;
+                            break;
+                        case 4:
+                            adjacencies = piece.topLeftAdjacencies;
+                            break;
+                        case 5:
+                            adjacencies = piece.topRightAdjacencies;
+                            break;
+                        case 6:
+                            adjacencies = piece.bottomLeftAdjacencies;
+                            break;
+                        case 7:
+                            adjacencies = piece.bottomRightAdjacencies;
                             break;
                     }
 

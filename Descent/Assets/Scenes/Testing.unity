@@ -422,7 +422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2503763f9fc3b774b92ead25b0deef8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapSize: 15
+  mapSize: 30
   mapSpacing: 4
   mapParent: {fileID: 1281418924}
   mapPieces:
