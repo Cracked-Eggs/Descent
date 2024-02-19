@@ -36,4 +36,4 @@ MonoBehaviour:
   bottomRightAdjacencies:
   - {fileID: 11400000, guid: c24f6a4c3a6f7fa4b94c1c9255592767, type: 2}
   prefab: {fileID: 6416075995807857992, guid: e3cf1832a9a7aa14591f39183feb226a, type: 3}
-  weight: 0.2
+  weight: 0.143
