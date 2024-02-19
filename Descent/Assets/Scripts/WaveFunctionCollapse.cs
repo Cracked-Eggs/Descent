@@ -4,19 +4,41 @@ using UnityEngine;
 
 public class WaveFunctionCollapse : MonoBehaviour
 {
-    public int mapHeight;
-    public int mapWidth;
+    public int mapSize;
     public float mapSpacing;
     public Transform mapParent;
 
-    public List<WFCPiece> mapPieces;
+    public List<WFCPieceObject> mapPieces;
 
     private List<WFCCell> cells;
     private List<GameObject> instantiatedModels;
+    private int nullIndex = -1;
 
     private void Start()
     {
         CreateMap();
+    }
+
+    private void Propogate(int index, List<WFCPieceObject> adjacencies)
+    {
+        if (index == nullIndex)
+            return;
+
+        WFCCell originalCell = cells[index];
+        WFCCell newCell = new WFCCell(cells[index]);
+
+        for (int i = 0; i < originalCell.possiblePieces.Count; i++)
+        {
+            WFCPieceObject currentPiece = originalCell.possiblePieces[i];
+
+            if (!adjacencies.Contains(currentPiece))
+            {
+                Debug.Log("Removed possible piece " + currentPiece.name);
+                newCell.possiblePieces.Remove(currentPiece);
+            }
+        }
+
+        cells[index] = newCell;
     }
 
     [ContextMenu("Regenerate Map")]
@@ -33,101 +55,69 @@ public class WaveFunctionCollapse : MonoBehaviour
         instantiatedModels = new List<GameObject>();
 
         cells = new List<WFCCell>();
-        for (int i = 0; i < mapHeight * mapWidth; i++)
+        for (int i = 0; i < mapSize * mapSize; i++)
         {
             WFCCell cell = new WFCCell();
-            cell.possiblePieces = new List<WFCPiece>();
-
-            for (int v = 0; v < mapPieces.Count; v++)
-            {
-                cell.possiblePieces.Add(mapPieces[v]);
-            }
+            cell.possiblePieces = new List<WFCPieceObject>(mapPieces);
 
             cells.Add(cell);
         }
 
-        //Will fill out grid row by row
-        for (int i = 0; i < mapHeight; i++)
+        for (int i = 0; i < mapSize; i++)
         {
-            for (int v = 0; v < mapWidth; v++) 
+            for (int v = 0; v < mapSize; v++) 
             {
-                int index = i * mapHeight + v;
-                int bottomIndex = (i + 1) * mapHeight + v;
-                int rightIndex = i * mapHeight + (v + 1);
+                int currentIndex = i * mapSize + v;
 
-                //Collapse current cell
-                WFCCell currentCell = cells[index];
+                List<int> indicies = new List<int>()
+                {
+                    //Top/Bottom
+                    (i - 1) >= 0 ? (i - 1) * mapSize + v : nullIndex,
+                    (i + 1) < mapSize ? (i + 1) * mapSize + v : nullIndex,
+
+                    //Left/Right
+                    (v - 1) >= 0 ? i * mapSize + (v - 1) : nullIndex,
+                    (v + 1) < mapSize ? i * mapSize + (v + 1) : nullIndex,
+                };
+
+                WFCCell currentCell = cells[currentIndex];
 
                 int randomIndex = Random.Range(0, currentCell.possiblePieces.Count);
 
                 GameObject model = Instantiate(currentCell.possiblePieces[randomIndex].prefab, mapParent);
-                model.transform.position = new Vector3(i - mapHeight / 2, 0, v - mapWidth / 2) * mapSpacing;
+                model.transform.position = new Vector3(i - mapSize / 2, 0, v - mapSize / 2) * mapSpacing;
                 instantiatedModels.Add(model);
 
-                WFCPiece piece = currentCell.possiblePieces[randomIndex];
-                currentCell.possiblePieces = new List<WFCPiece> { piece };
-                cells[index] = currentCell;
+                WFCPieceObject piece = currentCell.possiblePieces[randomIndex];
+                currentCell.possiblePieces = new List<WFCPieceObject> { piece };
 
-                //Propogate to neighbours
-                if (i + 1 < mapHeight)
+                cells[currentIndex] = currentCell;
+                Debug.Log(i + " " + v + " " + piece.name);
+
+                for (int j = 0; j < indicies.Count; j++)
                 {
-                    WFCCell bottomCell = cells[bottomIndex];
-
-                    for (int k = 0; k < bottomCell.possiblePieces.Count; k++)
+                    List<WFCPieceObject> adjacencies = new List<WFCPieceObject>();
+                    switch (j)
                     {
-                        bool foundPiece = false;
-                        WFCPiece notFoundPiece = new WFCPiece();
-
-                        for (int l = 0; l < piece.possibleAdjacencies.Count; l++)
-                        {
-                            if (bottomCell.possiblePieces[k].prefab.name == piece.possibleAdjacencies[l].name)
-                            {
-                                foundPiece = true;
-                            }
-                            else
-                            {
-                                notFoundPiece = bottomCell.possiblePieces[k];
-                            }
-                        }
-
-                        if (!foundPiece)
-                        {
-                            bottomCell.possiblePieces.Remove(notFoundPiece);
-                        }
+                        case 0:
+                            Debug.Log("Removing top pieces");
+                            adjacencies = piece.topAdjacencies; 
+                            break;
+                        case 1:
+                            Debug.Log("Removing bottom pieces");
+                            adjacencies = piece.bottomAdjacencies;
+                            break;
+                        case 2:
+                            Debug.Log("Removing left pieces");
+                            adjacencies = piece.leftAdjacencies;
+                            break;
+                        case 3:
+                            Debug.Log("Removing right pieces");
+                            adjacencies = piece.rightAdjacencies;
+                            break;
                     }
 
-                    cells[bottomIndex] = bottomCell;
-                }
-
-                if (v + 1 < mapWidth)
-                {
-                    WFCCell rightCell = cells[rightIndex];
-
-                    for (int k = 0; k < rightCell.possiblePieces.Count; k++)
-                    {
-                        bool foundPiece = false;
-                        WFCPiece notFoundPiece = new WFCPiece();
-
-                        for (int l = 0; l < piece.possibleAdjacencies.Count; l++)
-                        {
-                            if (rightCell.possiblePieces[k].prefab.name == piece.possibleAdjacencies[l].name)
-                            {
-                                foundPiece = true;
-                            }
-                            else
-                            {
-                                notFoundPiece = rightCell.possiblePieces[k];
-                            }
-                        }
-
-                        if (!foundPiece)
-                        {
-                            rightCell.possiblePieces.Remove(notFoundPiece);
-                        }
-
-                        cells[rightIndex] = rightCell;
-
-                    }
+                    Propogate(indicies[j], adjacencies);
                 }
             }
         }
@@ -135,15 +125,9 @@ public class WaveFunctionCollapse : MonoBehaviour
 }
 
 [System.Serializable]
-public class WFCPiece
-{
-    public GameObject prefab;
-    public List<GameObject> possibleAdjacencies;
-}
-
-[System.Serializable]
 public struct WFCCell
 {
-    public List<WFCPiece> possiblePieces;
+    public WFCCell(WFCCell other) => possiblePieces = new List<WFCPieceObject> (other.possiblePieces);
+    public List<WFCPieceObject> possiblePieces;
 }
 

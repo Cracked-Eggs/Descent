@@ -422,21 +422,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2503763f9fc3b774b92ead25b0deef8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapHeight: 10
-  mapWidth: 10
-  mapSpacing: 2
+  mapSize: 15
+  mapSpacing: 4
   mapParent: {fileID: 1281418924}
   mapPieces:
-  - prefab: {fileID: 3603837136462667842, guid: 899e27c38964640419b01707e13edfb9, type: 3}
-    possibleAdjacencies:
-    - {fileID: 4560282323204278224, guid: cba848827896c724fadfa8c0434036d7, type: 3}
-  - prefab: {fileID: 2331736771821925140, guid: cd072e275bed2fb41b8b22d6392e76d5, type: 3}
-    possibleAdjacencies:
-    - {fileID: 4560282323204278224, guid: cba848827896c724fadfa8c0434036d7, type: 3}
-  - prefab: {fileID: 4560282323204278224, guid: cba848827896c724fadfa8c0434036d7, type: 3}
-    possibleAdjacencies:
-    - {fileID: 2331736771821925140, guid: cd072e275bed2fb41b8b22d6392e76d5, type: 3}
-    - {fileID: 3603837136462667842, guid: 899e27c38964640419b01707e13edfb9, type: 3}
+  - {fileID: 11400000, guid: c24f6a4c3a6f7fa4b94c1c9255592767, type: 2}
+  - {fileID: 11400000, guid: f534b2b263851394a88f1c96c05bd9d7, type: 2}
+  - {fileID: 11400000, guid: f11c5612a6eaf1841b814048bcb5ca56, type: 2}
+  - {fileID: 11400000, guid: 602dd1757d38e2e4496fdf0fe613378b, type: 2}
+  - {fileID: 11400000, guid: bbd5f883b35d3254799d4cc583fc80b7, type: 2}
+  - {fileID: 11400000, guid: 2c24669b1fba70543812d6fd11ec7d29, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
