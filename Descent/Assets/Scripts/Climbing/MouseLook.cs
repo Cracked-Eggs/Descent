@@ -6,7 +6,6 @@ using UnityEngine;
 public class MouseLook : MonoBehaviour
 {
     [SerializeField] CinemachineVirtualCamera virtualCamera;
-    [SerializeField] PlayerController pm;
     [Header("Look Settings")]
     [SerializeField, Range(0, 1)] float lookSpeedX = 2.0f;
     [SerializeField, Range(0, 1)] float lookSpeedY = 2.0f;

@@ -8,7 +8,6 @@ public class Climbing : MonoBehaviour
     [Header("References")]
     public Transform orientation;
     public Rigidbody rb;
-    public PlayerController pm;
     public LayerMask whatIsWall;
 
     [Header("Climbing")]
@@ -92,7 +91,7 @@ public class Climbing : MonoBehaviour
 
         bool newWall = frontWallHit.transform != lastWall || Mathf.Abs(Vector3.Angle(lastWallNormal, frontWallHit.normal)) > minWallNormalAngleChange;
 
-        if ((wallFront && newWall) || pm.IsGrounded)
+        if ((wallFront && newWall))
         {
             climbTimer = maxClimbTime;
             climbJumpsLeft = climbJumps;
@@ -103,7 +102,6 @@ public class Climbing : MonoBehaviour
     {
         rb.useGravity = false;
         climbing = true;
-        pm.climbing = true;
 
         lastWall = frontWallHit.transform;
         lastWallNormal = frontWallHit.normal;
@@ -125,7 +123,6 @@ public class Climbing : MonoBehaviour
     private void StopClimbing()
     {
         climbing = false;
-        pm.climbing = false;
         rb.useGravity = true;
         /// idea - particle effect
         /// idea - sound effect

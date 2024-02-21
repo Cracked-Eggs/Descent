@@ -4,18 +4,9 @@ using UnityEngine;
 
 public class Hearing : MonoBehaviour
 {
-    public EventObject madeQuietSound;
-    public EventObject madeMediumSound;
-    public EventObject madeLoudSound;
-
+    public List<SoundLevel> soundLevels;
     public EventObject playerSpotted;
-
-    public float quietNoiseAlertness;
-    public float mediumNoiseAlertness;
-    public float loudNoiseAlertness;
-
     public float noiseFalloff;
-
     public MonsterVariables variables;
 
     private bool m_playerSpotted;
@@ -24,24 +15,14 @@ public class Hearing : MonoBehaviour
     {
         playerSpotted.Subscribe((bool spotted) => {m_playerSpotted = spotted;});
 
-        madeQuietSound.Subscribe((bool _) =>
+        for (int i = 0; i < soundLevels.Count; i++)
         {
-            Debug.Log("Made quiet sound");
-            //Temporary, change it so the monster can hear sounds that do not originate from the player
-            AlertMonster(quietNoiseAlertness, variables.player.position);
-        });
-
-        madeMediumSound.Subscribe((bool _) => 
-        {
-            Debug.Log("Made medium sound");
-            AlertMonster(mediumNoiseAlertness, variables.player.position);
-        });
-
-        madeLoudSound.Subscribe((bool _) => 
-        {
-            Debug.Log("Made loud sound");
-            AlertMonster(loudNoiseAlertness, variables.player.position);
-        });
+            SoundLevel level = soundLevels[i];
+            soundLevels[i].soundEvent.Subscribe((bool _) => {
+                AlertMonster(level.alertnessLevel, variables.player.position);
+                Debug.Log(level.alertnessLevel);
+            });
+        }
     }
 
     private void AlertMonster(float amount, Vector3 soundPosition)
@@ -56,6 +37,12 @@ public class Hearing : MonoBehaviour
 
         variables.alertness += attentuatedAlertness;
         variables.playerLastKnownPos = soundPosition;
-        Debug.Log(variables.alertness);
     }
+}
+
+[System.Serializable]
+public struct SoundLevel
+{
+    public float alertnessLevel;
+    public EventObject soundEvent;
 }

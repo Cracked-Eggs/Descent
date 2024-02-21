@@ -15,7 +15,6 @@ public class RopeGrappling : MonoBehaviour
     [SerializeField] private float ropeSamePlaneThreshold;
 
     [SerializeField] private Transform player;
-    [SerializeField] private PlayerController playerMovement;
     [SerializeField] private float climbSpeed;
     [SerializeField] private float climbLerpSpeed;
     [SerializeField] private float climbOffset;
@@ -96,7 +95,6 @@ public class RopeGrappling : MonoBehaviour
             if (closestRopeRange > ropeClimbRange || closestRopeIndex == -1)
                 return;
 
-            playerMovement.ropeClimbing = true;
             int currentValidRopeSegmentIndex = closestRopeSegmentIndex;
             while (ropes[closestRopeIndex][currentValidRopeSegmentIndex].onGround)
             {
@@ -121,7 +119,6 @@ public class RopeGrappling : MonoBehaviour
                     Vector3.up * ropeOffset;
 
                 isClimbing = false;
-                playerMovement.ropeClimbing = false;
 
                 Debug.Log("Dropping off rope");
             }

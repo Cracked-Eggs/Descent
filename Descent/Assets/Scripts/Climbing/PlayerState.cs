@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class PlayerStateManager : MonoBehaviour
 {
-    public PlayerController playerMovement;
     public Vaulting vaultingScript;
     public FreeClimb climbingScript;
     public LedgeChecker checker;
@@ -15,8 +14,6 @@ public class PlayerStateManager : MonoBehaviour
     private Quaternion initialRotation;
 
     private GameObject climbHelperObject;
-
-    private bool validWall;
 
     public GameObject climbableWall;
     private void Start()
@@ -29,7 +26,6 @@ public class PlayerStateManager : MonoBehaviour
     {
         SetWalkingState();
         vaultingScript = GetComponent<Vaulting>();
-        playerMovement = GetComponent<PlayerController>();
         climbingScript = GetComponent<FreeClimb>();
         characterController = GetComponent<CharacterController>();
 
@@ -38,8 +34,6 @@ public class PlayerStateManager : MonoBehaviour
 
     public void SetWalkingState()
     {
-        playerMovement.enabled = true;
-        playerMovement.freeze = false;
         climbingScript.enabled = false;
         climbingScript.isClimbing = false;
         isClimbing = false;
@@ -67,8 +61,6 @@ public class PlayerStateManager : MonoBehaviour
             // Check if the hit object has the "climbable wall" tag
             if (hit.collider.gameObject == climbableWall)
             {
-                validWall = true;
-
                 return true;
             }
         }
@@ -81,8 +73,6 @@ public class PlayerStateManager : MonoBehaviour
 
     public void SetClimbingState()
     {
-        playerMovement.enabled = false;
-        playerMovement.freeze = true;
         climbingScript.enabled = true;
 
         // Check for a valid wall before creating the climb helper GameObject
@@ -135,8 +125,6 @@ private void Update()
         if (Input.GetKeyDown(KeyCode.X) && isClimbing)
         {
             SetWalkingState();
-            
-            validWall = false;
         }
     }
 }
