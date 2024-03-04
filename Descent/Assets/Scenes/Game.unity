@@ -69053,7 +69053,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1618544889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80940,7 +80940,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 21cc8d85b93545546a06298e68d137ca, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.395
+  m_Volume: 0.466
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -95961,6 +95961,7 @@ GameObject:
   - component: {fileID: 4273477398365565469}
   - component: {fileID: 7282274435613205685}
   - component: {fileID: 7282274435613205686}
+  - component: {fileID: 7282274435613205687}
   m_Layer: 8
   m_Name: '[PLAYER]'
   m_TagString: Player
@@ -96412,9 +96413,33 @@ MonoBehaviour:
   gravity: 9.8
   jumpForce: 3
   jumpBuffering: 0.5
+  yThresholdBeforeAudioPlay: 0
+  walkStepDelay: 0.6
+  runStepDelay: 0.3
+  crouchStepDelay: 1
+  audioPlayer: {fileID: 7282274435613205687}
   madeQuietNoise: {fileID: 11400000, guid: 6455985be25e2144892b8b352b86cb77, type: 2}
   madeMediumNoise: {fileID: 11400000, guid: 9340b44764e74d7468637fc077d6282a, type: 2}
   madeLoudNoise: {fileID: 11400000, guid: 7b2e0e75af06d07498be05cb10929c11, type: 2}
+--- !u!114 &7282274435613205687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5842458674498995421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fdb05117d4a81d4c9b8dadb2df99276, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  footstepSounds:
+  - {fileID: 8300000, guid: 6997975fc3ac7ca4e9e4c5e0fb38726f, type: 3}
+  - {fileID: 8300000, guid: 4b4360d1c69c5e842a842e8a2a0cb69e, type: 3}
+  - {fileID: 8300000, guid: 7bf35ebb1c4ae2742afb6cd80725cb40, type: 3}
+  crouchSound: {fileID: 8300000, guid: 24e65034adf7b7d4d95f64cafd2b319e, type: 3}
+  landedSound: {fileID: 8300000, guid: 290d0ffc1189eaf4f9ed12aa1660ff2c, type: 3}
+  source: {fileID: 4273477398365565469}
 --- !u!114 &7348282395018487995
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -33,6 +33,16 @@ public class PlayerController : MonoBehaviour
     public InputActions actions;
     public float jumpForce;
     public float jumpBuffering;
+    public float yThresholdBeforeAudioPlay;
+
+    [Header("Audio")]
+    public float walkStepDelay;
+    public float runStepDelay;
+    public float crouchStepDelay;
+    public AudioPlayer audioPlayer;
+
+    private float currentStepDelay;
+    private float lastStepTime;
 
     public EventObject madeQuietNoise;
     public EventObject madeMediumNoise;
@@ -54,6 +64,8 @@ public class PlayerController : MonoBehaviour
     private bool m_landed;
     private bool m_wantsToUnCrouch;
     private bool m_underSomething;
+    private float m_yBeforeLanded;
+    private bool m_crouchingLastFrame;
 
     void Start()
     {
@@ -61,6 +73,7 @@ public class PlayerController : MonoBehaviour
         actions.Enable();
         m_currentMoveSound = madeMediumNoise;
         m_moveSpeed = walkSpeed;
+        currentStepDelay = walkStepDelay;
 
         actions.Default.Movement.performed += ctx => 
         {
@@ -92,6 +105,7 @@ public class PlayerController : MonoBehaviour
             m_running = true;
             m_currentMoveSound = madeLoudNoise;
             m_moveSpeed = runSpeed;
+            currentStepDelay = runStepDelay;
         };
         actions.Default.Run.canceled += ctx =>
         {
@@ -101,6 +115,7 @@ public class PlayerController : MonoBehaviour
             m_running = false;
             m_currentMoveSound = madeMediumNoise;
             m_moveSpeed = walkSpeed;
+            currentStepDelay = walkStepDelay;
         };
 
         actions.Default.Crouch.performed += ctx =>
@@ -111,6 +126,8 @@ public class PlayerController : MonoBehaviour
             m_crouching = true;
             m_currentMoveSound = madeQuietNoise;
             m_moveSpeed = crouchSpeed;
+            currentStepDelay = crouchStepDelay;
+            audioPlayer.PlayCrouch();
         };
         actions.Default.Crouch.canceled += ctx =>
         {
@@ -124,6 +141,7 @@ public class PlayerController : MonoBehaviour
             }
 
             m_crouching = false;
+            audioPlayer.PlayCrouch();
         };
     }
     private void OnDisable() => actions.Disable();
@@ -134,22 +152,27 @@ public class PlayerController : MonoBehaviour
         m_isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
         m_underSomething = Physics.CheckSphere(headCheck.position, headCheckRadius, groundMask);
 
-        if((!m_underSomething && m_wantsToUnCrouch) || !m_crouching)
+        if (!m_running)
         {
-            controller.height = standHeight;
-            controller.center = standCenter;
-            playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, standCameraPosition, Time.deltaTime * heightLerpSpeed);
-            
-            m_crouching = false;
-            m_wantsToUnCrouch = false;
-            m_currentMoveSound = madeMediumNoise;
-            m_moveSpeed = walkSpeed;
-        }
-        else if (m_crouching)
-        {
-            controller.height = crouchHeight;
-            controller.center = crouchCenter;
-            playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, crouchCameraPosition, Time.deltaTime * heightLerpSpeed);
+            if ((!m_underSomething && m_wantsToUnCrouch) || !m_crouching)
+            {
+                controller.height = standHeight;
+                controller.center = standCenter;
+                playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, standCameraPosition, Time.deltaTime * heightLerpSpeed);
+
+                m_crouching = false;
+                m_wantsToUnCrouch = false;
+                m_currentMoveSound = madeMediumNoise;
+                m_moveSpeed = walkSpeed;
+                if(m_crouchingLastFrame != m_crouching)
+                    audioPlayer.PlayCrouch();
+            }
+            else if (m_crouching)
+            {
+                controller.height = crouchHeight;
+                controller.center = crouchCenter;
+                playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, crouchCameraPosition, Time.deltaTime * heightLerpSpeed);
+            }
         }
 
         if (m_running)
@@ -163,7 +186,13 @@ public class PlayerController : MonoBehaviour
 
         bool landedFromFall = m_isGrounded && !m_landed;
         if (landedFromFall)
-            madeMediumNoise.Invoke(true);
+        {
+            if((m_yBeforeLanded - controller.transform.position.y >= yThresholdBeforeAudioPlay) || m_landed)
+            {
+                madeMediumNoise.Invoke(true);
+                audioPlayer.PlayLanded();
+            }
+        }
 
         Vector3 moveInput = new Vector3(m_movementDirection.x, 0, m_movementDirection.y);
         if (m_isGrounded)
@@ -172,11 +201,22 @@ public class PlayerController : MonoBehaviour
                 m_lastJumpInput = 0.0f;
             else
                 m_gravityForce += m_lastJumpInput;
+
+            m_yBeforeLanded = controller.transform.position.y;
         }
         else
             m_gravityForce -= gravity * Time.deltaTime;
 
         moveInput.y += m_gravityForce;
+
+        if((moveInput.x != 0 || moveInput.z != 0) && m_isGrounded)
+        {
+            if(Time.time - lastStepTime >= currentStepDelay)
+            {
+                audioPlayer.PlayFootstepSound();
+                lastStepTime = Time.time;
+            }
+        }
 
         controller.Move((moveInput.x * player.right + moveInput.z * player.forward) * 
             m_moveSpeed * Time.deltaTime);
@@ -189,5 +229,6 @@ public class PlayerController : MonoBehaviour
         playerCamera.transform.localEulerAngles = new Vector3(m_cameraPitch, 0.0f, 0.0f);
         player.rotation *= Quaternion.Euler(0.0f, m_mouseDelta.x * Time.deltaTime * horizontalMouseSensitivity, 0.0f);
         m_landed = m_isGrounded;
+        m_crouchingLastFrame = m_crouching;
     }
 }
