@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Init")]
     public CharacterController controller;
     public CinemachineVirtualCamera playerCamera;
     public Transform groundCheck;
@@ -13,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public float groundCheckRadius;
     public LayerMask groundMask;
 
+    [Header("Player Prefs")]
     public Transform player;
     public float walkSpeed;
     public float runSpeed;
@@ -75,74 +77,19 @@ public class PlayerController : MonoBehaviour
         m_moveSpeed = walkSpeed;
         currentStepDelay = walkStepDelay;
 
-        actions.Default.Movement.performed += ctx => 
+        actions.Default.Movement.performed += ctx =>
         {
             m_movementDirection = ctx.ReadValue<Vector2>().normalized;
         };
         actions.Default.Look.performed += ctx => m_mouseDelta = ctx.ReadValue<Vector2>();
-        actions.Default.Jump.performed += ctx =>
-        {
-            if (m_crouching)
-                return;
+        actions.Default.Jump.performed += ctx => Jump();
+        actions.Default.Run.performed += ctx => SprintStart();
+        actions.Default.Run.canceled += ctx => SprintCancelled();
 
-            if (m_isGrounded)
-            {
-                m_gravityForce = 0f;
-                m_gravityForce += jumpForce;
-            }
-            else
-            {
-                m_lastJumpInput = jumpForce;
-            }
+        actions.Default.Crouch.performed += ctx => CrouchStart();
 
-            m_lastJumpTime = Time.time;
-        };
-        actions.Default.Run.performed += ctx =>
-        {
-            if (m_crouching || !m_isGrounded)
-                return;
-
-            m_running = true;
-            m_currentMoveSound = madeLoudNoise;
-            m_moveSpeed = runSpeed;
-            currentStepDelay = runStepDelay;
-        };
-        actions.Default.Run.canceled += ctx =>
-        {
-            if (!m_running || m_crouching)
-                return;
-
-            m_running = false;
-            m_currentMoveSound = madeMediumNoise;
-            m_moveSpeed = walkSpeed;
-            currentStepDelay = walkStepDelay;
-        };
-
-        actions.Default.Crouch.performed += ctx =>
-        {
-            if (m_running || !m_isGrounded)
-                return;
-
-            m_crouching = true;
-            m_currentMoveSound = madeQuietNoise;
-            m_moveSpeed = crouchSpeed;
-            currentStepDelay = crouchStepDelay;
-            audioPlayer.PlayCrouch();
-        };
-        actions.Default.Crouch.canceled += ctx =>
-        {
-            if (!m_crouching || m_running)
-                return;
-
-            if (m_underSomething)
-            {
-                m_wantsToUnCrouch = true;
-                return;
-            }
-
-            m_crouching = false;
-            audioPlayer.PlayCrouch();
-        };
+        actions.Default.Crouch.canceled += ctx => CrouchStop();
+ 
     }
     private void OnDisable() => actions.Disable();
 
@@ -152,6 +99,77 @@ public class PlayerController : MonoBehaviour
         m_isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
         m_underSomething = Physics.CheckSphere(headCheck.position, headCheckRadius, groundMask);
 
+        Move();
+        
+    }
+    void Jump()
+    {
+        if (m_crouching)
+            return;
+
+        if (m_isGrounded)
+        {
+            m_gravityForce = 0f;
+            m_gravityForce += jumpForce;
+        }
+        else
+        {
+            m_lastJumpInput = jumpForce;
+        }
+
+        m_lastJumpTime = Time.time;
+    }
+    void SprintStart()
+    {
+
+        if (m_crouching || !m_isGrounded)
+            return;
+
+        m_running = true;
+        m_currentMoveSound = madeLoudNoise;
+        m_moveSpeed = runSpeed;
+        currentStepDelay = runStepDelay;
+    }
+    void SprintCancelled()
+    {
+        if (!m_running || m_crouching)
+            return;
+
+        m_running = false;
+        m_currentMoveSound = madeMediumNoise;
+        m_moveSpeed = walkSpeed;
+        currentStepDelay = walkStepDelay;
+    }
+
+    void CrouchStart()
+    {
+        if (m_running || !m_isGrounded)
+            return;
+
+        m_crouching = true;
+        m_currentMoveSound = madeQuietNoise;
+        m_moveSpeed = crouchSpeed;
+        currentStepDelay = crouchStepDelay;
+        audioPlayer.PlayCrouch();
+    }
+
+    void CrouchStop()
+    {
+        if (!m_crouching || m_running)
+            return;
+
+        if (m_underSomething)
+        {
+            m_wantsToUnCrouch = true;
+            return;
+        }
+
+        m_crouching = false;
+        audioPlayer.PlayCrouch();
+    }
+
+    void Move()
+    {
         if (!m_running)
         {
             if ((!m_underSomething && m_wantsToUnCrouch) || !m_crouching)
@@ -164,7 +182,7 @@ public class PlayerController : MonoBehaviour
                 m_wantsToUnCrouch = false;
                 m_currentMoveSound = madeMediumNoise;
                 m_moveSpeed = walkSpeed;
-                if(m_crouchingLastFrame != m_crouching)
+                if (m_crouchingLastFrame != m_crouching)
                     audioPlayer.PlayCrouch();
             }
             else if (m_crouching)
@@ -187,7 +205,7 @@ public class PlayerController : MonoBehaviour
         bool landedFromFall = m_isGrounded && !m_landed;
         if (landedFromFall)
         {
-            if((m_yBeforeLanded - controller.transform.position.y >= yThresholdBeforeAudioPlay) || m_landed)
+            if ((m_yBeforeLanded - controller.transform.position.y >= yThresholdBeforeAudioPlay) || m_landed)
             {
                 madeMediumNoise.Invoke(true);
                 audioPlayer.PlayLanded();
@@ -209,16 +227,16 @@ public class PlayerController : MonoBehaviour
 
         moveInput.y += m_gravityForce;
 
-        if((moveInput.x != 0 || moveInput.z != 0) && m_isGrounded)
+        if ((moveInput.x != 0 || moveInput.z != 0) && m_isGrounded)
         {
-            if(Time.time - lastStepTime >= currentStepDelay)
+            if (Time.time - lastStepTime >= currentStepDelay)
             {
                 audioPlayer.PlayFootstepSound();
                 lastStepTime = Time.time;
             }
         }
 
-        controller.Move((moveInput.x * player.right + moveInput.z * player.forward) * 
+        controller.Move((moveInput.x * player.right + moveInput.z * player.forward) *
             m_moveSpeed * Time.deltaTime);
 
         controller.Move(moveInput.y * Vector3.up * Time.deltaTime);
