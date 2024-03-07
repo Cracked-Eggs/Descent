@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+
+    public bool isClimbing;
+
     [Header("Init")]
     public CharacterController controller;
     public CinemachineVirtualCamera playerCamera;
@@ -103,7 +106,7 @@ public class PlayerController : MonoBehaviour
     }
     void Jump()
     {
-        if (m_crouching)
+        if (m_crouching || isClimbing)
             return;
 
         if (m_isGrounded)
@@ -121,7 +124,7 @@ public class PlayerController : MonoBehaviour
     void SprintStart()
     {
 
-        if (m_crouching || !m_isGrounded)
+        if (m_crouching || !m_isGrounded || isClimbing)
             return;
 
         m_running = true;
@@ -131,7 +134,7 @@ public class PlayerController : MonoBehaviour
     }
     void SprintCancelled()
     {
-        if (!m_running || m_crouching)
+        if (!m_running || m_crouching || isClimbing)
             return;
 
         m_running = false;
@@ -142,7 +145,7 @@ public class PlayerController : MonoBehaviour
 
     void CrouchStart()
     {
-        if (m_running || !m_isGrounded)
+        if (m_running || !m_isGrounded || isClimbing)
             return;
 
         m_crouching = true;
@@ -154,7 +157,7 @@ public class PlayerController : MonoBehaviour
 
     void CrouchStop()
     {
-        if (!m_crouching || m_running)
+        if (!m_crouching || m_running || isClimbing)
             return;
 
         if (m_underSomething)
@@ -169,81 +172,82 @@ public class PlayerController : MonoBehaviour
 
     void Move()
     {
-        if (!m_running)
+        if (!isClimbing)
         {
-            if ((!m_underSomething && m_wantsToUnCrouch) || !m_crouching)
+            if (!m_running)
             {
-                controller.height = standHeight;
-                controller.center = standCenter;
-                playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, standCameraPosition, Time.deltaTime * heightLerpSpeed);
+                if ((!m_underSomething && m_wantsToUnCrouch) || !m_crouching)
+                {
+                    controller.height = standHeight;
+                    controller.center = standCenter;
+                    playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, standCameraPosition, Time.deltaTime * heightLerpSpeed);
 
-                m_crouching = false;
-                m_wantsToUnCrouch = false;
-                m_currentMoveSound = madeMediumNoise;
-                m_moveSpeed = walkSpeed;
-                if (m_crouchingLastFrame != m_crouching)
-                    audioPlayer.PlayCrouch();
+                    m_crouching = false;
+                    m_wantsToUnCrouch = false;
+                    m_currentMoveSound = madeMediumNoise;
+                    m_moveSpeed = walkSpeed;
+                    if (m_crouchingLastFrame != m_crouching)
+                        audioPlayer.PlayCrouch();
+                }
+                else if (m_crouching)
+                {
+                    controller.height = crouchHeight;
+                    controller.center = crouchCenter;
+                    playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, crouchCameraPosition, Time.deltaTime * heightLerpSpeed);
+                }
             }
-            else if (m_crouching)
+
+            if (m_running)
             {
-                controller.height = crouchHeight;
-                controller.center = crouchCenter;
-                playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, crouchCameraPosition, Time.deltaTime * heightLerpSpeed);
+                playerCamera.m_Lens.FieldOfView = Mathf.Lerp(playerCamera.m_Lens.FieldOfView, runFOV, Time.deltaTime * fOVLerpSpeed);
             }
-        }
-
-        if (m_running)
-        {
-            playerCamera.m_Lens.FieldOfView = Mathf.Lerp(playerCamera.m_Lens.FieldOfView, runFOV, Time.deltaTime * fOVLerpSpeed);
-        }
-        else
-        {
-            playerCamera.m_Lens.FieldOfView = Mathf.Lerp(playerCamera.m_Lens.FieldOfView, regularFOV, Time.deltaTime * fOVLerpSpeed);
-        }
-
-        bool landedFromFall = m_isGrounded && !m_landed;
-        if (landedFromFall)
-        {
-            if ((m_yBeforeLanded - controller.transform.position.y >= yThresholdBeforeAudioPlay) || m_landed)
-            {
-                madeMediumNoise.Invoke(true);
-                audioPlayer.PlayLanded();
-            }
-        }
-
-        Vector3 moveInput = new Vector3(m_movementDirection.x, 0, m_movementDirection.y);
-        if (m_isGrounded)
-        {
-            if (Time.time - m_lastJumpTime > jumpBuffering)
-                m_lastJumpInput = 0.0f;
             else
             {
-                if(m_lastJumpInput > 0.0f)
-                    audioPlayer.PlayCrouch();
-                m_gravityForce += m_lastJumpInput;
+                playerCamera.m_Lens.FieldOfView = Mathf.Lerp(playerCamera.m_Lens.FieldOfView, regularFOV, Time.deltaTime * fOVLerpSpeed);
             }
 
-            m_yBeforeLanded = controller.transform.position.y;
-        }
-        else
-            m_gravityForce -= gravity * Time.deltaTime;
-
-        moveInput.y += m_gravityForce;
-
-        if ((moveInput.x != 0 || moveInput.z != 0) && m_isGrounded)
-        {
-            if (Time.time - lastStepTime >= currentStepDelay)
+            bool landedFromFall = m_isGrounded && !m_landed;
+            if (landedFromFall)
             {
-                m_currentMoveSound.Invoke(true);
-                audioPlayer.PlayFootstepSound();
-                lastStepTime = Time.time;
+                if ((m_yBeforeLanded - controller.transform.position.y >= yThresholdBeforeAudioPlay) || m_landed)
+                {
+                    madeMediumNoise.Invoke(true);
+                    audioPlayer.PlayLanded();
+                }
             }
+
+            Vector3 moveInput = new Vector3(m_movementDirection.x, 0, m_movementDirection.y);
+            if (m_isGrounded)
+            {
+                if (Time.time - m_lastJumpTime > jumpBuffering)
+                    m_lastJumpInput = 0.0f;
+                else
+                {
+                    if (m_lastJumpInput > 0.0f)
+                        audioPlayer.PlayCrouch();
+                    m_gravityForce += m_lastJumpInput;
+                }
+
+                m_yBeforeLanded = controller.transform.position.y;
+            }
+            else
+                m_gravityForce -= gravity * Time.deltaTime;
+
+            moveInput.y += m_gravityForce;
+
+            if ((moveInput.x != 0 || moveInput.z != 0) && m_isGrounded)
+            {
+                if (Time.time - lastStepTime >= currentStepDelay)
+                {
+                    m_currentMoveSound.Invoke(true);
+                    audioPlayer.PlayFootstepSound();
+                    lastStepTime = Time.time;
+                }
+            }
+
+            controller.Move((moveInput.x * player.right + moveInput.z * player.forward) * m_moveSpeed * Time.deltaTime);
+            controller.Move(moveInput.y * Vector3.up * Time.deltaTime);
         }
-
-        controller.Move((moveInput.x * player.right + moveInput.z * player.forward) *
-            m_moveSpeed * Time.deltaTime);
-
-        controller.Move(moveInput.y * Vector3.up * Time.deltaTime);
 
         m_cameraPitch -= m_mouseDelta.y * Time.deltaTime * verticalMouseSensitivity;
         m_cameraPitch = Mathf.Clamp(m_cameraPitch, -90.0f, 90.0f);

@@ -22,6 +22,8 @@ public class RopeGrappling : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float ropeOffset;
 
+    public AudioPlayer audioPlayer;
+
     private bool hasRope;
     private GameObject currentRopeEnd;
     private List<List<RopeSegment>> ropes;
@@ -45,6 +47,8 @@ public class RopeGrappling : MonoBehaviour
             if (currentRopeEnd == null)
                 return;
 
+            audioPlayer.PlayCrouch();
+
             currentRopeEnd.GetComponent<Rigidbody>().useGravity = true;
             currentRopeEnd.GetComponent<Collider>().isTrigger = false;
             currentRopeEnd.GetComponent<Rigidbody>().AddForce(mainCamera.forward * throwForce, ForceMode.Impulse);
@@ -61,6 +65,8 @@ public class RopeGrappling : MonoBehaviour
         {
             if (isClimbing)
                 return;
+
+            audioPlayer.PlayCrouch();
 
             int closestRopeIndex = -1;
             float closestRopeRange = Mathf.Infinity;
@@ -103,15 +109,17 @@ public class RopeGrappling : MonoBehaviour
             player.transform.position = ropes[closestRopeIndex][currentValidRopeSegmentIndex].gameObject.transform.position;
             
             isClimbing = true;
-            lerp = currentValidRopeSegmentIndex / (ropes[closestRopeIndex].Count - 1.0f);
+            lerp = currentValidRopeSegmentIndex;
             currentRope = ropes[closestRopeIndex];
+
+            player.GetComponent<PlayerController>().isClimbing = true;
 
             Debug.Log("Attached to rope at " + currentValidRopeSegmentIndex);
         }
 
         if (isClimbing)
         {
-            if (lerp > 1 || lerp < 0)
+            if (Mathf.FloorToInt(lerp) >= currentRope.Count || lerp < 0)
             {
                 lerp = Mathf.Clamp01(lerp);
                 player.transform.position =
@@ -119,6 +127,8 @@ public class RopeGrappling : MonoBehaviour
                     Vector3.up * ropeOffset;
 
                 isClimbing = false;
+                player.GetComponent<PlayerController>().isClimbing = false;
+                audioPlayer.PlayCrouch();
 
                 Debug.Log("Dropping off rope");
             }
@@ -129,11 +139,27 @@ public class RopeGrappling : MonoBehaviour
             if (Input.GetKey(KeyCode.W))
                 lerp -= Time.deltaTime * climbSpeed;
 
-            Vector3 currentRopeSegmentPos = 
-                currentRope[Mathf.RoundToInt(lerp * (currentRope.Count - 1))].gameObject.transform.position;
+            Vector3 currentRopeSegmentPos = currentRope[currentRope.Count - 1].gameObject.transform.position;
+            if (Mathf.FloorToInt(lerp) < currentRope.Count && Mathf.FloorToInt(lerp) >= 0)
+            {
+                currentRopeSegmentPos = currentRope[Mathf.FloorToInt(lerp)].gameObject.transform.position;
+            }
+            else if(Mathf.FloorToInt(lerp) < 0)
+            {
+                currentRopeSegmentPos = currentRope[0].gameObject.transform.position;
+            }
 
-            player.transform.position = Vector3.Lerp(player.transform.position, currentRopeSegmentPos, 
-                Time.deltaTime * climbLerpSpeed);
+            if (Mathf.FloorToInt(lerp) + 1 < currentRope.Count) 
+            {
+                Vector3 nextRopeSegmentPos = currentRope[Mathf.FloorToInt(lerp) + 1].gameObject.transform.position;
+
+                player.transform.position = Vector3.Lerp(player.transform.position, Vector3.Lerp(currentRopeSegmentPos, nextRopeSegmentPos, lerp % 1),
+                    Time.deltaTime * climbLerpSpeed);
+            }
+            else
+            {
+                player.transform.position = Vector3.Lerp(player.transform.position, currentRopeSegmentPos, Time.deltaTime * climbLerpSpeed);
+            }
         }
 
         if (ropeCount <= 0)
