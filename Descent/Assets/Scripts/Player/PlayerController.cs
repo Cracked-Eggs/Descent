@@ -86,7 +86,20 @@ public class PlayerController : MonoBehaviour
         actions.Default.Run.performed += ctx => SprintStart();
         actions.Default.Run.canceled += ctx => SprintCancelled();
 
+<<<<<<< Updated upstream
         actions.Default.Crouch.performed += ctx => CrouchStart();
+=======
+            if (m_isGrounded)
+            {
+                m_gravityForce = 0f;
+                m_gravityForce += jumpForce;
+                audioPlayer.PlayCrouch();
+            }
+            else
+            {
+                m_lastJumpInput = jumpForce;
+            }
+>>>>>>> Stashed changes
 
         actions.Default.Crouch.canceled += ctx => CrouchStop();
  
@@ -218,7 +231,11 @@ public class PlayerController : MonoBehaviour
             if (Time.time - m_lastJumpTime > jumpBuffering)
                 m_lastJumpInput = 0.0f;
             else
+            {
+                if(m_lastJumpInput > 0.0f)
+                    audioPlayer.PlayCrouch();
                 m_gravityForce += m_lastJumpInput;
+            }
 
             m_yBeforeLanded = controller.transform.position.y;
         }
