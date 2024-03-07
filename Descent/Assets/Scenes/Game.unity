@@ -49148,7 +49148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   variables: {fileID: 483083407}
-  playerFOV: -0.7
+  playerFOV: 0
   playerVisionRange: 100
   playerCantSeeEvent: {fileID: 11400000, guid: 1d55552d4669f6e44be729694d8be9f6, type: 2}
 --- !u!64 &1123099141
@@ -49199,12 +49199,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundLevels:
-  - alertnessLevel: 2
-    soundEvent: {fileID: 11400000, guid: 6455985be25e2144892b8b352b86cb77, type: 2}
-  - alertnessLevel: 4
-    soundEvent: {fileID: 11400000, guid: 9340b44764e74d7468637fc077d6282a, type: 2}
-  - alertnessLevel: 8
+  - alertnessLevel: 10
     soundEvent: {fileID: 11400000, guid: 7b2e0e75af06d07498be05cb10929c11, type: 2}
+  - alertnessLevel: 2
+    soundEvent: {fileID: 11400000, guid: 9340b44764e74d7468637fc077d6282a, type: 2}
+  - alertnessLevel: 1
+    soundEvent: {fileID: 11400000, guid: 6455985be25e2144892b8b352b86cb77, type: 2}
   - alertnessLevel: 100
     soundEvent: {fileID: 11400000, guid: 68a1d93dd75d34c4e81d80a83bfbc91c, type: 2}
   playerSpotted: {fileID: 11400000, guid: 2397e8ccc5f97d541845e922f7e19ca2, type: 2}

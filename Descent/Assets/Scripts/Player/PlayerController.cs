@@ -86,21 +86,7 @@ public class PlayerController : MonoBehaviour
         actions.Default.Run.performed += ctx => SprintStart();
         actions.Default.Run.canceled += ctx => SprintCancelled();
 
-<<<<<<< Updated upstream
         actions.Default.Crouch.performed += ctx => CrouchStart();
-=======
-            if (m_isGrounded)
-            {
-                m_gravityForce = 0f;
-                m_gravityForce += jumpForce;
-                audioPlayer.PlayCrouch();
-            }
-            else
-            {
-                m_lastJumpInput = jumpForce;
-            }
->>>>>>> Stashed changes
-
         actions.Default.Crouch.canceled += ctx => CrouchStop();
  
     }
@@ -248,6 +234,7 @@ public class PlayerController : MonoBehaviour
         {
             if (Time.time - lastStepTime >= currentStepDelay)
             {
+                m_currentMoveSound.Invoke(true);
                 audioPlayer.PlayFootstepSound();
                 lastStepTime = Time.time;
             }
