@@ -33,7 +33,7 @@ public class Kill : NodeBase
         m_playerFlashlight = GameObject.Find(flashlightName).GetComponent<Light>();
         m_cameraAnimator = m_playerCamera.GetComponent<Animator>();
 
-        m_player.GetComponent<PlayerController>().enabled = false;
+        m_player.GetComponent<_CharacterController>().enabled = false;
         m_isPlaying = true;
     }
 

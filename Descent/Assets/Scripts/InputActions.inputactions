@@ -44,7 +44,34 @@
                 {
                     "name": "Crouch",
                     "type": "Button",
-                    "id": "e331b60f-4f68-4c80-aa87-b1c0a313c402",
+                    "id": "19693888-1cbf-4acf-b1c4-d51701b3614e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Prone",
+                    "type": "Button",
+                    "id": "48fb7441-b814-40d1-bc5e-f2d7d175c45f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RunReleased",
+                    "type": "Button",
+                    "id": "492739ba-f31a-48ba-a023-02a248c75068",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "a0c059b2-88c4-4bf5-a8d2-fe03db9a03cc",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -142,12 +169,45 @@
                 },
                 {
                     "name": "",
-                    "id": "3e68a629-b868-4e7a-ab39-8e67067d30df",
-                    "path": "<Keyboard>/leftCtrl",
-                    "interactions": "",
+                    "id": "3edc1d7f-bd56-4c80-a786-1e102fd933e4",
+                    "path": "<Keyboard>/c",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Prone",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "781bfdb6-fbcb-448f-8acc-e5c8378eeea1",
+                    "path": "<Keyboard>/c",
+                    "interactions": "Tap",
                     "processors": "",
                     "groups": "KeyboardAndMouse",
                     "action": "Crouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ecf2ce6e-db26-4d40-add1-684698f308b2",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RunReleased",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "53fbc7e4-2ebb-4ad5-a411-e9118b50aec8",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
