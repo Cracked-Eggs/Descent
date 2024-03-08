@@ -28,8 +28,8 @@ public class _CharacterController : MonoBehaviour
     public Transform cameraHolder;
     public Transform feetTransform;
 
-    
-    public float defaultFOV = 60f; 
+
+    public float defaultFOV = 60f;
     public float sprintingFOV = 70f;
 
     public PlayerSettings playerSettings;
@@ -44,7 +44,7 @@ public class _CharacterController : MonoBehaviour
 
     public PlayerStance playerStance;
     public float playerStanceSmoothing;
- 
+
     public CharacterStance playerStand;
     public CharacterStance playerCrouch;
 
@@ -53,14 +53,14 @@ public class _CharacterController : MonoBehaviour
     private float cameraHeightVelocity;
     private float stanceCheckH = 1.5f;
 
-   
+
     private Vector3 stanceCapsuleCenterVelocity;
     private float stanceCapsuleHeightVelocity;
     public bool test;
 
     private bool isSprinting;
 
-    
+
     private Vector3 newVelocity;
     private Vector3 newMovementSpeed;
 
@@ -70,13 +70,27 @@ public class _CharacterController : MonoBehaviour
 
     public float maxStamina = 100f;
     public float currentStamina;
-    public float staminaConsumptionRate = 20f; 
+    public float staminaConsumptionRate = 20f;
     public float staminaRegenerationRate = 10f;
 
     private bool canSprint = true;
 
+    public float walkStepDelay;
+    public float runStepDelay;
+    public float crouchStepDelay;
+    public AudioPlayer audioPlayer;
+
+    private float currentStepDelay;
+    private float lastStepTime;
+
+    private bool m_landed;
+    private float m_yBeforeLanded;
+    public float yThresholdBeforeAudioPlay = 0.5f;
+
+
     public EventObject madeQuietNoise;
     public EventObject madeMediumNoise;
+    public EventObject madeLoudNoise;
 
     void Awake()
     {
@@ -89,7 +103,7 @@ public class _CharacterController : MonoBehaviour
         actions.Default.Jump.performed += e => Jump();
 
         actions.Default.Crouch.performed += e => Crouch();
-        
+
 
         actions.Default.Run.performed += e => ToggleSprint();
         actions.Default.RunReleased.performed += e => StopSprint();
@@ -98,8 +112,8 @@ public class _CharacterController : MonoBehaviour
         CharacterRot = transform.localRotation.eulerAngles;
 
         cameraHeight = cameraHolder.localPosition.y;
-      
-       
+
+
         virtualCamera = GameObject.FindWithTag("PlayerCamera").GetComponent<CinemachineVirtualCamera>();
 
         currentStamina = maxStamina;
@@ -109,7 +123,7 @@ public class _CharacterController : MonoBehaviour
 
     void Update()
     {
-        
+
         View();
         if (canMove)
         {
@@ -137,29 +151,43 @@ public class _CharacterController : MonoBehaviour
             Movement();
             ApplyGravity();
             CalculateStance();
+            bool landedFromFall = gc.isGrounded && !m_landed;
+            if (landedFromFall)
+            {
+                if ((m_yBeforeLanded - transform.position.y >= yThresholdBeforeAudioPlay) || m_landed)
+                {
+                    madeMediumNoise.Invoke(true);
+                    // Play landed audio here
+                }
+            }
+
+            m_landed = gc.isGrounded;
+            m_yBeforeLanded = transform.position.y;
         }
-       
+
     }
 
     private void Start()
     {
-      
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        currentStepDelay = walkStepDelay;
+        
     }
 
-  
+
 
     void View()
     {
-         CharacterRot.y += playerSettings.ViewXSensitivity * (playerSettings.ViewXInverted ? -inputView.x : inputView.x) * Time.deltaTime;
+        CharacterRot.y += playerSettings.ViewXSensitivity * (playerSettings.ViewXInverted ? -inputView.x : inputView.x) * Time.deltaTime;
 
-         transform.rotation = Quaternion.Euler(CharacterRot);
+        transform.rotation = Quaternion.Euler(CharacterRot);
 
-         CameraRot.x += playerSettings.ViewYSensitivity * (playerSettings.ViewYInverted ? inputView.y : -inputView.y) * Time.deltaTime;
-         CameraRot.x = Mathf.Clamp(CameraRot.x, viewClampYMin, viewClampYMax);
+        CameraRot.x += playerSettings.ViewYSensitivity * (playerSettings.ViewYInverted ? inputView.y : -inputView.y) * Time.deltaTime;
+        CameraRot.x = Mathf.Clamp(CameraRot.x, viewClampYMin, viewClampYMax);
 
-         cameraHolder.localRotation = Quaternion.Euler(CameraRot);
+        cameraHolder.localRotation = Quaternion.Euler(CameraRot);
 
         if (canMove)
         {
@@ -167,7 +195,7 @@ public class _CharacterController : MonoBehaviour
             var currentFOV = Mathf.Lerp(virtualCamera.m_Lens.FieldOfView, targetFOV, Time.deltaTime * playerSettings.FOVSensitivity);
             virtualCamera.m_Lens.FieldOfView = currentFOV;
         }
-       
+
 
     }
 
@@ -180,22 +208,22 @@ public class _CharacterController : MonoBehaviour
             velocity += jumpForce;
             madeMediumNoise.Invoke(true);
         }
-         
+
         if (playerStance == PlayerStance.Crouch || playerStance == PlayerStance.Prone)
         {
-          if (CheckHeadCollision(PlayerStance.Stand))
+            if (CheckHeadCollision(PlayerStance.Stand))
             {
-              Debug.Log("Head collision detected! Unable to stand up.");
-              return; // Head collision detected, cannot stand up
+                Debug.Log("Head collision detected! Unable to stand up.");
+                return; // Head collision detected, cannot stand up
             }
         }
 
         playerStance = PlayerStance.Stand;
-        
+
         movementSpeed.y = velocity;
         controller.Move(movementSpeed * Time.deltaTime);
         isJumping = false;
-   
+
     }
 
     void ApplyGravity()
@@ -220,20 +248,20 @@ public class _CharacterController : MonoBehaviour
     void CalculateStance()
     {
         var currentStance = playerStand;
-        if(playerStance == PlayerStance.Crouch)
+        if (playerStance == PlayerStance.Crouch)
         {
             currentStance = playerCrouch;
         }
-        
-        cameraHeight = Mathf.SmoothDamp(cameraHolder.localPosition.y, currentStance.CameraHeight,ref cameraHeightVelocity, playerStanceSmoothing);
-        cameraHolder.localPosition = new Vector3(cameraHolder.localPosition.x,cameraHeight,cameraHolder.localPosition.z);
+
+        cameraHeight = Mathf.SmoothDamp(cameraHolder.localPosition.y, currentStance.CameraHeight, ref cameraHeightVelocity, playerStanceSmoothing);
+        cameraHolder.localPosition = new Vector3(cameraHolder.localPosition.x, cameraHeight, cameraHolder.localPosition.z);
 
         controller.height = Mathf.SmoothDamp(controller.height, currentStance.StanceCollider.height, ref stanceCapsuleHeightVelocity, playerStanceSmoothing);
         controller.center = Vector3.SmoothDamp(controller.center, currentStance.StanceCollider.center, ref stanceCapsuleCenterVelocity, playerStanceSmoothing);
     }
     void Movement()
     {
-        if(inputMovement.y <= 0.2f)
+        if (inputMovement.y <= 0.2f)
         {
             isSprinting = false;
         }
@@ -241,7 +269,7 @@ public class _CharacterController : MonoBehaviour
         var verticalSpeed = playerSettings.WalkingSpeedF;
         var horizontalSpeed = playerSettings.WalkingSpeedS;
 
-        if(isSprinting)
+        if (isSprinting)
         {
             verticalSpeed = playerSettings.RunningSpeedF;
             horizontalSpeed = playerSettings.RunningSpeedS;
@@ -250,13 +278,23 @@ public class _CharacterController : MonoBehaviour
 
         newMovementSpeed = Vector3.SmoothDamp(newMovementSpeed, new Vector3(horizontalSpeed * inputMovement.x * Time.deltaTime, 0, verticalSpeed * inputMovement.y * Time.deltaTime), ref newVelocity, playerSettings.MovementSmoothing);
         var movementSpeed = transform.TransformDirection(newMovementSpeed);
-       
+
         controller.Move(movementSpeed);
+
+        if (gc.isGrounded && (inputMovement.x != 0 || inputMovement.y != 0))
+        {
+            if (Time.time - lastStepTime >= currentStepDelay)
+            {
+                audioPlayer.PlayFootstepSound();
+                lastStepTime = Time.time;
+            }
+        }
+
     }
 
     void Crouch()
     {
-        if (!isSprinting && (!CheckHeadCollision(PlayerStance.Crouch) || playerStance == PlayerStance.Stand)&& canMove)
+        if (!isSprinting && (!CheckHeadCollision(PlayerStance.Crouch) || playerStance == PlayerStance.Stand) && canMove)
         {
             if (playerStance == PlayerStance.Crouch)
             {
@@ -266,9 +304,15 @@ public class _CharacterController : MonoBehaviour
             }
             playerStance = PlayerStance.Crouch;
             canSprint = false;
+
+
+        }
+        if (playerStance == PlayerStance.Crouch)
+        {
+            audioPlayer.PlayCrouch();
         }
     }
-   
+
 
     bool CheckHeadCollision(PlayerStance newStance)
     {
@@ -293,16 +337,16 @@ public class _CharacterController : MonoBehaviour
 
         if (Physics.Raycast(raycastOrigin, Vector3.up, out RaycastHit hit, raycastDistance, playerMask))
         {
-            
+
             if (hit.distance < raycastDistance + stanceCheckErrorMargin)
             {
-                
+
                 Debug.Log("Head collision detected! Unable to change stance.");
                 return true; // Head collision detected, cannot change stance
             }
         }
 
-        return false; 
+        return false;
     }
 
     void ToggleSprint()
@@ -319,10 +363,10 @@ public class _CharacterController : MonoBehaviour
 
     void StopSprint()
     {
-        if(playerSettings.RunningHold)
+        if (playerSettings.RunningHold)
         {
             isSprinting = false;
         }
-        
+
     }
 }
