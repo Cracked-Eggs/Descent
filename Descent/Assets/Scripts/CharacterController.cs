@@ -9,12 +9,15 @@ using Unity.VisualScripting;
 using JetBrains.Annotations;
 
 using System.Runtime.CompilerServices;
+using SA;
 
 public class _CharacterController : MonoBehaviour
 {
     public CharacterController controller;
     private InputActions actions;
     CinemachineVirtualCamera virtualCamera;
+    FreeClimb cb;
+    PlayerStateManager sm;
 
     public LayerMask playerMask;
 
@@ -117,13 +120,15 @@ public class _CharacterController : MonoBehaviour
         virtualCamera = GameObject.FindWithTag("PlayerCamera").GetComponent<CinemachineVirtualCamera>();
 
         currentStamina = maxStamina;
+        sm = GetComponent<PlayerStateManager>();
+        cb = GetComponent<FreeClimb>();
 
 
     }
 
     void Update()
     {
-
+        canMove = !sm.isClimbing;
         View();
         if (canMove)
         {

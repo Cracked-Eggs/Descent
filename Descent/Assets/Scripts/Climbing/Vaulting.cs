@@ -8,6 +8,8 @@ public class Vaulting : MonoBehaviour
     public Camera cam;
     private float playerHeight = 2f;
     private float playerRadius = 0.5f;
+    private bool isVaulting = false;
+    PlayerStateManager stateManager;
 
     void Start()
     {
@@ -24,6 +26,7 @@ public class Vaulting : MonoBehaviour
             {
                 Debug.Log("found place to land");
                 StartCoroutine(LerpVault(secondHit.point, 0.5f));
+                
             }
         }
     }

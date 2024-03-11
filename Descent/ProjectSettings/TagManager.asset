@@ -14,10 +14,11 @@ TagManager:
   - UV
   - PPlates
   - DynamiteInteract
-  - climable wall
   - UV Num
   - NoDeath
   - Rope
+  - PlayerCamera
+  - climbable wall
   layers:
   - Default
   - TransparentFX

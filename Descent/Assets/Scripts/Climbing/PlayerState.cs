@@ -1,4 +1,4 @@
-    using SA;
+ using SA;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Burst.CompilerServices;
@@ -6,30 +6,61 @@ using UnityEngine;
 
 public class PlayerStateManager : MonoBehaviour
 {
+    [SerializeField, Range(0, 360)] float upperlookLimit = 270f;
+    [SerializeField, Range(0, 360)] float lowerlookLimit = 90f;
+    public _CharacterController playerMovement;
     public Vaulting vaultingScript;
     public FreeClimb climbingScript;
     public LedgeChecker checker;
+    Animator anim;
+
+    InputActions actions;
 
     private CharacterController characterController; 
     private Quaternion initialRotation;
+    private Quaternion currRotation;
+    private Quaternion prevRotation;
 
     private GameObject climbHelperObject;
+    public GameObject picks;
+    public bool isClimbing = false;
+    private Vector3 jumpVelocity;
+
+    private bool validWall;
 
     public GameObject climbableWall;
+
+    private Quaternion previousRotation;
+    private Vector3 previousEulerAngles;
+
+   
+
     private void Start()
     {
         init();
-
+        previousRotation = transform.rotation;
+        previousEulerAngles = transform.eulerAngles;
     }
 
     void init()
     {
+        
         SetWalkingState();
         vaultingScript = GetComponent<Vaulting>();
+        playerMovement = GetComponent<_CharacterController>();
         climbingScript = GetComponent<FreeClimb>();
         characterController = GetComponent<CharacterController>();
+        anim = GetComponent<Animator>();
 
         initialRotation = transform.rotation; // Use transform.rotation instead of rb.rotation
+    }
+
+    private void Awake()
+    {
+        actions =  new InputActions();
+        actions.Enable();
+
+        actions.Default.Jump.performed += e => Climbing();
     }
 
     public void SetWalkingState()
@@ -37,10 +68,10 @@ public class PlayerStateManager : MonoBehaviour
         climbingScript.enabled = false;
         climbingScript.isClimbing = false;
         isClimbing = false;
-
-        transform.rotation = initialRotation; // Use transform.rotation instead of rb.rotation
+  
+        //transform.rotation = initialRotation; // Use transform.rotation instead of rb.rotation
         //characterController.detectCollisions = true; // Enable collisions for CharacterController
-        isClimbing = false;
+
         Destroy(climbHelperObject);
 
         if (climbHelperObject != null)
@@ -56,11 +87,13 @@ public class PlayerStateManager : MonoBehaviour
         RaycastHit hit;
 
         // Perform a raycast to check for a wall in front of the player
-        if (Physics.Raycast(origin, dir, out hit, 5))
+        if (Physics.Raycast(origin, dir, out hit, 1 ))
         {
             // Check if the hit object has the "climbable wall" tag
             if (hit.collider.gameObject == climbableWall)
             {
+                validWall = true;
+
                 return true;
             }
         }
@@ -73,6 +106,7 @@ public class PlayerStateManager : MonoBehaviour
 
     public void SetClimbingState()
     {
+        
         climbingScript.enabled = true;
 
         // Check for a valid wall before creating the climb helper GameObject
@@ -100,31 +134,59 @@ public class PlayerStateManager : MonoBehaviour
         }
     }
 
-    private bool isClimbing = false;
-    private Vector3 jumpVelocity;
-
-   
-
-private void Update()
+    private void Update()
     {
+        Vector3 currentEulerAngles = transform.eulerAngles;
+       
+
+        if (isClimbing)
+        {
+
+           
+            currentEulerAngles.y = Mathf.Clamp(currentEulerAngles.y, climbingScript.helper.eulerAngles.y - 45f, climbingScript.helper.eulerAngles.y + 45f);
+
+            transform.eulerAngles = currentEulerAngles;
+
+        }
+        
+
         
         CheckForValidWall();
-        if (checker.isLedgeDetected == true)
+        if (checker.isLedgeDetected == true && isClimbing == true)
         {
             vaultingScript.PerformAutoVault();
             SetWalkingState();
+            anim.SetTrigger("ExitClimbTrigger");
             isClimbing = false;// Call the vaulting method when a ledge is detected
             
         }
 
-        if (Input.GetKeyDown(KeyCode.Z) && !isClimbing && CheckForValidWall() == true)
+
+       
+
+
+    }
+
+    void Climbing()
+    {
+        if (isClimbing)
         {
-            SetClimbingState();
+            // If the player is already climbing, initiate the exit from climbing state
+            SetWalkingState();
+            isClimbing = false;
+        }
+        else if (CheckForValidWall())
+        {
+            // If the player is not climbing and there is a valid wall, check for picks and initiate climbing
+            if (picks.activeSelf)
+            {
+                SetClimbingState();
+            }
+            else
+            {
+                Debug.Log("Equip picks");
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.X) && isClimbing)
-        {
-            SetWalkingState();
-        }
     }
 }
