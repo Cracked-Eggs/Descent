@@ -64,7 +64,7 @@ public class _CharacterController : MonoBehaviour
     private Vector3 newVelocity;
     private Vector3 newMovementSpeed;
 
-    bool canMove = true;
+    public bool canMove = true;
 
     public GroundCheck gc;
 
@@ -147,7 +147,6 @@ public class _CharacterController : MonoBehaviour
                 madeQuietNoise.Invoke(true);
             }
 
-            View();
             Movement();
             ApplyGravity();
             CalculateStance();

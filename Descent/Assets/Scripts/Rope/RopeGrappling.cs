@@ -112,7 +112,7 @@ public class RopeGrappling : MonoBehaviour
             lerp = currentValidRopeSegmentIndex;
             currentRope = ropes[closestRopeIndex];
 
-            player.GetComponent<PlayerController>().isClimbing = true;
+            player.GetComponent<_CharacterController>().canMove = false;
 
             Debug.Log("Attached to rope at " + currentValidRopeSegmentIndex);
         }
@@ -127,7 +127,7 @@ public class RopeGrappling : MonoBehaviour
                     Vector3.up * ropeOffset;
 
                 isClimbing = false;
-                player.GetComponent<PlayerController>().isClimbing = false;
+                player.GetComponent<_CharacterController>().canMove = true;
                 audioPlayer.PlayCrouch();
 
                 Debug.Log("Dropping off rope");
@@ -169,8 +169,9 @@ public class RopeGrappling : MonoBehaviour
         {
             RaycastHit hit;
 
-            if (Physics.Raycast(mainCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition), out hit))
+            if (Physics.Raycast(mainCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition), out hit, ropeRange, groundLayer))
             {
+                Debug.Log(hit.collider.gameObject.name);
                 if((hit.point - ropeEndHolder.position).magnitude <= ropeRange)
                 {
                     hasRope = true;
